@@ -42,7 +42,7 @@ public:
 				printf("%d, %s, %d, \n", pMessage->getClassId(), pMessage->getClassName(), pMessage->getObjectId());
 			}
 			else {
-				throw(exception("exception test"));
+				throw(exception("exception test")); 
 			}
 		}
 	}
