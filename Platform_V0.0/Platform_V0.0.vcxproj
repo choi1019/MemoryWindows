@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a40f1bcf-cdea-4c0d-b282-fc224b78abe2}</ProjectGuid>
+    <RootNamespace>PlatformV01</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Platform_V0.0</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="01Global\MemoryManager\Memory.cpp" />
+    <ClCompile Include="01Global\MemoryManager\MemoryManager.cpp" />
+    <ClCompile Include="01Global\MemoryManager\Segment.cpp" />
+    <ClCompile Include="01Global\Object\Object.cpp" />
+    <ClCompile Include="01Global\Object\ValueObject.cpp" />
+    <ClCompile Include="02Utility\BTree\BTree.cpp" />
+    <ClCompile Include="02Utility\BTree\BTreeNode.cpp" />
+    <ClCompile Include="02Utility\Map\Map.cpp" />
+    <ClCompile Include="03Core\Component\Component.cpp" />
+    <ClCompile Include="03Core\Component\Log.cpp" />
+    <ClCompile Include="03Core\Component\Message.cpp" />
+    <ClCompile Include="05Technical\device\Device.cpp" />
+    <ClCompile Include="05Technical\Timer\Timer.cpp" />
+    <ClCompile Include="06Domain\loader\Executor.cpp" />
+    <ClCompile Include="06Domain\loader\Loader.cpp" />
+    <ClCompile Include="06Domain\Receiver\Receiver.cpp" />
+    <ClCompile Include="06Domain\Sender\Sender.cpp" />
+    <ClCompile Include="07Application\LifecycleManager\LifecycleManager.cpp" />
+    <ClCompile Include="07Application\MainTask\MainTask.cpp" />
+    <ClCompile Include="15PTechnical\PMemoryManager\PMemory.cpp" />
+    <ClCompile Include="15PTechnical\PMemoryManager\PMemoryManager.cpp" />
+    <ClCompile Include="15PTechnical\PTask\PComponentMsgVector.cpp" />
+    <ClCompile Include="15PTechnical\PTask\PTask.cpp" />
+    <ClCompile Include="15PTechnical\PTask\PTaskMsgQueue.cpp" />
+    <ClCompile Include="15PTechnical\PTimer\PTimer.cpp" />
+    <ClCompile Include="15PTechnical\usb\ComponentUSBOS.cpp" />
+    <ClCompile Include="17PApplication\PLifecycleManager\PLifecycleManager.cpp" />
+    <ClCompile Include="17PApplication\PMain\PMain.cpp" />
+    <ClCompile Include="17PApplication\PMain\PMainTask.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="01Global\MemoryManager\Memory.h" />
+    <ClInclude Include="01Global\MemoryManager\MemoryManager.h" />
+    <ClInclude Include="01Global\MemoryManager\Segment.h" />
+    <ClInclude Include="01Global\Object\Object.h" />
+    <ClInclude Include="01Global\Object\ValueObject.h" />
+    <ClInclude Include="01Global\TypeDef.h" />
+    <ClInclude Include="02Utility\BTree\BTree.h" />
+    <ClInclude Include="02Utility\BTree\BtreeNode.h" />
+    <ClInclude Include="02Utility\Map\Map.h" />
+    <ClInclude Include="02Utility\Map\Pair.h" />
+    <ClInclude Include="02Utility\Map\PairIterator.h" />
+    <ClInclude Include="02Utility\Queue\Queue.h" />
+    <ClInclude Include="02Utility\String\String.h" />
+    <ClInclude Include="02Utility\TypeDef.h" />
+    <ClInclude Include="02Utility\Vector\Vector.h" />
+    <ClInclude Include="02Utility\Vector\VectorIterator.h" />
+    <ClInclude Include="03Core\Component\Component.h" />
+    <ClInclude Include="03Core\Component\ComponentMsgVector.h" />
+    <ClInclude Include="03Core\Component\Log.h" />
+    <ClInclude Include="03Core\Component\Message.h" />
+    <ClInclude Include="03Core\Component\UId.h" />
+    <ClInclude Include="03Core\Task\Task.h" />
+    <ClInclude Include="03Core\Task\TaskMsgQueue.h" />
+    <ClInclude Include="03Core\Typedef.h" />
+    <ClInclude Include="04Aspect\Exception\ExceptionManager.h" />
+    <ClInclude Include="04Aspect\TypeDef.h" />
+    <ClInclude Include="05Technical\device\Device.h" />
+    <ClInclude Include="05Technical\Timer\Timer.h" />
+    <ClInclude Include="05Technical\Typedef.h" />
+    <ClInclude Include="06Domain\loader\Executor.h" />
+    <ClInclude Include="06Domain\loader\Loader.h" />
+    <ClInclude Include="06Domain\loader\LoaderData.h" />
+    <ClInclude Include="06Domain\loader\UserTask.h" />
+    <ClInclude Include="06Domain\Receiver\Receiver.h" />
+    <ClInclude Include="06Domain\Sender\Sender.h" />
+    <ClInclude Include="06Domain\TypeDef.h" />
+    <ClInclude Include="06Domain\userProgram\UserProgram.h" />
+    <ClInclude Include="06Domain\userProgram\UserProgramBlock.h" />
+    <ClInclude Include="07Application\LifecycleManager\LifecycleManager.h" />
+    <ClInclude Include="07Application\MainTask\MainTask.h" />
+    <ClInclude Include="07Application\TypeDef.h" />
+    <ClInclude Include="14PAspect\PException\PExceptionManager.h" />
+    <ClInclude Include="14PAspect\Typedef.h" />
+    <ClInclude Include="15PTechnical\PMemoryManager\PMemory.h" />
+    <ClInclude Include="15PTechnical\PMemoryManager\PMemoryManager.h" />
+    <ClInclude Include="15PTechnical\PTask\PComponentMsgVector.h" />
+    <ClInclude Include="15PTechnical\PTask\PTask.h" />
+    <ClInclude Include="15PTechnical\PTask\PTaskMsgQueue.h" />
+    <ClInclude Include="15PTechnical\PTimer\PTimer.h" />
+    <ClInclude Include="15PTechnical\Typedef.h" />
+    <ClInclude Include="15PTechnical\usb\ComponentUSBOS.h" />
+    <ClInclude Include="17PApplication\PLifecycleManager\PLifecycleManager.h" />
+    <ClInclude Include="17PApplication\PMain\PMainTask.h" />
+    <ClInclude Include="17PApplication\TypeDef.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
