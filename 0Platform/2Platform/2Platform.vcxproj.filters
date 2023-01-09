@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Component">
+      <UniqueIdentifier>{a3bf607b-7718-4441-8e07-9e4479d6273e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Scheduler">
+      <UniqueIdentifier>{ad6938f9-db8d-4355-abd8-5e6554b850f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\LifecycleManager">
+      <UniqueIdentifier>{9a9e26ab-975c-462a-b0fe-f467a5229da6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Main">
+      <UniqueIdentifier>{84dc14b8-1826-4eef-9c68-3dff8cd46ccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\EventQueue">
+      <UniqueIdentifier>{01175e00-d422-42b1-9c1c-735fb6515ce5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="typedef.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\Component.h">
+      <Filter>소스 파일\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\ComponentPart.h">
+      <Filter>소스 파일\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\UId.h">
+      <Filter>소스 파일\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheduler\Scheduler.h">
+      <Filter>소스 파일\Scheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="LifecycleManager\LifecycleManager.h">
+      <Filter>소스 파일\LifecycleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\Main.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Main\IMain.h">
+      <Filter>소스 파일\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="LifecycleManager\ILifecycleManager.h">
+      <Filter>소스 파일\LifecycleManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scheduler\IScheduler.h">
+      <Filter>소스 파일\Scheduler</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue\Event.h">
+      <Filter>소스 파일\EventQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue\EventQueue.h">
+      <Filter>소스 파일\EventQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\IComponent.h">
+      <Filter>소스 파일\Component</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Component\Component.cpp">
+      <Filter>소스 파일\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Scheduler\Scheduler.cpp">
+      <Filter>소스 파일\Scheduler</Filter>
+    </ClCompile>
+    <ClCompile Include="LifecycleManager\LifecycleManager.cpp">
+      <Filter>소스 파일\LifecycleManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Main\Main.cpp">
+      <Filter>소스 파일\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue\Event.cpp">
+      <Filter>소스 파일\EventQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue\EventQueue.cpp">
+      <Filter>소스 파일\EventQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="Component\ComponentPart.cpp">
+      <Filter>소스 파일\Component</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\VideoManager">
+      <UniqueIdentifier>{1a194758-5f77-4dbc-8c52-f4947a9f1aa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\VideoInput">
+      <UniqueIdentifier>{60caca70-4393-4fc5-b92e-80ad2033ad03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\VideoOutput">
+      <UniqueIdentifier>{2efac291-f96d-4e04-9492-6a26c0b54edd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="typedef.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoManager\IVideoManager.h">
+      <Filter>소스 파일\VideoManager</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoManager\VideoManager.h">
+      <Filter>소스 파일\VideoManager</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoInput\IVideoInput.h">
+      <Filter>소스 파일\VideoInput</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoInput\VideoInput.h">
+      <Filter>소스 파일\VideoInput</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoOutput\IVideoOutput.h">
+      <Filter>소스 파일\VideoOutput</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoOutput\VideoOutput.h">
+      <Filter>소스 파일\VideoOutput</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoInput\Parser.h">
+      <Filter>소스 파일\VideoInput</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoOutput\Generator.h">
+      <Filter>소스 파일\VideoOutput</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VideoManager\VideoManager.cpp">
+      <Filter>소스 파일\VideoManager</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoInput\VideoInput.cpp">
+      <Filter>소스 파일\VideoInput</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoOutput\VideoOutput.cpp">
+      <Filter>소스 파일\VideoOutput</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

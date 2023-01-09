@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Object">
+      <UniqueIdentifier>{91fb39ca-410e-4acf-bfd7-459e4e0774e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\StdLib">
+      <UniqueIdentifier>{c70be4b4-053f-44f1-97b0-55b1e2ecf816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Aspect">
+      <UniqueIdentifier>{868e9370-1c5f-4fd4-85fd-5d247ace38fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Memory">
+      <UniqueIdentifier>{4eb80cf8-55c1-4b4f-9622-ad5d58bac62f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="typedef.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Aspect\Exception.h">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClInclude>
+    <ClInclude Include="Aspect\Log.h">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\BaseObject.h">
+      <Filter>소스 파일\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\RootObject.h">
+      <Filter>소스 파일\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="StdLib\Collection.h">
+      <Filter>소스 파일\StdLib</Filter>
+    </ClInclude>
+    <ClInclude Include="StdLib\Map.h">
+      <Filter>소스 파일\StdLib</Filter>
+    </ClInclude>
+    <ClInclude Include="StdLib\String.h">
+      <Filter>소스 파일\StdLib</Filter>
+    </ClInclude>
+    <ClInclude Include="StdLib\Vector.h">
+      <Filter>소스 파일\StdLib</Filter>
+    </ClInclude>
+    <ClInclude Include="Aspect\Directory.h">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClInclude>
+    <ClInclude Include="Aspect\Aspect.h">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory\IMemory.h">
+      <Filter>소스 파일\Memory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Aspect\Exception.cpp">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClCompile>
+    <ClCompile Include="Aspect\Log.cpp">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\BaseObject.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\RootObject.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Aspect\Directory.cpp">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClCompile>
+    <ClCompile Include="Aspect\Aspect.cpp">
+      <Filter>소스 파일\Aspect</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
