@@ -27,8 +27,6 @@ private:
 	int replyType;
 
 public:
-	static MemoryManager *pMemoryManager;
-
 	Message(Message *pMessage): 
 		id(sMessageId++), type(pMessage->getType()), 
 		targetUId(pMessage->getTargetUId()), sourceUId(pMessage->getSourceUId()),

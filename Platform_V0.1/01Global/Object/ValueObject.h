@@ -45,10 +45,10 @@ public:
 
 	//////////////////////////////////////////////////////////////////////
 	// dynamic memory allocator
-	inline void *operator new (size_t size, MemoryManager *pMemoryManager) throw() {
+	inline void *operator new (size_t size) throw() {
 		return pMemoryManager->safeAllocate();
 	}
-	inline void operator delete (void *pObject, MemoryManager *pMemoryManager) throw() {
+	inline void operator delete (void *pObject) throw() {
 		printf("delete not supported\n");
 	}
 
