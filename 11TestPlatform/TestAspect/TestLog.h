@@ -5,8 +5,7 @@
 #define _TestLog_Name "TestLog"
 
 #include "../TestObject/TestRoot.h"
-#include <string>
-using namespace std;
+
 
 class TestLog : public TestRoot
 {

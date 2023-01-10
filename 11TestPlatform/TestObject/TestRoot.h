@@ -4,7 +4,6 @@
 #define _TestRoot_id _GET_CLASS_UID(_ELayer_TestBase::_eTestRoot)
 #define _TestRoot_Name "TestRoot"
 
-#include <stdlib.h>
 #define MAX_TESTCASES 20
 
 class TestRoot {

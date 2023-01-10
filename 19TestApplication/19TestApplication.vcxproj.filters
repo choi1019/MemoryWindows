@@ -29,13 +29,13 @@
     <ClInclude Include="PTS1\Config.h">
       <Filter>소스 파일\PTS1</Filter>
     </ClInclude>
-    <ClInclude Include="PTS1\PTS1_Main.h">
+    <ClInclude Include="PTS1\PTS1.h">
       <Filter>소스 파일\PTS1</Filter>
     </ClInclude>
     <ClInclude Include="typedef.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PTS1\PTC11\PTC11_Main.h">
+    <ClInclude Include="PTS1\PTC11\PTC11.h">
       <Filter>소스 파일\PTC11</Filter>
     </ClInclude>
     <ClInclude Include="PTS1\PTC11\Config.h">
@@ -46,10 +46,10 @@
     <ClCompile Include="PTestMain\PTestMain.cpp">
       <Filter>소스 파일\PTestMain</Filter>
     </ClCompile>
-    <ClCompile Include="PTS1\PTS1_Main.cpp">
+    <ClCompile Include="PTS1\PTS1.cpp">
       <Filter>소스 파일\PTS1</Filter>
     </ClCompile>
-    <ClCompile Include="PTS1\PTC11\PTC11_Main.cpp">
+    <ClCompile Include="PTS1\PTC11\PTC11.cpp">
       <Filter>소스 파일\PTC11</Filter>
     </ClCompile>
   </ItemGroup>

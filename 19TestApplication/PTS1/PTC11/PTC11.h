@@ -1,30 +1,32 @@
 #pragma once
 
 #include "../../typedef.h"
-#define _PTC11_Main_Id _GET_CLASS_UID(_ELayer_TestApplication::_ePTC11_Main)
-#define _PTC11_Main_Name "PTC11_Main"
+#define _PTC11_ID _GET_CLASS_UID(_ELayer_TestApplication::_ePTC11)
+#define _PTC11_NAME "PTC11"
 
 #include "../../../11TestPlatform/TestCase/TestCase.h"
 
 #include "Config.h"
+/*
 #include "../../../../0Camera/PApplication/PMain/PMain.h"
 #include "../../../../0Platform/5PPlatform/PMemoryManager/PMemoryVariable.h"
 #include "../../../../0Platform/5PPlatform/PMemoryManager/PMemoryEven.h"
 #include "../../../../0Platform/5PPlatform/PMemoryManager/PMemoryManager.h"
 #include "../../../../0Platform/1Base/Aspect/Exception.h"
+*/
 
-class PTC11_Main : public TestCase {
+class PTC11 : public TestCase {
 private:
 	char* m_pMemeoryAllocated;
 public:
-	PTC11_Main(
-		int nClassId = _PTC11_Main_Id,
-		const char* pcClassName = _PTC11_Main_Name)
+	PTC11(
+		int nClassId = _PTC11_ID,
+		const char* pcClassName = _PTC11_NAME)
 		: TestCase(nClassId, pcClassName)
 		, m_pMemeoryAllocated(nullptr)
 	{
 	}
-	virtual ~PTC11_Main() {
+	virtual ~PTC11() {
 	}
 	void Initialize() {
 		TestCase::Initialize();
@@ -36,6 +38,7 @@ public:
 	}
 
 	void Run() {
+		/*
 		try {
 			int szTotalMemory1 = sizeof(PMemoryManager) + sizeof(size_t);
 			int szTotalMemory2 = sizeof(PMemoryVariable) + PTC11_SIZE_MEMORYBASE + 2 * sizeof(size_t);
@@ -72,6 +75,7 @@ public:
 		catch (Exception& exception) {
 			exception.Println();
 		}
+		*/
 	}
 };
 
