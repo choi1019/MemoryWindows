@@ -40,11 +40,11 @@ public:
 		BaseObject::s_pMemory->Initialize();
 		this->Add((Memory*)BaseObject::s_pMemory);
 
-		Exception::s_pMemory = new("Exception::s_pMemoryEven") PMemoryEven(sizeof(Exception), PTC21_COUNT_EXCEPTION);
+		Exception::s_pMemory = new("Exception::s_pMemory") PMemoryVariable(sizeof(Exception), PTC21_COUNT_EXCEPTION);
 		Exception::s_pMemory->Initialize();
 		this->Add((Memory*)Exception::s_pMemory);
 
-		Log::s_pMemory = new("Log::s_pMemoryEven") PMemoryEven(sizeof(Log), PTC21_COUNT_LOG);
+		Log::s_pMemory = new("Log::s_pMemory") PMemoryVariable(sizeof(Log), PTC21_COUNT_LOG);
 		Log::s_pMemory->Initialize();
 		this->Add((Memory*)Log::s_pMemory);
 
