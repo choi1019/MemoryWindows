@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../typedef.h"
-#define _TestException_Id _GET_CLASS_UID(_ELayer_TestBase::_eTestException)
+#define _TestException_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestException)
 #define _TestException_Name "TestException"
 
 #include "../TestObject/TestRoot.h"

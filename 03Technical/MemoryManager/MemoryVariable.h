@@ -4,13 +4,11 @@
 #define _MemoryVariable_Id _GET_CLASS_UID(_ELayer_Technical::_eMemoryEven)
 #define _MemoryVariable_Name "MemoryEven"
 
-#include "MemoryDynamic.h"
+#include "Memory.h"
 #include "../../01Base/Object/BaseObject.h"
 #include "../../01Base/Aspect/Exception.h"
 #include "../../01Base/Aspect/Log.h"
 #include "../../01Base/Aspect/Directory.h"
-
-#undef GetClassName
 
 class SlotList: public BaseObject {
 public:
@@ -191,7 +189,7 @@ public:
 
 };
 
-class MemoryVariable: public MemoryDynamic
+class MemoryVariable: public Memory
 {
 private:
 	static unsigned s_uCountMemory;
@@ -204,26 +202,29 @@ public:
 		size_t szAllocated,
 		int nClassId = _MemoryVariable_Id,
 		const char* typeName = _MemoryVariable_Name)
-		: MemoryDynamic(
-			szAllocated,
+		: Memory(
 			nClassId,
 			typeName)
 	{
+		this->SetSzThis(*(size_t*)((long long)this - sizeof(size_t)));
+		this->SetSzAllocated(szAllocated);
+		this->SetPAllocated(nullptr);
 	}
 	virtual ~MemoryVariable() {
 	}
 
-	virtual void InitializeMemory() {
-		MemoryDynamic::InitializeMemory();
+	virtual void Initialize() {
+		Memory::Initialize();
+		this->SetPAllocated(Memory::s_pMemoryManager->SafeMalloc(this->GetSzAllocated(), this->GetClassName()));
 
 		m_listFreeSlots.InitializeMemory(this->GetPAllocated(), this->GetSzAllocated());
 		m_listUsedSlots.InitializeMemory();
 	}
-	virtual void FinalizeMemory() {
-		m_listFreeSlots.FinalizeMemory();
+	virtual void Finalize() {
 		m_listUsedSlots.FinalizeMemory();
 
-		MemoryDynamic::FinalizeMemory();
+		Memory::s_pMemoryManager->SafeFree(this->GetPAllocated());
+		Memory::Finalize();
 	}
 
 	virtual size_t Show(const char* pTitle) {
@@ -247,7 +248,7 @@ protected:
 
 		if (pSlotRemoved == nullptr) {
 			this->UnLock();
-			throw Exception((unsigned)IMemory::EError::_eNoMoreSlot, GetClassName(), __func__, "_eNoMoreSlot");
+			throw Exception((unsigned)IMemory::EException::_eNoMoreSlot, GetClassName(), __func__, "_eNoMoreSlot");
 		}
 		else {
 			// if size of requested memory is less than allocated, free the fragment
@@ -272,7 +273,7 @@ protected:
 
 	void Free(void* pObject) {
 		if (pObject == nullptr) {
-			throw (Exception((int)IMemory::EError::_eNullPtr, GetClassName(), __func__), "_eNullPtr");
+			throw (Exception((int)IMemory::EException::_eNullPtr, GetClassName(), __func__), "_eNullPtr");
 		}
 		SlotList::Slot* pSlotFreed = (SlotList::Slot*)(reinterpret_cast<size_t>(pObject) - (sizeof(SlotList::Slot)));
 		this->m_listUsedSlots.Remove(pSlotFreed);

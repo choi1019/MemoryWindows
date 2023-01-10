@@ -37,7 +37,7 @@ private:
 		}
 		if (szRequested > this->m_szAvailable) {
 			this->UnLock();
-			throw Exception((int)IMemory::EError::_eOutOfMemory, this->GetObjectId(), __func__, String(szRequested)+","+ m_szAvailable);
+			throw Exception((int)IMemory::EException::_eOutOfMemory, this->GetObjectId(), __func__, String(szRequested)+","+ m_szAvailable);
 		}
 		// store sizeThis
 		*(size_t*)m_pCurrentPtr = szRequested;
@@ -56,7 +56,7 @@ private:
 	void Free(void* pObject)
 	{
 		if (pObject == nullptr) {
-			throw Exception((int)IMemory::EError::_eNullPtr, this->GetObjectId(), __func__);
+			throw Exception((int)IMemory::EException::_eNullPtr, this->GetObjectId(), __func__);
 		}
 		Directory::s_dirObjects.Remove((long long)pObject);
 	}
@@ -79,14 +79,14 @@ public:
 	{
 	}
 
-	virtual void InitializeMemory() {
-		Memory::InitializeMemory();
+	virtual void Initialize() {
+		Memory::Initialize();
 
 		this->m_szAvailable = this->GetSzAllocated();
 		this->m_pCurrentPtr = this->GetPAllocated();
 	}
-	virtual void FinalizeMemory() {
-		Memory::FinalizeMemory();
+	virtual void Finalize() {
+		Memory::Finalize();
 	}
 
 

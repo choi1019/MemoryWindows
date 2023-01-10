@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../typedef.h"
-#define _TestObject_Id _GET_CLASS_UID(_ELayer_TestBase::_eTestObject)
+#define _TestObject_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestObject)
 #define _TestObject_Name "TestObject"
 
 #include "../TestObject/TestRoot.h"
@@ -38,6 +38,6 @@ public:
 		TestRoot::Finalize();
 	}
 
-	virtual void Run() = 0;
+	virtual void Run() {}
 };
 

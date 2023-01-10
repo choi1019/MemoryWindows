@@ -9,13 +9,13 @@
 #define _MemoryEven_Id _GET_CLASS_UID(_ELayer_Technical::_eMemoryEven)
 #define _MemoryEven_Name "MemoryEven"
 
-#include "MemoryDynamic.h"
+#include "Memory.h"
 #include "../../01Base/Aspect/Exception.h"
 #include "../../01Base/Aspect/Log.h"
 
 #undef GetClassName
 
-class MemoryEven: public MemoryDynamic
+class MemoryEven: public Memory
 {
 private:
 	class Slot {
@@ -30,36 +30,15 @@ private:
 	size_t m_uCountTotalSlots;
 	Slot* m_pHeadSlot;
 
-public:
-	MemoryEven(
-		size_t szSlot,
-		size_t uCountTotalSlots,
-		int nClassId = _MemoryEven_Id,
-		const char* pClassName = _MemoryEven_Name)
-		: MemoryDynamic(
-			size_t(szSlot* uCountTotalSlots),
-			nClassId,
-			pClassName)
-		, m_szSlot(szSlot)
-		, m_uCountTotalSlots(uCountTotalSlots)
-		, m_pHeadSlot(nullptr)
-	{
-	}
-
-	virtual ~MemoryEven() {
-	}
-
-	virtual void InitializeMemory() {
-		MemoryDynamic::InitializeMemory();
-
+	void CreateSlotList() {
 		// if requested size of a slot is smaller than size of class Slot
 		if (this->m_szSlot < sizeof(Slot)) {
-			throw (Exception((unsigned)IMemory::EError::_eSlotSizeSmall, this->GetObjectId(), __func__, "_eSizeSlotIsTooSmall"));
+			throw (Exception((unsigned)IMemory::EException::_eSlotSizeSmall, this->GetObjectId(), __func__, "_eSizeSlotIsTooSmall"));
 		}
 		if (m_uCountTotalSlots == 0) {
 			this->m_pHeadSlot = nullptr;
 			throw Exception(
-				(int)IMemory::EError::_eSlotCountZero,
+				(int)IMemory::EException::_eSlotCountZero,
 				this->GetObjectId(),
 				__func__,
 				"_eSlotCountIsZero");
@@ -73,10 +52,39 @@ public:
 			pCurrentSlot = (Slot*)(reinterpret_cast<size_t>(pCurrentSlot) + m_szSlot);
 		}
 		pCurrentSlot->SetNext(nullptr);
+
 	}
 
-	virtual void FinalizeMemory() {
-		MemoryDynamic::FinalizeMemory();
+public:
+	MemoryEven(
+		size_t szSlot,
+		size_t uCountTotalSlots,
+		int nClassId = _MemoryEven_Id,
+		const char* pClassName = _MemoryEven_Name)
+		: Memory(
+			nClassId,
+			pClassName)
+		, m_szSlot(szSlot)
+		, m_uCountTotalSlots(uCountTotalSlots)
+		, m_pHeadSlot(nullptr)
+	{
+		this->SetSzThis(*(size_t*)((long long)this - sizeof(size_t)));
+		this->SetSzAllocated(size_t(szSlot * uCountTotalSlots));
+		this->SetPAllocated(nullptr);
+	}
+
+	virtual ~MemoryEven() {
+	}
+
+	virtual void Initialize() {
+		Memory::Initialize();
+		this->SetPAllocated(Memory::s_pMemoryManager->SafeMalloc(this->GetSzAllocated(), this->GetClassName()));
+		this->CreateSlotList();
+	}
+
+	virtual void Finalize() {
+		Memory::s_pMemoryManager->SafeFree(this->GetPAllocated());
+		Memory::Finalize();
 	}
 
 	virtual size_t Show(const char *pMessage) {
@@ -96,7 +104,7 @@ protected:
 		if (nullptr == m_pHeadSlot) {
 			this->UnLock();
 			throw Exception(
-				(int)IMemory::EError::_eNoMoreSlot, 
+				(int)IMemory::EException::_eNoMoreSlot,
 				GetClassName(), 
 				__func__, 
 				"_eNoMoreSlot"
@@ -111,7 +119,7 @@ protected:
 		if (pObject == nullptr) {
 			this->UnLock();
 			throw Exception(
-				(int)IMemory::EError::_eNullPtr,
+				(int)IMemory::EException::_eNullPtr,
 				GetClassName(), 
 				__func__, 
 				"_eNullPtr"

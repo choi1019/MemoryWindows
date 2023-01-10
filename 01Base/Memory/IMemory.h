@@ -7,7 +7,7 @@
 class IMemory
 {
 public:
-	enum class EError
+	enum class EException
 	{
 		_eBegin = _Memory_Id,
 		_eOutOfMemory,
@@ -20,8 +20,8 @@ public:
 	};
 
 	virtual ~IMemory() {};
-	virtual void InitializeMemory() = 0;
-	virtual void FinalizeMemory() = 0;
+	virtual void Initialize() = 0;
+	virtual void Finalize() = 0;
 
 	// methods
 	virtual void* SafeMalloc(size_t szAllocate, const char* pcName) = 0;

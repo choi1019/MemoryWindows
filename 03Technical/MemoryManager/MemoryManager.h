@@ -24,13 +24,13 @@ public:
 	{
 	}
 
-	virtual void InitializeMemory() {
-		MemoryStatic::InitializeMemory();
+	virtual void Initialize() {
+		MemoryStatic::Initialize();
 	}
 //	virtual void InitializeMemory(size_t szMemoryBase, size_t countException,	size_t countLog, size_t countEvent) = 0;
 
-	virtual void FinalizeMemory() {
-		MemoryStatic::FinalizeMemory();
+	virtual void Finalize() {
+		MemoryStatic::Finalize();
 	}
 
 	Vector<Memory*>& GetVMemory() { return this->m_vMemory; }

@@ -8,6 +8,7 @@ class Memory :public IMemory, public BaseObject
 {
 public:
 	static IMemory* s_pMemoryManager;
+
 	void* operator new(size_t szThis, const char* pcName) {
 		void* pAllocated = s_pMemoryManager->SafeMalloc(szThis, pcName);
 		return pAllocated;
@@ -15,6 +16,7 @@ public:
 	void operator delete(void* pObject) {
 		s_pMemoryManager->SafeFree(pObject);
 	}
+
 private:
 	// attributes
 //	ComponentPart::EState m_eState;
@@ -40,29 +42,22 @@ public:
 	// constructors and destructors
 	Memory(int nClassId = _Memory_Id,
 		const char* pClassName = _Memory_Name)
+		: BaseObject(nClassId, pClassName)
 //		: ComponentPart(nClassId, pClassName)
-//		, m_eState(ComponentPart::EState::eDeleted)
-		: m_szAllocated(0)
+		, m_szAllocated(0)
 		, m_pAllocated(nullptr)
 	{
-//		m_eState = ComponentPart::EState::eCreated;
 	}
 	virtual ~Memory() 
 	{
-//		m_eState = ComponentPart::EState::eDeleted;
 	}
-	virtual void InitializeMemory() {
+	virtual void Initialize() {
 //		ComponentPart::Initialize();
-//		m_eState = ComponentPart::EState::eInitialized;
-	}
-	virtual void FinalizeMemory() {
-//		ComponentPart::Finalize();
-//		m_eState = ComponentPart::EState::eFinalized;
-	}	
 
-	// getters and setters
-//	ComponentPart::EState GetEState() { return m_eState; }
-//	void SetState(ComponentPart::EState eState) { m_eState = eState; }
+	}
+	virtual void Finalize() {
+//		ComponentPart::Finalize();
+	}	
 
 	// methods
 	void* SafeMalloc(size_t szAllocate, const char *pcName)

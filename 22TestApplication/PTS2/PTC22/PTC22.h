@@ -1,42 +1,41 @@
 #pragma once
 
 #include "Config.h"
-#define _PTC11_ID _GET_TESTCASE_UID(_ELayer_PTS1::_ePTC11)
-#define _PTC11_NAME "PTC11"
+#define _PTC22_ID _GET_TESTCASE_UID(_ELayer_PTS2::_ePTC22)
+#define _PTC22_NAME "PTC22"
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
+#include "TMemoryManager22.h"
 
-#include "TMemoryManager11.h"
-
-class PTC11 : public TestCase {
+class PTC22 : public TestCase {
 private:
 	char* m_pMemeoryAllocated;
 public:
-	PTC11(
-		int nClassId = _PTC11_ID,
-		const char* pcClassName = _PTC11_NAME)
+	PTC22(
+		int nClassId = _PTC22_ID,
+		const char* pcClassName = _PTC22_NAME)
 		: TestCase(nClassId, pcClassName)
 		, m_pMemeoryAllocated(nullptr)
 	{
 	}
-	virtual ~PTC11() {
+	virtual ~PTC22() {
 	}
-
 	void Initialize() {
 		TestCase::Initialize();
+
 	}
+
 	void Finalize() {
 		TestCase::Finalize();
 	}
 
 	void Run() {
-		
 		try {
-			size_t szTotalMemory = TMemoryManager11::getMemorySize();
+			size_t szTotalMemory = TMemoryManager22::getMemorySize();
 			this->m_pMemeoryAllocated = new char[szTotalMemory];
-				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager11(szTotalMemory);
+				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager22(szTotalMemory);
 					Memory::s_pMemoryManager->Initialize();
-					Memory::s_pMemoryManager->Show("PTC11::TMemoryManager11");
+					Memory::s_pMemoryManager->Show("PTC22::TMemoryManager22");
 					Memory::s_pMemoryManager->Finalize();
 				delete Memory::s_pMemoryManager;
 			delete this->m_pMemeoryAllocated;
@@ -44,7 +43,7 @@ public:
 		catch (Exception& exception) {
 			exception.Println();
 		}
-		
+			
 	}
 };
 

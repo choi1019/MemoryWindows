@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../typedef.h"
-#define _TestRoot_id _GET_CLASS_UID(_ELayer_TestBase::_eTestRoot)
+#define _TestRoot_id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestRoot)
 #define _TestRoot_Name "TestRoot"
 
 #define MAX_TESTCASES 20
@@ -30,12 +30,10 @@ public:
 		, m_szThis(0)
 	{
 	}
-	virtual ~TestRoot() {	}
+	virtual ~TestRoot() {}
 
-	virtual void Initialize() {
-	}
-	virtual void Finalize() {
-	}
+	virtual void Initialize() {}
+	virtual void Finalize() {}
 
 	// getters and setters
 	inline int GetObjectId() { return this->m_uObjectId; }

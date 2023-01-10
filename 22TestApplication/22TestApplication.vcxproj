@@ -146,13 +146,26 @@
     <ClInclude Include="PTS1\Config.h" />
     <ClInclude Include="PTS1\PTC11\Config.h" />
     <ClInclude Include="PTS1\PTC11\PTC11.h" />
+    <ClInclude Include="PTS1\PTC11\TMemoryManager11.h" />
+    <ClInclude Include="PTS1\PTC12\Config.h" />
+    <ClInclude Include="PTS1\PTC12\PTC12.h" />
+    <ClInclude Include="PTS1\PTC12\TMemoryManager12.h" />
     <ClInclude Include="PTS1\PTS1.h" />
-    <ClInclude Include="typedef.h" />
+    <ClInclude Include="PTS2\Config.h" />
+    <ClInclude Include="PTS2\PTC21\Config.h" />
+    <ClInclude Include="PTS2\PTC21\PTC21.h" />
+    <ClInclude Include="PTS2\PTC21\TMemoryManager21.h" />
+    <ClInclude Include="PTS2\PTC22\Config.h" />
+    <ClInclude Include="PTS2\PTC22\PTC22.h" />
+    <ClInclude Include="PTS2\PTC22\TMemoryManager22.h" />
+    <ClInclude Include="PTS2\PTS2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PTestMain\PTestMain.cpp" />
     <ClCompile Include="PTS1\PTC11\PTC11.cpp" />
-    <ClCompile Include="PTS1\PTS1.cpp" />
+    <ClCompile Include="PTS1\PTC12\PTC12.cpp" />
+    <ClCompile Include="PTS2\PTC21\PTC21.cpp" />
+    <ClCompile Include="PTS2\PTC22\PTC22.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\01Base\01Base.vcxproj">

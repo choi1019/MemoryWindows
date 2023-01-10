@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemoryManager\Memory.h" />
-    <ClInclude Include="MemoryManager\MemoryDynamic.h" />
     <ClInclude Include="MemoryManager\MemoryEven.h" />
     <ClInclude Include="MemoryManager\MemoryManager.h" />
     <ClInclude Include="MemoryManager\MemoryStatic.h" />
@@ -29,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MemoryManager\Memory.cpp" />
-    <ClCompile Include="MemoryManager\MemoryDynamic.cpp" />
     <ClCompile Include="MemoryManager\MemoryEven.cpp" />
     <ClCompile Include="MemoryManager\MemoryManager.cpp" />
     <ClCompile Include="MemoryManager\MemoryStatic.cpp" />

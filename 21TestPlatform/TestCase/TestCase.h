@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../typedef.h"
-#define _TestCase_Id _GET_CLASS_UID(_ELayer_TestBase::_eTestCase)
+#define _TestCase_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestCase)
 #define _TestCase_Name "TestCase"
 
 #include "TestObject.h"
@@ -37,7 +37,9 @@ public:
 		TestObject::Finalize();
 	}
 
-	virtual void Run() {}
+	virtual void Run() {
+		TestObject::Run();
+	}
 
 protected:
 	void AssertEqual(unsigned x, unsigned y) {

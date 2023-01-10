@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../typedef.h"
-#define _TestMain_Id _GET_CLASS_UID(_ELayer_TestBase::_eTestMain)
+#define _TestMain_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestMain)
 #define _TestMain_Name "TestMain"
 
 
@@ -22,4 +22,9 @@ public:
 	virtual void Finalize() {
 		TestSuite::Finalize();
 	}
+
+	virtual void Run() {
+		TestSuite::Run();
+	}
+
 };

@@ -17,9 +17,6 @@
     <ClInclude Include="typedef.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryManager\MemoryDynamic.h">
-      <Filter>소스 파일\MemoryManager</Filter>
-    </ClInclude>
     <ClInclude Include="MemoryManager\MemoryEven.h">
       <Filter>소스 파일\MemoryManager</Filter>
     </ClInclude>
@@ -37,9 +34,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MemoryManager\MemoryDynamic.cpp">
-      <Filter>소스 파일\MemoryManager</Filter>
-    </ClCompile>
     <ClCompile Include="MemoryManager\MemoryEven.cpp">
       <Filter>소스 파일\MemoryManager</Filter>
     </ClCompile>
