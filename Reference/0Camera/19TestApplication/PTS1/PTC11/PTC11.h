@@ -7,13 +7,13 @@
 #include "../../../11TestPlatform/TestCase/TestCase.h"
 
 #include "Config.h"
-/*
+
 #include "../../../../0Camera/PApplication/PMain/PMain.h"
 #include "../../../../0Platform/5PPlatform/PMemoryManager/PMemoryVariable.h"
 #include "../../../../0Platform/5PPlatform/PMemoryManager/PMemoryEven.h"
 #include "../../../../0Platform/5PPlatform/PMemoryManager/PMemoryManager.h"
 #include "../../../../0Platform/1Base/Aspect/Exception.h"
-*/
+
 
 class PTC11 : public TestCase {
 private:

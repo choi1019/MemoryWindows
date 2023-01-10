@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\PTS1">
+      <UniqueIdentifier>{78d0b60d-0a16-4a49-8f34-62a415166352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PTestMain">
+      <UniqueIdentifier>{c5a71c02-44ac-4410-ac02-8b21544e2856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PTC11">
+      <UniqueIdentifier>{85f1ee21-2863-4428-8682-91c5e9c28541}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PTestMain\Config.h">
+      <Filter>소스 파일\PTestMain</Filter>
+    </ClInclude>
+    <ClInclude Include="PTestMain\PTestMain.h">
+      <Filter>소스 파일\PTestMain</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\Config.h">
+      <Filter>소스 파일\PTS1</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTS1.h">
+      <Filter>소스 파일\PTS1</Filter>
+    </ClInclude>
+    <ClInclude Include="typedef.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC11\PTC11.h">
+      <Filter>소스 파일\PTC11</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC11\Config.h">
+      <Filter>소스 파일\PTC11</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PTestMain\PTestMain.cpp">
+      <Filter>소스 파일\PTestMain</Filter>
+    </ClCompile>
+    <ClCompile Include="PTS1\PTS1.cpp">
+      <Filter>소스 파일\PTS1</Filter>
+    </ClCompile>
+    <ClCompile Include="PTS1\PTC11\PTC11.cpp">
+      <Filter>소스 파일\PTC11</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
