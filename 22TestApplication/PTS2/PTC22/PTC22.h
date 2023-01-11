@@ -30,20 +30,14 @@ public:
 	}
 
 	void Run() {
-		try {
-			size_t szTotalMemory = TMemoryManager22::getMemorySize();
-			this->m_pMemeoryAllocated = new char[szTotalMemory];
-				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager22(szTotalMemory);
-					Memory::s_pMemoryManager->Initialize();
-					Memory::s_pMemoryManager->Show("PTC22::TMemoryManager22");
-					Memory::s_pMemoryManager->Finalize();
-				delete Memory::s_pMemoryManager;
-			delete this->m_pMemeoryAllocated;
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-			
+		size_t szTotalMemory = TMemoryManager22::getMemorySize();
+		this->m_pMemeoryAllocated = new char[szTotalMemory];
+			Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager22(szTotalMemory);
+				Memory::s_pMemoryManager->Initialize();
+				Memory::s_pMemoryManager->Show("PTC22::TMemoryManager22");
+				Memory::s_pMemoryManager->Finalize();
+			delete Memory::s_pMemoryManager;
+		delete this->m_pMemeoryAllocated;
 	}
 };
 

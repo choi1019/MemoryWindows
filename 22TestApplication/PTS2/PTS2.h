@@ -5,8 +5,6 @@
 #define _PTS2_NAME "PTS2"
 
 #include "../../21TestPlatform/TestCase/TestSuite.h"
-
-#include "Config.h"
 #include "PTC21/PTC21.h"
 #include "PTC22/PTC22.h"
 
