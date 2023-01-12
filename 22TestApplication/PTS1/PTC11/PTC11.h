@@ -5,7 +5,8 @@
 #define _PTC11_NAME "PTC11"
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
-
+#include "../../../01Base/Aspect/Exception.h"
+#include "../../../03Technical/MemoryManager/Memory.h"
 #include "TMemoryManager11.h"
 
 class PTC11 : public TestCase {
@@ -34,11 +35,8 @@ public:
 		try {
 			size_t szTotalMemory = TMemoryManager11::getMemorySize();
 			this->m_pMemeoryAllocated = new char[szTotalMemory];
-				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager11(szTotalMemory);
-					Memory::s_pMemoryManager->Initialize();
-					Memory::s_pMemoryManager->Show("PTC11::TMemoryManager11");
-					Memory::s_pMemoryManager->Finalize();
-				delete Memory::s_pMemoryManager;
+			Memory::s_pMemoryAllocated = m_pMemeoryAllocated;
+
 			delete this->m_pMemeoryAllocated;
 		}
 		catch (Exception& exception) {
