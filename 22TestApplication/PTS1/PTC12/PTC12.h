@@ -7,6 +7,15 @@
 #include "../../../21TestPlatform/TestCase/TestCase.h"
 #include "TMemoryManager12.h"
 
+template<int SIZE = 0>
+class TestData {
+private:
+	char data[SIZE];
+public:
+	char* getData() { return this->data; }
+	void setData(char d) { memset(this->data, d, SIZE); };
+};
+
 class PTC12 : public TestCase {
 private:
 	char* m_pMemeoryAllocated;
@@ -46,4 +55,3 @@ public:
 			
 	}
 };
-

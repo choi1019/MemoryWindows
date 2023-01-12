@@ -19,15 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PMemoryManager\PMemoryEven.h" />
     <ClInclude Include="PMemoryManager\PMemoryManager.h" />
-    <ClInclude Include="PMemoryManager\PMemoryVariable.h" />
+    <ClInclude Include="PMemoryManager\PMemoryDynamic.h" />
     <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PMemoryManager\PMemoryEven.cpp" />
     <ClCompile Include="PMemoryManager\PMemoryManager.cpp" />
-    <ClCompile Include="PMemoryManager\PMemoryVariable.cpp" />
+    <ClCompile Include="PMemoryManager\MemoryDynamic.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -4,9 +4,9 @@
 #define _PMemoryVariable_Id _GET_CLASS_UID(_ELayer_PTechnical::_ePMemoryVariable)
 #define _PMemoryVariable_Name "PMemoryVariable"
 
-#include "../../03Technical/MemoryManager/MemoryVariable.h"
+#include "../../03Technical/MemoryManager/MemoryDynamic.h"
 
-class PMemoryVariable : public MemoryVariable {
+class PMemoryDynamic : public MemoryDynamic {
 private:
 	CRITICAL_SECTION CriticalSection;
 
@@ -19,22 +19,22 @@ protected:
 	}
 
 public:
-	PMemoryVariable(
+	PMemoryDynamic(
 		size_t szAllocated,
 		int nClassId = _PMemoryVariable_Id,
 		const char* pcClassName = _PMemoryVariable_Name)
-		: MemoryVariable(szAllocated, nClassId, pcClassName)
+		: MemoryDynamic(szAllocated, nClassId, pcClassName)
 	{
 		InitializeCriticalSection(&CriticalSection);
 	}
-	virtual ~PMemoryVariable() {
+	virtual ~PMemoryDynamic() {
 		DeleteCriticalSection(&CriticalSection);
 	}
 
 	virtual void Initialize() {
-		MemoryVariable::Initialize();
+		MemoryDynamic::Initialize();
 	}
 	virtual void Finalize() {
-		MemoryVariable::Finalize();
+		MemoryDynamic::Finalize();
 	}
 };

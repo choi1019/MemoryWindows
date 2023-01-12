@@ -13,16 +13,22 @@ enum class _ELayer {
 	_eTechnical = 3,
 	_eAspect = 4,
 
-	_ePPlatform = 5,
-	_ePTechnical = 6,
-	_ePAspect = 7,
-
-	_eTestPlatform = 12,
-	_eTestApplication = 19,
+	_ePPlatform = 12,
+	_ePTechnical = 13,
+	_ePAspect = 14,
 
 	_eDomain = 21,
-	_ePDomain = 25,
-	_ePApplication = 29,
+	_eCamera = 22,
+	_eRecoreder = 23,
+
+	_ePDomain = 31,
+	_ePCamera = 32,
+	_ePRecoreder = 33,
+
+	_ePApplication = 61,
+
+	_eTestPlatform = 91,
+	_eTestApplication = 92,
 
 	_eEnd,
 };

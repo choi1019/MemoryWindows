@@ -9,18 +9,20 @@ class Memory :public IMemory, public BaseObject
 public:
 	static IMemory* s_pMemoryManager;
 
-	void* operator new(size_t szThis, const char* pcName) {
+	void* operator new(size_t szThis, const char* pcName="") {
 		void* pAllocated = s_pMemoryManager->SafeMalloc(szThis, pcName);
 		return pAllocated;
 	}
 	void operator delete(void* pObject) {
 		s_pMemoryManager->SafeFree(pObject);
 	}
+	//  matching operator - new(size_t szThis, const char* pcName="")
+	void operator delete(void* pObject, const char* pcName) {
+		s_pMemoryManager->SafeFree(pObject);
+	}
 
 private:
 	// attributes
-//	ComponentPart::EState m_eState;
-
 	size_t m_szAllocated;
 	void* m_pAllocated;
 

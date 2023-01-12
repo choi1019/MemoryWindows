@@ -31,7 +31,6 @@ public:
 	}
 	virtual ~TMemoryManager12() {}
 
-
 	virtual void Initialize() {
 		MemoryManager::Initialize();
 

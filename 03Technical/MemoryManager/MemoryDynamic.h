@@ -189,7 +189,7 @@ public:
 
 };
 
-class MemoryVariable: public Memory
+class MemoryDynamic: public Memory
 {
 private:
 	static unsigned s_uCountMemory;
@@ -198,7 +198,7 @@ private:
 	SlotList m_listUsedSlots;
 
 public:
-	MemoryVariable(
+	MemoryDynamic(
 		size_t szAllocated,
 		int nClassId = _MemoryVariable_Id,
 		const char* typeName = _MemoryVariable_Name)
@@ -210,7 +210,7 @@ public:
 		this->SetSzAllocated(szAllocated);
 		this->SetPAllocated(nullptr);
 	}
-	virtual ~MemoryVariable() {
+	virtual ~MemoryDynamic() {
 	}
 
 	virtual void Initialize() {

@@ -17,24 +17,18 @@
     <ClInclude Include="typedef.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PMemoryManager\PMemoryEven.h">
-      <Filter>소스 파일\PMemoryManager</Filter>
-    </ClInclude>
     <ClInclude Include="PMemoryManager\PMemoryManager.h">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClInclude>
-    <ClInclude Include="PMemoryManager\PMemoryVariable.h">
+    <ClInclude Include="PMemoryManager\PMemoryDynamic.h">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PMemoryManager\PMemoryEven.cpp">
-      <Filter>소스 파일\PMemoryManager</Filter>
-    </ClCompile>
     <ClCompile Include="PMemoryManager\PMemoryManager.cpp">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClCompile>
-    <ClCompile Include="PMemoryManager\PMemoryVariable.cpp">
+    <ClCompile Include="PMemoryManager\MemoryDynamic.cpp">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClCompile>
   </ItemGroup>

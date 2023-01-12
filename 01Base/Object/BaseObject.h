@@ -60,13 +60,15 @@ public:
 	virtual EState GetEState() { return this->eState; }
 	virtual void SetEState(EState eState) { this->eState = eState; }
 
-	// clone and serialize
+	// cloneable
 	virtual BaseObject* Clone() {
 		return nullptr;
 	}
+
+	// serializable
 	virtual char* Serialize() {
 		return nullptr;
 	}
-	virtual void UnSerialize(char* pBuffer) {
+	virtual void DeSerialize(char* pBuffer) {
 	}
 };
