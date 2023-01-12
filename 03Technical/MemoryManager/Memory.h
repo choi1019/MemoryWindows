@@ -45,7 +45,6 @@ public:
 	Memory(int nClassId = _Memory_Id,
 		const char* pClassName = _Memory_Name)
 		: BaseObject(nClassId, pClassName)
-//		: ComponentPart(nClassId, pClassName)
 		, m_szAllocated(0)
 		, m_pAllocated(nullptr)
 	{
@@ -54,11 +53,8 @@ public:
 	{
 	}
 	virtual void Initialize() {
-//		ComponentPart::Initialize();
-
 	}
 	virtual void Finalize() {
-//		ComponentPart::Finalize();
 	}	
 
 	// methods
