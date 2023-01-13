@@ -51,6 +51,7 @@ public:
 		this->pHeadFree = this->pHeadFree->pNext;
 		this->numPagesFree++;
 	}
+
 	void Delocate(Page* pPage) {
 		pPage->pNext = this->pHeadFree;
 		this->pHeadFree = pPage;
