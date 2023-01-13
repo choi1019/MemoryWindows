@@ -64,8 +64,65 @@ public:
 	}
 };
 
-class SlotManager {
+class Slot {
+private:
+	Slot* pNext;
+};
+class SlotIndex {
+private:
+	size_t m_szSlot;
+	Slot* m_pHead;
+	SlotIndex* m_pNext;
+public:
+	SlotIndex(size_t szSlot) {
+		this->m_szSlot = szSlot;
 
+	}
+	virtual ~SlotIndex() {
+	}
+
+	size_t GetSzSlot() { return this->m_szSlot; }
+	SlotIndex* GetNext() { return this->m_pNext; }
+	void SetNext(SlotIndex* pNext) { this->m_pNext = pNext;	}
+
+	Slot* Malloc() { }
+	void Deloc(void* pObject) {}
+};
+
+#define SIZE_WORD 4
+class SlotManager {
+private:
+	SlotIndex* pHeadSlotIndex;
+
+public:
+	void* Malloc(size_t szObject) {
+		void* pMemoryAllocated = nullptr;
+
+		size_t szSlot = szObject;
+		szSlot >> 2;
+		szSlot << 2;
+		szSlot += SIZE_WORD;
+
+		SlotIndex* pSlotIndex = this->pHeadSlotIndex;
+		SlotIndex* pPreviousSlotIndex = this->pHeadSlotIndex;
+		while (pSlotIndex != nullptr) {
+			if (pSlotIndex->GetSzSlot() == szSlot) {
+				pMemoryAllocated = pSlotIndex->Malloc();
+				return pMemoryAllocated;
+			} 
+			pPreviousSlotIndex = pSlotIndex;
+			pSlotIndex++;
+		}
+		if (pPreviousSlotIndex == nullptr) {
+			this->pHeadSlotIndex = new SlotIndex(szSlot);
+		}
+		else {
+			pSlotIndex = new SlotIndex(szSlot);
+			pSlotIndex->SetNext(pPreviousSlotIndex->GetNext());
+			pPreviousSlotIndex->SetNext(pSlotIndex);
+		}
+
+	}
 };
 
 class Memory :public IMemory, public BaseObject
@@ -100,13 +157,11 @@ protected:
 	virtual void Lock() = 0;
 	virtual void UnLock() = 0;
 	virtual void* Malloc(size_t sizeAllocate, const char* pcName) {
-		Page* pPage = this->m_pPageManager->getPage(sizeAllocate);
-		void* pObject = this->m_pSlotManager->Allocate(pPage);
+		void* pObject = this->m_pSlotManager->Allocate(sizeAllocate);
 		return pObject;
 	}
 	virtual void Free(void* pObject) {
-		Page* pPage = this->m_pPageManager->getPage(pObject);
-		this->m_pAllocated->Delocate(pPage, pObject);
+		this->m_pSlotManager->Delocate(pObject);
 	}
 
 public:
