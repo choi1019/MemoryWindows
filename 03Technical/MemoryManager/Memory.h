@@ -52,17 +52,20 @@ public:
 	}
 
 private:
-	unsigned m_szWord;
-	unsigned m_szWordExponentOf2;
-	unsigned m_szPage;
-	unsigned m_szPageExponentOf2;
+	static void* s_pMemoryAllocated;
+	static size_t s_sizeThis;
+
+	size_t m_szWord;
+	size_t m_szWordExponentOf2;
+	size_t m_szPage;
+	size_t m_szPageExponentOf2;
 
 	size_t m_szAllocated;
 	void* m_pMemoryAllocated;
 	SlotIndex* m_pHeadSlotIndex;
 
 public:
-	SlotManager(size_t szAllocated, void* pMemoryAllocated) {
+	SlotManager(size_t szAllocated) {
 		// WORD size
 		this->m_szWord = sizeof(size_t);
 		this->m_szWordExponentOf2 = log2(this->m_szWord);
@@ -123,9 +126,6 @@ public:
 class Memory :public IMemory, public BaseObject
 {
 public:
-	static void* s_pMemoryAllocated;
-	static size_t s_sizeThis;
-
 	void* operator new(size_t szThis, void* pMemoryAllocated) {
 		s_sizeThis = szThis;
 		s_pMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(pMemoryAllocated) + szThis);
@@ -140,10 +140,13 @@ public:
 	}
 
 private:
+	static void* s_pMemoryAllocated;
+	static size_t s_sizeThis; 
+
 	// attributes
 	SlotManager* m_pSlotManager;
 
-	size_t m_sizeMemoryAllocated;
+	size_t m_szMemoryAllocated;
 	void* m_pMemoryAllocated;
 
 protected:
@@ -160,15 +163,15 @@ protected:
 
 public:
 	// constructors and destructors
-	Memory(size_t sizeMemoryAllocated
+	Memory(size_t szMemoryAllocated
 		, int nClassId = _Memory_Id
 		, const char* pClassName = _Memory_Name)
 		: BaseObject(nClassId, pClassName)
-		, m_sizeMemoryAllocated(sizeMemoryAllocated)
+		, m_szMemoryAllocated(szMemoryAllocated)
 		, m_pMemoryAllocated(s_pMemoryAllocated)
 	{
 //		this->m_pPageManager = new PageManager();
-		this->m_pSlotManager = new SlotManager(sizeMemoryAllocated, s_pMemoryAllocated);
+		this->m_pSlotManager = new(s_pMemoryAllocated) SlotManager(szMemoryAllocated);
 	}
 	virtual ~Memory() 
 	{
@@ -178,8 +181,8 @@ public:
 	virtual void Finalize() {
 	}
 
-	size_t GetSizeAllocated() { return this->m_sizeMemoryAllocated; }
-	void SetSizeAllocated(size_t sizeAllocated) { this->m_sizeMemoryAllocated = sizeAllocated; }
+	size_t GetSzAllocated() { return this->m_szMemoryAllocated; }
+	void SetSzAllocated(size_t sizeAllocated) { this->m_szMemoryAllocated = sizeAllocated; }
 
 	void* GetPAllocated() { return this->m_pMemoryAllocated; }
 	void SetPAllocated(void* pAllocated) { this->m_pMemoryAllocated = pAllocated; }
