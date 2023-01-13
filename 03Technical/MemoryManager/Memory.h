@@ -4,136 +4,131 @@
 #include "../../01Base/Object/BaseObject.h"
 #include "../../01Base/Memory/IMemory.h"
 
-#define PAGESIZE 1024
-class Page {
-public:
-	Page* pNext;
-};
+#include <math.h>
 
-class PageIndex {
-public:
-	size_t numPages;
-	Page* pHeadPage;
-	PageIndex* pNext;
-};
-
-class PageManager {
-private:
-	char* pMemoryAllocated;
-	size_t numPagesTotal;
-
-	PageIndex* pHeadFree;
-	PageIndex* pHeadAllocated;
-
-	size_t GetIndex(Page* pPage) {
-		size_t index = (reinterpret_cast<size_t>(pPage) - reinterpret_cast<size_t>(this->pMemoryAllocated)) / PAGESIZE;
-	}
-
-public:
-	PageManager(size_t szAllocated, char* pMemoryAllocated) {
-		this->pMemoryAllocated = pMemoryAllocated;
-		this->numPagesTotal = szAllocated / PAGESIZE;
-		if (numPagesTotal < 1) {
-			throw Exception(static_cast<int>(IMemory::EException::_eOutOfMemory));
-		}
-
-		this->pHeadFree = reinterpret_cast<PageIndex*>(this->pMemoryAllocated);
-		Page* pPage;
-		for (pPage = this->pHeadFree; pPage + PAGESIZE <= this->pHeadFree + szAllocated; pPage += PAGESIZE) {
-			pPage->pNext = pPage + PAGESIZE;
-		}
-		pPage->pNext = nullptr;
-
-		this->pHeadAllocated = nullptr;
-		this->numPagesFree = this->numPagesTotal;
-	}
-
-	Page* Allocate() {
-		if (this->pHeadFree == nullptr) {
-			throw Exception(static_cast<int>(IMemory::EException::_eOutOfMemory));
-		}
-		Page* pNewPage = this->pHeadFree;
-		this->pHeadFree = this->pHeadFree->pNext;
-		this->numPagesFree++;
-	}
-
-	void Delocate(Page* pPage) {
-		pPage->pNext = this->pHeadFree;
-		this->pHeadFree = pPage;
-		this->numPagesFree--;
-	}
-};
+#define SIZE_PAGE 1024
 
 class Slot {
 private:
 	Slot* pNext;
 };
+
 class SlotIndex {
 private:
+	size_t m_idxPage;
 	size_t m_szSlot;
 	Slot* m_pHead;
 	SlotIndex* m_pNext;
-public:
-	SlotIndex(size_t szSlot) {
-		this->m_szSlot = szSlot;
 
+public:
+	SlotIndex(size_t szSlot)
+		: m_idxPage(0)
+		, m_szSlot(szSlot)
+		, m_pHead(nullptr)
+		, m_pNext(nullptr)
+	{
 	}
 	virtual ~SlotIndex() {
 	}
 
+	unsigned GetIdxPage() { return this->m_idxPage; }
 	size_t GetSzSlot() { return this->m_szSlot; }
 	SlotIndex* GetNext() { return this->m_pNext; }
 	void SetNext(SlotIndex* pNext) { this->m_pNext = pNext;	}
 
 	Slot* Malloc() { }
-	void Deloc(void* pObject) {}
+	void Free(void* pObject) {}
 };
 
-#define SIZE_WORD 4
 class SlotManager {
+public:
+	void* operator new(size_t szThis, void* pMemoryAllocated) {
+		s_sizeThis = szThis;
+		s_pMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(pMemoryAllocated) + szThis);
+		return s_pMemoryAllocated;
+	}
+	void operator delete(void* pObject) {
+		s_pMemoryAllocated = nullptr;
+	}
+
 private:
-	SlotIndex* pHeadSlotIndex;
+	unsigned m_szWord;
+	unsigned m_szWordExponentOf2;
+	unsigned m_szPage;
+	unsigned m_szPageExponentOf2;
+
+	size_t m_szAllocated;
+	void* m_pMemoryAllocated;
+	SlotIndex* m_pHeadSlotIndex;
 
 public:
+	SlotManager(size_t szAllocated, void* pMemoryAllocated) {
+		// WORD size
+		this->m_szWord = sizeof(size_t);
+		this->m_szWordExponentOf2 = log2(this->m_szWord);
+		// PAGE size
+		this->m_szPage = SIZE_PAGE;
+		this->m_szPageExponentOf2 = log2(this->m_szPage);
+
+		this->m_pHeadSlotIndex = nullptr;
+	}
+	virtual ~SlotManager() {
+	}
+
 	void* Malloc(size_t szObject) {
-		void* pMemoryAllocated = nullptr;
-
 		size_t szSlot = szObject;
-		szSlot >> 2;
-		szSlot << 2;
-		szSlot += SIZE_WORD;
 
-		SlotIndex* pSlotIndex = this->pHeadSlotIndex;
-		SlotIndex* pPreviousSlotIndex = this->pHeadSlotIndex;
+		// multiple of WORD
+		szSlot >> m_szWordExponentOf2;
+		szSlot << m_szWordExponentOf2;
+		szSlot += m_szWord;
+
+		SlotIndex* pSlotIndex = this->m_pHeadSlotIndex;
+		SlotIndex* pPreviousSlotIndex = this->m_pHeadSlotIndex;
 		while (pSlotIndex != nullptr) {
+			// if slotList is arleady generated
 			if (pSlotIndex->GetSzSlot() == szSlot) {
-				pMemoryAllocated = pSlotIndex->Malloc();
-				return pMemoryAllocated;
+				void *pSlotAllocated = pSlotIndex->Malloc();
+				break;
 			} 
 			pPreviousSlotIndex = pSlotIndex;
-			pSlotIndex++;
+			pSlotIndex = pSlotIndex->GetNext();
 		}
-		if (pPreviousSlotIndex == nullptr) {
-			this->pHeadSlotIndex = new SlotIndex(szSlot);
+		// if slotlist of the size is not generated
+		if (m_pHeadSlotIndex == nullptr) {
+			pSlotIndex = new SlotIndex(szSlot);
+			this->m_pHeadSlotIndex = pSlotIndex;
 		}
 		else {
 			pSlotIndex = new SlotIndex(szSlot);
 			pSlotIndex->SetNext(pPreviousSlotIndex->GetNext());
 			pPreviousSlotIndex->SetNext(pSlotIndex);
 		}
-
+		return pSlotIndex->Malloc();
+	}
+	void Free(void* pObject) {
+		size_t idxPage = reinterpret_cast<unsigned>(pObject) >> this->m_szPageExponentOf2;
+		SlotIndex* pSlotIndex = this->m_pHeadSlotIndex;
+		while (pSlotIndex != nullptr) {
+			if (pSlotIndex->GetIdxPage() == idxPage) {
+				pSlotIndex->Free(pObject);
+				break;
+			}
+			pSlotIndex = pSlotIndex->GetNext();
+		}
+		throw Exception(static_cast<unsigned>(IMemory::EException::_eNullPtr));
 	}
 };
 
 class Memory :public IMemory, public BaseObject
 {
 public:
-	static char* s_pMemoryAllocated;
+	static void* s_pMemoryAllocated;
 	static size_t s_sizeThis;
 
-	void* operator new(size_t szThis, char* pMemoryAllocated) {
+	void* operator new(size_t szThis, void* pMemoryAllocated) {
 		s_sizeThis = szThis;
-		s_pMemoryAllocated = pMemoryAllocated;
+		s_pMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(pMemoryAllocated) + szThis);
 		return s_pMemoryAllocated;
 	}
 	void operator delete(void* pObject) {
@@ -146,35 +141,34 @@ public:
 
 private:
 	// attributes
-	PageManager* m_pPageManager;
 	SlotManager* m_pSlotManager;
 
-	size_t m_sizeAllocated;
-	char* m_pAllocated;
+	size_t m_sizeMemoryAllocated;
+	void* m_pMemoryAllocated;
 
 protected:
 	// critical section
 	virtual void Lock() = 0;
 	virtual void UnLock() = 0;
 	virtual void* Malloc(size_t sizeAllocate, const char* pcName) {
-		void* pObject = this->m_pSlotManager->Allocate(sizeAllocate);
+		void* pObject = this->m_pSlotManager->Malloc(sizeAllocate);
 		return pObject;
 	}
 	virtual void Free(void* pObject) {
-		this->m_pSlotManager->Delocate(pObject);
+		this->m_pSlotManager->Free(pObject);
 	}
 
 public:
 	// constructors and destructors
-	Memory(size_t sizeAllovated
+	Memory(size_t sizeMemoryAllocated
 		, int nClassId = _Memory_Id
 		, const char* pClassName = _Memory_Name)
 		: BaseObject(nClassId, pClassName)
-		, m_sizeAllocated(sizeAllovated)
-		, m_pAllocated(s_pMemoryAllocated)
+		, m_sizeMemoryAllocated(sizeMemoryAllocated)
+		, m_pMemoryAllocated(s_pMemoryAllocated)
 	{
-		this->m_pPageManager = new PageManager();
-		this->m_pSlotManager = new SlotManager();
+//		this->m_pPageManager = new PageManager();
+		this->m_pSlotManager = new SlotManager(sizeMemoryAllocated, s_pMemoryAllocated);
 	}
 	virtual ~Memory() 
 	{
@@ -184,11 +178,11 @@ public:
 	virtual void Finalize() {
 	}
 
-	size_t GetSizeAllocated() { return this->m_sizeAllocated; }
-	void SetSizeAllocated(size_t sizeAllocated) { this->m_sizeAllocated = sizeAllocated; }
+	size_t GetSizeAllocated() { return this->m_sizeMemoryAllocated; }
+	void SetSizeAllocated(size_t sizeAllocated) { this->m_sizeMemoryAllocated = sizeAllocated; }
 
-	void* GetPAllocated() { return this->m_pAllocated; }
-	void SetPAllocated(void* pAllocated) { this->m_pAllocated = pAllocated; }
+	void* GetPAllocated() { return this->m_pMemoryAllocated; }
+	void SetPAllocated(void* pAllocated) { this->m_pMemoryAllocated = pAllocated; }
 
 	// methods
 	void* SafeMalloc(size_t szAllocate, const char *pcName = "")
