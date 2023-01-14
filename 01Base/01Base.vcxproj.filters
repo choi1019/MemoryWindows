@@ -77,5 +77,8 @@
     <ClCompile Include="Aspect\Aspect.cpp">
       <Filter>소스 파일\Aspect</Filter>
     </ClCompile>
+    <ClCompile Include="Memory\IMemory.cpp">
+      <Filter>소스 파일\Memory</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

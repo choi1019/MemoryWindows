@@ -32,9 +32,13 @@ public:
 	void Run() {
 		
 		try {
+			size_t szSystemMemory = 1024;
+			IMemory::s_pSystemMemoryAllocated = new char[szSystemMemory];
+
 			size_t szTotalMemory = 10000000;
 			this->m_pMemeoryAllocated = new char[szTotalMemory];
-			Memory* pMemory = new(m_pMemeoryAllocated) PMemory(szTotalMemory);
+
+			Memory* pMemory = new PMemory(szTotalMemory, m_pMemeoryAllocated);
 
 			delete this->m_pMemeoryAllocated;
 		}

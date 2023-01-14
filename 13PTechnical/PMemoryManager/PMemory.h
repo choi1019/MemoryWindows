@@ -21,9 +21,10 @@ protected:
 public:
 	PMemory(
 		size_t szAllocated,
+		void *pMemoryAllocated,
 		int nClassId = _PMemory_Id,
 		const char* pcClassName = _PMemory_Name)
-		: Memory(szAllocated, nClassId, pcClassName)
+		: Memory(szAllocated, pMemoryAllocated, nClassId, pcClassName)
 	{
 		InitializeCriticalSection(&CriticalSection);
 	}
