@@ -7,29 +7,31 @@
 #include "../../../21TestPlatform/TestCase/TestCase.h"
 #include "../../../01Base/Aspect/Exception.h"
 #include "../../../13PTechnical/PMemoryManager/PMemory.h"
+#include "../../../01Base/StdLib/Vector.h"
 
+#define SIZE_ARRARY 10
 class TestMemoryObject : public BaseObject {
 private:
-	size_t m_szArray;
-	int* m_pArray;
+	int m_pArray[SIZE_ARRARY];
+	Vector<int>* m_pVector;
+
 public:
-	TestMemoryObject(size_t szArray) : BaseObject() {
-		this->m_szArray = szArray;
-		this->m_pArray = new int[szArray];
-		for (int i = 0; i < this->m_szArray; i++) {
+	TestMemoryObject() : BaseObject() {
+		this->m_pVector = new("") Vector<int>();
+
+		for (int i = 0; i < SIZE_ARRARY; i++) {
 			this->m_pArray[i] = i;
 		}
 	}
 	virtual ~TestMemoryObject() {
-		delete this->m_pArray;
 	}
 
 	void Show(const char* pcTitle) {
-		LOG_HEADER(pcTitle);
-		for (int i = 0; i < this->m_szArray; i++) {
+		LOG_HEADER("TestMemoryObject::Show", String(sizeof(*this)));
+		for (int i = 0; i < SIZE_ARRARY; i++) {
 			LOG(this->m_pArray[i]);
 		}
-		LOG_FOOTER(pcTitle);
+		LOG_FOOTER("TestMemoryObject");
 	}
 
 };
@@ -67,11 +69,12 @@ public:
 
 			Memory* pMemory = new PMemory(szTotalMemory, m_pMemeoryAllocated);
 			BaseObject::s_pMemory = pMemory;
+			pMemory->Show("");
 
-			pMemory->Show("Main");
-
-			TestMemoryObject* pTestMemoryObject = new("TestObject") TestMemoryObject(10);
+			TestMemoryObject* pTestMemoryObject = new("TestObject") TestMemoryObject();
 			pTestMemoryObject->Show("TestObject");
+
+			pMemory->Show("");
 
 			delete pTestMemoryObject;
 			delete pMemory;

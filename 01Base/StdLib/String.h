@@ -54,21 +54,35 @@ private:
 		this->m_lCharArray[this->m_uLength] = EOS;
 	}
 	inline void IToA(int nValue) {
-		char cArray[MAXLENGTH_STRING + 1];
-		size_t szLength = 0;
-		for (int quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
-			cArray[szLength++] = quotient % 10 + '0';
+		if (nValue == 0) {
+			m_uLength = 1;
+			m_lCharArray[0] = '0';
+			m_lCharArray[1] = EOS;
 		}
-		this->Reverse(cArray, szLength);
+		else {
+			char cArray[MAXLENGTH_STRING + 1];
+			size_t szLength = 0;
+			for (int quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
+				cArray[szLength++] = quotient % 10 + '0';
+			}
+			this->Reverse(cArray, szLength);
+		}
 	}
 
 	inline void IToA(size_t nValue) {
-		char cArray[MAXLENGTH_STRING + 1];
-		size_t szLength = 0;
-		for (size_t quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
-			cArray[szLength++] = quotient % 10 + '0';
+		if (nValue == 0) {
+			m_uLength = 1;
+			m_lCharArray[0] = '0';
+			m_lCharArray[1] = EOS;
 		}
-		this->Reverse(cArray, szLength);
+		else {
+			char cArray[MAXLENGTH_STRING + 1];
+			size_t szLength = 0;
+			for (size_t quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
+				cArray[szLength++] = quotient % 10 + '0';
+			}
+			this->Reverse(cArray, szLength);
+		}
 	}
 
 public:
