@@ -35,10 +35,11 @@ public:
 			size_t szSystemMemory = 1024;
 			IMemory::s_pSystemMemoryAllocated = new char[szSystemMemory];
 
-			size_t szTotalMemory = 10000000;
+			size_t szTotalMemory = 10000;
 			this->m_pMemeoryAllocated = new char[szTotalMemory];
 
 			Memory* pMemory = new PMemory(szTotalMemory, m_pMemeoryAllocated);
+			pMemory->Show("Main");
 
 			delete this->m_pMemeoryAllocated;
 		}

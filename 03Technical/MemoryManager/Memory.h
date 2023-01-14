@@ -1,12 +1,13 @@
 #pragma once
 
 #include "../../01Base/Aspect/Exception.h"
+#include "../../01Base/Aspect/Log.h"
+
 #include "../../01Base/Object/BaseObject.h"
 #include "../../01Base/Memory/IMemory.h"
 
 #include <math.h>
 
-#define SIZE_TOTALMEMORY 10000000
 #define SIZE_PAGE 1024
 
 class Page {
@@ -22,12 +23,14 @@ private:
 	PageIndex* m_pNext;
 
 	size_t m_szPage;
+	size_t m_szMemoryAllocated;
 	void* m_pMemoryAllocated;
 
 
 public:
 	PageIndex(size_t szPage, size_t szMemoryAllocated, void* pMemoryAllocated)
 		: m_szPage(szPage)
+		, m_szMemoryAllocated(szMemoryAllocated)
 		, m_pMemoryAllocated(pMemoryAllocated)
 
 		, m_idxPage(0)
@@ -36,11 +39,31 @@ public:
 		this->m_numPages = szMemoryAllocated / szPage;
 		this->m_pHead = reinterpret_cast<Page *>(pMemoryAllocated);
 		Page* pCurrentPage = this->m_pHead;
-		for (int i = 0; i < m_numPages; i++) {
-			pCurrentPage->pNext = pCurrentPage++;
+		Page* pPreviousPage = this->m_pHead;
+		while (m_szMemoryAllocated > (size_t)pCurrentPage - (size_t)m_pHead) {
+			size_t numPage = ((size_t)pCurrentPage - (size_t)m_pMemoryAllocated) / SIZE_PAGE;
+			pPreviousPage = pCurrentPage;
+			pCurrentPage->pNext = (Page*)((size_t)pCurrentPage + m_szPage);
+			pCurrentPage = pCurrentPage->pNext;
 		}
+		pPreviousPage->pNext = nullptr;
 	}
 	virtual ~PageIndex() {
+	}
+
+	PageIndex* GetPNext() { return this->m_pNext; }
+
+	void Show(const char* pTitle) {
+		Page* pCurrentPage = m_pHead;
+		Page* pPreviousPage = m_pHead;
+		while (pCurrentPage != nullptr) {
+			LOG_HEADER("PageIndex", "Show");
+			size_t numPage = ((size_t)pCurrentPage - (size_t)m_pMemoryAllocated) / SIZE_PAGE;
+			LOG(String(numPage));
+			LOG_FOOTER("PageIndex");
+			pPreviousPage = pCurrentPage;
+			pCurrentPage = pCurrentPage->pNext;
+		}
 	}
 
 };
@@ -63,6 +86,24 @@ public:
 
 		PageIndex* CurrentPageIndex = nullptr;
 		this->m_pHead = new PageIndex(SIZE_PAGE, this->m_szMemoryAllocated, this->m_pMemoryAllocated);
+	}
+
+	Page* Malloc() { 
+		return nullptr; 
+	}
+	void Free(void* pObject) {
+	}
+
+	void Show(const char* pTitle) {
+		PageIndex* pCurrentPageIndex = m_pHead;
+		PageIndex* pPreviousPageIndex = m_pHead;
+		while (pCurrentPageIndex != nullptr) {
+			LOG_HEADER("PageManager");
+			pCurrentPageIndex->Show("");
+			LOG_FOOTER("PageManager");
+			pPreviousPageIndex = pCurrentPageIndex;
+			pCurrentPageIndex = pCurrentPageIndex->GetPNext();
+		}
 	}
 };
 
@@ -101,6 +142,11 @@ public:
 
 	Slot* Malloc() { return nullptr; }
 	void Free(void* pObject) {}
+
+	// maintenance
+	virtual void Show(const char* pTitle) {
+
+	};
 };
 
 class SlotManager : public IMemory {
@@ -168,6 +214,7 @@ public:
 		}
 		return pSlotIndex->Malloc();
 	}
+
 	void Free(void* pObject) {
 		size_t idxPage = reinterpret_cast<size_t>(pObject) >> this->m_szPageExponentOf2;
 		SlotIndex* pSlotIndex = this->m_pHeadSlotIndex;
@@ -180,6 +227,11 @@ public:
 		}
 		throw Exception(static_cast<unsigned>(IMemory::EException::_eNullPtr));
 	}
+
+	// maintenance
+	virtual void Show(const char* pTitle) {
+		this->m_pPageManager->Show("");
+	};
 };
 
 class Memory :public IMemory
@@ -219,12 +271,6 @@ public:
 	virtual void Finalize() {
 	}
 
-//	size_t GetSzAllocated() { return this->m_szMemoryAllocated; }
-//	void SetSzAllocated(size_t sizeAllocated) { this->m_szMemoryAllocated = sizeAllocated; }
-
-//	void* GetPAllocated() { return this->m_pMemoryAllocated; }
-//	void SetPAllocated(void* pAllocated) { this->m_pMemoryAllocated = pAllocated; }
-
 	// methods
 	void* SafeMalloc(size_t szAllocate, const char *pcName = "")
 	{
@@ -240,9 +286,7 @@ public:
 	}
 
 	// maintenance
-	virtual size_t Show(const char* pTitle) { return 0; };
+	virtual void Show(const char* pTitle) { 
+		this->m_pSlotManager->Show("");
+	};
 };
-
-#define SHOW_MEMORYSTATIC(MESSAGE) MemoryStatic::s_pMemoryManager->Show(MESSAGE)
-#define SHOW_MEMORYEVEN(CLASS, MESSAGE) CLASS::s_pMemory->Show(MESSAGE)
-#define SHOW_MEMORYVARIABLE(MESSAGE) BaseObject::s_pMemory->Show(MESSAGE)

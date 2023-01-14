@@ -42,5 +42,5 @@ public:
 	virtual void* SafeMalloc(size_t szAllocate, const char* pcName) { return nullptr;  }
 	virtual void SafeFree(void* pPtr) {}
 
-	virtual size_t Show(const char* pTitle) { return 0; }
+	virtual void Show(const char* pTitle) { }
 };
