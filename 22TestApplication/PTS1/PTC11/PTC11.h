@@ -8,6 +8,32 @@
 #include "../../../01Base/Aspect/Exception.h"
 #include "../../../13PTechnical/PMemoryManager/PMemory.h"
 
+class TestMemoryObject : public BaseObject {
+private:
+	size_t m_szArray;
+	int* m_pArray;
+public:
+	TestMemoryObject(size_t szArray) : BaseObject() {
+		this->m_szArray = szArray;
+		this->m_pArray = new int[szArray];
+		for (int i = 0; i < this->m_szArray; i++) {
+			this->m_pArray[i] = i;
+		}
+	}
+	virtual ~TestMemoryObject() {
+		delete this->m_pArray;
+	}
+
+	void Show(const char* pcTitle) {
+		LOG_HEADER(pcTitle);
+		for (int i = 0; i < this->m_szArray; i++) {
+			LOG(this->m_pArray[i]);
+		}
+		LOG_FOOTER(pcTitle);
+	}
+
+};
+
 class PTC11 : public TestCase {
 private:
 	char* m_pMemeoryAllocated;
@@ -33,15 +59,24 @@ public:
 		
 		try {
 			size_t szSystemMemory = 1024;
-			IMemory::s_pSystemMemoryAllocated = new char[szSystemMemory];
+			char* pSystemMemoryAllocated = new char[szSystemMemory];
+			IMemory::s_pSystemMemoryAllocated = pSystemMemoryAllocated;
 
 			size_t szTotalMemory = 10000;
 			this->m_pMemeoryAllocated = new char[szTotalMemory];
 
 			Memory* pMemory = new PMemory(szTotalMemory, m_pMemeoryAllocated);
+			BaseObject::s_pMemory = pMemory;
+
 			pMemory->Show("Main");
 
-			delete this->m_pMemeoryAllocated;
+			TestMemoryObject* pTestMemoryObject = new("TestObject") TestMemoryObject(10);
+			pTestMemoryObject->Show("TestObject");
+
+			delete pTestMemoryObject;
+			delete pMemory;
+			delete[] this->m_pMemeoryAllocated;
+			delete[] pSystemMemoryAllocated;
 		}
 		catch (Exception& exception) {
 			exception.Println();
