@@ -184,19 +184,22 @@ private:
 	static size_t s_szCount;
 
 	size_t m_index;
+
 	size_t m_szSlot;
+	Page* m_pPage;
+
 	Slot* m_pHead;
 
 	SlotIndex* m_pNext;
-	Page* m_pPage;
 
 public:
 	SlotIndex(size_t szSlot, Page* pPage)
 		: m_pNext(nullptr)
-		, m_pPage(pPage)
 	{
-		this->m_index = s_szCount++;
 		this->m_szSlot = szSlot;
+		this->m_pPage = pPage;
+
+		this->m_index = (size_t)pPage;
 		this->m_pHead = (Slot*)pPage;
 		size_t numSlots = SIZE_PAGE / szSlot;
 
@@ -219,14 +222,18 @@ public:
 
 	Slot* Malloc() { 
 		if (this->m_pHead == nullptr) {
-			// add more page
+			// add more page ///////////////////////////
 			throw Exception((unsigned)IMemory::EException::_eNoMoreSlot);
 		}
 		Slot* pSlot = this->m_pHead;
 		this->m_pHead = this->m_pHead->pNext;
 		return pSlot;
 	}
-	void Free(void* pObject) {}
+	void Free(void* pObject) {
+		Slot* pSlotFree = (Slot*)pObject;
+		pSlotFree->pNext = m_pHead;
+		m_pHead = pSlotFree;
+	}
 
 	// maintenance
 	virtual void Show(const char* pTitle) {
@@ -315,17 +322,23 @@ public:
 	}
 
 	void Free(void* pObject) {
-		size_t idxPage = reinterpret_cast<size_t>(pObject) >> m_szPageExponentOf2;
+		Slot* pSlotFree = (Slot*)pObject;
 		SlotIndex* pSlotIndex = this->m_pHead;
+		SlotIndex* pPreviousSlotIndex = this->m_pHead;
 		while (pSlotIndex != nullptr) {
-			if (pSlotIndex->GetIndex() == idxPage) {
-				pSlotIndex->Free(pObject);
+			// if slotList is arleady generated
+			if (pSlotIndex->GetSzSlot() == szSlot) {
+				return pSlotIndex->Malloc();
+			}
+			// insert new SlotIndex
+			else if (pSlotIndex->GetSzSlot() > szSlot) {
 				break;
 			}
+			pPreviousSlotIndex = pSlotIndex;
 			pSlotIndex = pSlotIndex->GetNext();
 		}
 		throw Exception(static_cast<unsigned>(IMemory::EException::_eNullPtr));
-		
+		*/
 	}
 
 	// maintenance
