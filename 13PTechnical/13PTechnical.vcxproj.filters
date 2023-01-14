@@ -17,12 +17,12 @@
     <ClInclude Include="typedef.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PMemoryManager\PMemoryDynamic.h">
+    <ClInclude Include="PMemoryManager\PMemory.h">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PMemoryManager\PMemoryDynamic.cpp">
+    <ClCompile Include="PMemoryManager\PMemory.cpp">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClCompile>
   </ItemGroup>

@@ -38,9 +38,6 @@
     <ClInclude Include="PTS1\PTC11\Config.h">
       <Filter>소스 파일\PTS1\PTC11</Filter>
     </ClInclude>
-    <ClInclude Include="PTS1\PTC11\TMemoryManager11.h">
-      <Filter>소스 파일\PTS1\PTC11</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PTestMain\PTestMain.cpp">

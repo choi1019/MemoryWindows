@@ -6,8 +6,7 @@
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
 #include "../../../01Base/Aspect/Exception.h"
-#include "../../../03Technical/MemoryManager/Memory.h"
-#include "TMemoryManager11.h"
+#include "../../../13PTechnical/PMemoryManager/PMemory.h"
 
 class PTC11 : public TestCase {
 private:
@@ -33,9 +32,9 @@ public:
 	void Run() {
 		
 		try {
-			size_t szTotalMemory = TMemoryManager11::getMemorySize();
+			size_t szTotalMemory = 10000000;
 			this->m_pMemeoryAllocated = new char[szTotalMemory];
-			Memory::s_pMemoryAllocated = m_pMemeoryAllocated;
+			Memory* pMemory = new(m_pMemeoryAllocated) PMemory(szTotalMemory);
 
 			delete this->m_pMemeoryAllocated;
 		}

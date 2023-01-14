@@ -6,14 +6,109 @@
 
 #include <math.h>
 
+#define SIZE_TOTALMEMORY 10000000
 #define SIZE_PAGE 1024
 
-class Slot {
+class Page {
+public:
+	Page* pNext;
+};
+
+class PageIndex {
+public:
+	void* operator new(size_t szThis, void* s_pMemoryAllocated) {
+
+	}
+	void operator delete(void* pObject) {
+	}
+
 private:
+	static void* s_pMemoryAllocated;
+	static size_t s_sizeThis;
+
+private:
+	size_t m_idxPage;
+	size_t m_szPage;
+	Page* m_pHead;
+	size_t m_numPage;
+	PageIndex* m_pNext;
+
+public:
+	PageIndex(size_t szSlot)
+		: m_idxPage(0)
+		, m_szPage(szSlot)
+		, m_pHead(nullptr)
+		, m_numPage(0)
+		, m_pNext(nullptr)
+	{
+
+	}
+	virtual ~PageIndex() {
+	}
+
+};
+
+class PageManager {
+public:
+	void* operator new(size_t szThis, void* pMemoryAllocated) {
+		// allocated this
+		s_szThis = szThis;
+		s_pMemoryAllocated = pMemoryAllocated;
+		return s_pMemoryAllocated;
+	}
+	void operator delete(void* pObject) {
+		s_pMemoryAllocated = nullptr;
+	}
+private:
+	// total memory
+	static void* s_pMemoryAllocated;
+	static size_t s_szThis;
+
+	// total memory - sizeof (this)
+	size_t m_szMemoryAllocated;
+	void* m_pMemoryAllocated;
+	size_t m_numTotalPages;
+	// page indeces
+	PageIndex* m_pHead;
+
+public:
+	PageManager(size_t szMemoryAllocated) {
+		// subtract sizeof(this)
+		this->m_szMemoryAllocated = szMemoryAllocated; -s_szThis;
+		if (this->m_szMemoryAllocated < SIZE_PAGE) {
+			throw Exception(static_cast<unsigned>(IMemory::EException::_eSlotSizeSmall));
+		}
+		this->m_pMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(s_pMemoryAllocated) + s_szThis);
+		this->m_numTotalPages = m_szMemoryAllocated / SIZE_PAGE;
+
+		PageIndex* CurrentPageIndex = nullptr;
+		for (int i = 0; i < this->m_numTotalPages; i++) {
+			CurrentPageIndex = new(this->m_pMemoryAllocated) PageIndex(SIZE_PAGE);
+		}
+
+		this->m_pHead = nullptr;
+	}
+};
+
+
+class Slot {
+public:
 	Slot* pNext;
 };
 
 class SlotIndex {
+
+public:
+	void* operator new(size_t szThis) {
+
+	}
+	void operator delete(void* pObject) {
+	}
+
+private:
+	static void* s_pMemoryAllocated;
+	static size_t s_sizeThis;
+
 private:
 	size_t m_idxPage;
 	size_t m_szSlot;
@@ -43,7 +138,7 @@ public:
 class SlotManager {
 public:
 	void* operator new(size_t szThis, void* pMemoryAllocated) {
-		s_sizeThis = szThis;
+		s_szThis = szThis;
 		s_pMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(pMemoryAllocated) + szThis);
 		return s_pMemoryAllocated;
 	}
@@ -53,7 +148,7 @@ public:
 
 private:
 	static void* s_pMemoryAllocated;
-	static size_t s_sizeThis;
+	static size_t s_szThis;
 
 	size_t m_szWord;
 	size_t m_szWordExponentOf2;
@@ -72,6 +167,9 @@ public:
 		// PAGE size
 		this->m_szPage = SIZE_PAGE;
 		this->m_szPageExponentOf2 = log2(this->m_szPage);
+
+		this->m_szAllocated = szAllocated;
+		this->m_pMemoryAllocated = s_pMemoryAllocated;
 
 		this->m_pHeadSlotIndex = nullptr;
 	}
@@ -127,7 +225,7 @@ class Memory :public IMemory, public BaseObject
 {
 public:
 	void* operator new(size_t szThis, void* pMemoryAllocated) {
-		s_sizeThis = szThis;
+		s_szThis = szThis;
 		s_pMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(pMemoryAllocated) + szThis);
 		return s_pMemoryAllocated;
 	}
@@ -141,7 +239,7 @@ public:
 
 private:
 	static void* s_pMemoryAllocated;
-	static size_t s_sizeThis; 
+	static size_t s_szThis; 
 
 	// attributes
 	SlotManager* m_pSlotManager;

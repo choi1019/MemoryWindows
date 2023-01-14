@@ -146,7 +146,6 @@
     <ClInclude Include="PTS1\Config.h" />
     <ClInclude Include="PTS1\PTC11\Config.h" />
     <ClInclude Include="PTS1\PTC11\PTC11.h" />
-    <ClInclude Include="PTS1\PTC11\TMemoryManager11.h" />
     <ClInclude Include="PTS1\PTS1.h" />
   </ItemGroup>
   <ItemGroup>
