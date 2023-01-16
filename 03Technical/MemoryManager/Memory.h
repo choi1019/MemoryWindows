@@ -8,8 +8,6 @@
 
 #include <math.h>
 
-#define SIZE_PAGE 1024
-
 class Page {
 public:
 	Page* pNext;
@@ -17,81 +15,23 @@ public:
 
 class PageIndex : public IMemory {
 private:
-	size_t m_index;
-	size_t m_numPages;
-	Page* m_pHead;
+	Page* m_pPage;
 	PageIndex* m_pNext;
-
-	size_t m_szPage;
-	size_t m_szMemoryAllocated;
-	void* m_pMemoryAllocated;
-
-
 public:
-	PageIndex(size_t szPage, size_t szMemoryAllocated, void* pMemoryAllocated)
-		: m_szPage(szPage)
-		, m_szMemoryAllocated(szMemoryAllocated)
-		, m_pMemoryAllocated(pMemoryAllocated)
-
+	PageIndex(Page *pPage)
+		: m_pPage(pPage)
 		, m_pNext(nullptr)
 	{
-		this->m_numPages = szMemoryAllocated / szPage;
-		this->m_pHead = reinterpret_cast<Page*>(pMemoryAllocated);
-		this->m_index = (size_t)m_pHead - szPage;
-
-		Page* pPage = this->m_pHead;
-		Page* pPreviousPage = this->m_pHead;
-		while (m_szMemoryAllocated >= ((size_t)pPage-(size_t)m_pHead+SIZE_PAGE)) {
-			pPreviousPage = pPage;
-			pPage->pNext = (Page*)((size_t)pPage + m_szPage);
-			pPage = pPage->pNext;
-		}
-		pPreviousPage->pNext = nullptr;
 	}
-
 	virtual ~PageIndex() {}
 
-	size_t GetIndex() { return this->m_index; }
-	size_t GetNumPages() { return this->m_numPages; }
+	Page* GetPPage() { return this->m_pPage; }
+	void SetPPage(Page* pPage) { this->m_pPage = pPage; }
 	PageIndex* GetPNext() { return this->m_pNext; }
-
-	Page* Malloc(size_t numPages) {
-		Page* pPage = this->m_pHead;
-		for (int i = 0; i < numPages; i++) {
-			this->m_pHead = this->m_pHead->pNext;
-		}
-		return pPage;
-	}
-	void Free(Page *pPageFree) {
-		if (pPageFree < m_pHead) {
-			pPageFree->pNext = m_pHead;
-			m_pHead = pPageFree;
-		}
-		else {
-			Page* pPage = this->m_pHead;
-			Page* pPreviousPage = this->m_pHead;
-			while (pPage != nullptr) {
-				if (pPageFree > pPage) {
-					break;
-				}
-				pPreviousPage = pPage;
-				pPage = pPage->pNext;
-			}
-			pPageFree->pNext = pPage;
-			pPreviousPage->pNext = pPageFree;
-		}
-	}
+	void SetPNext(PageIndex* pNext) { this->m_pNext = pNext; }
 
 	void Show(const char* pTitle) {
-		Page* pPage = m_pHead;
-		Page* pPreviousPage = m_pHead;
-		LOG_HEADER("PageIndex::show", String((size_t)m_index), String((size_t)m_numPages));
-		while (pPage != nullptr) {
-			size_t numPage = ((size_t)pPage - (size_t)m_pMemoryAllocated) / SIZE_PAGE;
-			LOG(String(numPage), String(" "), String((size_t)pPage));
-			pPreviousPage = pPage;
-			pPage = pPage->pNext;
-		}
+		LOG_HEADER("PageIndex::show", String((size_t)m_pPage), String((size_t)m_pNext));
 		LOG_FOOTER("PageIndex");
 	}
 
@@ -99,28 +39,39 @@ public:
 
 class PageManager : public IMemory {
 private:
+	size_t m_szPage;
 	size_t m_szMemoryAllocated;
 	void* m_pMemoryAllocated;
-	// page indeces
+
+	// pageIndex
 	PageIndex* m_pHead;
 
 public:
-	PageManager(size_t szMemoryAllocated, void *pMemeoryAllocated) {
+	PageManager(size_t szPage, size_t szMemoryAllocated, void *pMemeoryAllocated) {
+		this->m_szPage = szPage;
 		this->m_szMemoryAllocated = szMemoryAllocated;
-		if (this->m_szMemoryAllocated < SIZE_PAGE) {
-			throw Exception(static_cast<unsigned>(IMemory::EException::_eSlotSizeSmall));
+		if (this->m_szMemoryAllocated < m_szPage) {
+			throw Exception(static_cast<unsigned>(IMemory::EException::_eMemoryAllocatedIsSmallerThanAPage));
 		}
 		this->m_pMemoryAllocated = pMemeoryAllocated;
 
-		PageIndex* CurrentPageIndex = nullptr;
-		this->m_pHead = new PageIndex(SIZE_PAGE, this->m_szMemoryAllocated, this->m_pMemoryAllocated);
+		size_t numPages = szMemoryAllocated / szPage;
+		for (int i = 0; i < numPages; i++) {
+			PageIndex pPageIndex = new("") PageIndex((Page*)pMemeoryAllocated);
+			this->m_pHead 
+			pPage->pNext = (Slot*)((size_t)pSlot + m_szSlot);
+			pPreviousSlot = pPage;
+			pPage = pPage->pNext;
+		}
+		pPreviousSlot->pNext = m_pHead;
+		this->m_pHead = (Slot*)pPage;
 	}
 
 	Page* Malloc(size_t szObject) {
 		if (this->m_pHead == nullptr) {
 			throw Exception((unsigned)IMemory::EException::_eNoMoreSlot);
 		}
-		size_t numPages = szObject / SIZE_PAGE + 1;
+		size_t numPages = szObject / m_szPage + 1;
 		PageIndex* pPageIndex = this->m_pHead;
 		PageIndex* pPreviousPageIndex = this->m_pHead;
 		while (pPageIndex != nullptr) {
@@ -158,6 +109,8 @@ public:
 		}
 	}
 
+	size_t GetSzPage() { return this->m_szPage; }
+
 	void Show(const char* pTitle) {
 		PageIndex* pCurrentPageIndex = m_pHead;
 		PageIndex* pPreviousPageIndex = m_pHead;
@@ -184,33 +137,37 @@ private:
 	static size_t s_szCount;
 
 	size_t m_index;
-
 	size_t m_szSlot;
-	Page* m_pPage;
+	PageManager* m_pPageManager;
+	PageIndex* m_pPageIndex;
 
 	Slot* m_pHead;
-
 	SlotIndex* m_pNext;
 
-public:
-	SlotIndex(size_t szSlot, Page* pPage)
-		: m_pNext(nullptr)
-	{
-		this->m_szSlot = szSlot;
-		this->m_pPage = pPage;
-
-		this->m_index = (size_t)pPage;
-		this->m_pHead = (Slot*)pPage;
-		size_t numSlots = SIZE_PAGE / szSlot;
-
-		Slot* pSlot = this->m_pHead;
-		Slot* pPreviousSlot = this->m_pHead;
+	void AddPage(Page* pPage) {
+		size_t numSlots = m_pPageManager->GetSzPage() / this->m_szSlot;
+		Slot* pSlot = (Slot*)pPage;
+		Slot* pPreviousSlot = pSlot;
 		for (int i = 0; i < numSlots; i++) {
 			pSlot->pNext = (Slot*)((size_t)pSlot + m_szSlot);
 			pPreviousSlot = pSlot;
 			pSlot = pSlot->pNext;
 		}
-		pPreviousSlot->pNext = nullptr;
+		pPreviousSlot->pNext = m_pHead;
+		this->m_pHead = (Slot*)pPage;
+	}
+
+public:
+	SlotIndex(size_t szSlot, PageManager* pPagemanager)
+		: m_pNext(nullptr)
+	{
+		this->m_szSlot = szSlot;
+		this->m_pPageManager = pPagemanager;
+		Page* pPage = this->m_pPageManager->Malloc(this->m_szSlot);
+
+		this->m_index = (size_t)pPage >> (size_t)(log2(this->m_pPageManager->GetSzPage()));
+		this->m_pHead = nullptr;
+		this->AddPage(pPage);
 	}
 	virtual ~SlotIndex() {
 	}
@@ -235,10 +192,14 @@ public:
 		m_pHead = pSlotFree;
 	}
 
+	bool Contains(void* pObject) {
+
+	}
+
 	// maintenance
 	virtual void Show(const char* pTitle) {
 
-		LOG_HEADER("SlotIndex::Show", String(m_szSlot), String((unsigned)(SIZE_PAGE/ m_szSlot)), String((size_t)m_pPage));
+		LOG_HEADER("SlotIndex::Show", String(m_szSlot), String((size_t)(m_pPageManager->GetSzPage() / m_szSlot)), String(m_pPageManager->GetSzPage()));
 		Slot* pSlot = this->m_pHead;
 		while (pSlot != nullptr) {
 			LOG("Slot-", (size_t)pSlot);
@@ -258,24 +219,19 @@ private:
 	size_t m_szPage;
 	size_t m_szPageExponentOf2;
 
-	size_t m_szAllocated;
-	void* m_pMemoryAllocated;
 	SlotIndex* m_pHead;
 
 public:
-	SlotManager(size_t szAllocated, void *pMemoryAllocated) {
+	SlotManager(size_t szSlot, PageManager* pPageManager) {
 		// 
-		this->m_pPageManager = new PageManager(szAllocated, pMemoryAllocated);
+		this->m_pPageManager = pPageManager;
 
 		// WORD size
 		this->m_szWord = sizeof(size_t);
 		this->m_szWordExponentOf2 = static_cast<size_t>(log2(static_cast<double>(this->m_szWord)));
 		// PAGE size
-		this->m_szPage = SIZE_PAGE;
+		this->m_szPage = pPageManager->GetSzPage();
 		this->m_szPageExponentOf2 = static_cast<size_t>(log2(static_cast<double>(this->m_szPage)));
-
-		this->m_szAllocated = szAllocated;
-		this->m_pMemoryAllocated = pMemoryAllocated;
 
 		this->m_pHead = nullptr;
 	}
@@ -294,8 +250,7 @@ public:
 
 		SlotIndex* pSlotIndex = this->m_pHead;
 		if (pSlotIndex == nullptr) {
-			Page* newPage = this->m_pPageManager->Malloc(szObject);
-			pSlotIndex = new SlotIndex(szSlot, newPage);
+			pSlotIndex = new SlotIndex(szSlot, m_pPageManager);
 			this->m_pHead = pSlotIndex;
 			return pSlotIndex->Malloc();
 		}
@@ -314,31 +269,21 @@ public:
 		}
 
 		// if slotlist of the size is not generated
-		Page* newPage = this->m_pPageManager->Malloc(szObject);
-		pSlotIndex = new SlotIndex(szSlot, newPage);
+		pSlotIndex = new SlotIndex(szSlot, m_pPageManager);
 		pSlotIndex->SetNext(pPreviousSlotIndex->GetNext());
 		pPreviousSlotIndex->SetNext(pSlotIndex);
 		return pSlotIndex->Malloc();
 	}
 
 	void Free(void* pObject) {
-		Slot* pSlotFree = (Slot*)pObject;
 		SlotIndex* pSlotIndex = this->m_pHead;
-		SlotIndex* pPreviousSlotIndex = this->m_pHead;
 		while (pSlotIndex != nullptr) {
-			// if slotList is arleady generated
-			if (pSlotIndex->GetSzSlot() == szSlot) {
-				return pSlotIndex->Malloc();
+			if (pSlotIndex->Contains(pObject)) {
+				return pSlotIndex->Free(pObject);
 			}
-			// insert new SlotIndex
-			else if (pSlotIndex->GetSzSlot() > szSlot) {
-				break;
-			}
-			pPreviousSlotIndex = pSlotIndex;
 			pSlotIndex = pSlotIndex->GetNext();
 		}
-		throw Exception(static_cast<unsigned>(IMemory::EException::_eNullPtr));
-		*/
+		throw Exception(static_cast<unsigned>(IMemory::EException::_eFree));
 	}
 
 	// maintenance
@@ -355,13 +300,17 @@ public:
 	}
 };
 
+#define SIZE_PAGE 1024
+#define SIZE_SLOT 8
+
 class Memory :public IMemory
 {
-
-protected:
+private:
 	// components
+	PageManager* m_pPageManager;
 	SlotManager* m_pSlotManager;
 
+protected:
 	// critical section
 	virtual void Lock() = 0;
 	virtual void UnLock() = 0;
@@ -379,10 +328,9 @@ public:
 		, void* pMemoryAllocated
 		, int nClassId = _Memory_Id
 		, const char* pClassName = _Memory_Name)
-//		, m_szMemoryAllocated(szMemoryAllocated)
-//		, m_pMemoryAllocated(pMemoryAllocated)
 	{
-		this->m_pSlotManager = new SlotManager(szMemoryAllocated, pMemoryAllocated);
+		this->m_pPageManager = new PageManager(SIZE_PAGE, szMemoryAllocated, pMemoryAllocated);
+		this->m_pSlotManager = new SlotManager(SIZE_SLOT, this->m_pPageManager);
 	}
 	virtual ~Memory() 
 	{
