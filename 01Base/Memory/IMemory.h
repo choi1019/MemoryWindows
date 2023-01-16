@@ -11,6 +11,7 @@ public:
 	{
 		_eBegin = _Memory_Id,
 		_eMemoryAllocatedIsSmallerThanAPage,
+		_eNoMorePage,
 		_eOutOfMemory,
 		_eNoMoreSlot,
 		_eSlotCountZero,
