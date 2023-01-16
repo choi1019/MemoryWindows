@@ -15,6 +15,7 @@
 //template<int MAXLENGTH_STRING = 200>
 class String : public BaseObject {
 private:
+	char hdigit[16] = { '0', '1', '2', '3', '4', '5' , '6', '7', '8' , '9', 'a', 'b' , 'c', 'd', 'e' };
 	char m_lCharArray[MAXLENGTH_STRING + 1];
 	unsigned m_uLength;
 
@@ -63,7 +64,7 @@ private:
 			char cArray[MAXLENGTH_STRING + 1];
 			size_t szLength = 0;
 			for (int quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
-				cArray[szLength++] = quotient % 10 + '0';
+				cArray[szLength++] = hdigit[quotient % 10];
 			}
 			this->Reverse(cArray, szLength);
 		}
@@ -79,7 +80,7 @@ private:
 			char cArray[MAXLENGTH_STRING + 1];
 			size_t szLength = 0;
 			for (size_t quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
-				cArray[szLength++] = quotient % 10 + '0';
+				cArray[szLength++] = hdigit[quotient % 10];
 			}
 			this->Reverse(cArray, szLength);
 		}

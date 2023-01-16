@@ -60,20 +60,18 @@ public:
 	void Run() {
 		
 		try {
-			size_t szSystemMemory = 1024;
+			size_t szSystemMemory = 2048;
 			char* pSystemMemoryAllocated = new char[szSystemMemory];
 			IMemory::s_pSystemMemoryAllocated = pSystemMemoryAllocated;
 
-			size_t szTotalMemory = 10000;
+			size_t szTotalMemory = 2048;
 			this->m_pMemeoryAllocated = new char[szTotalMemory];
 
 			Memory* pMemory = new PMemory(szTotalMemory, m_pMemeoryAllocated);
 			BaseObject::s_pMemory = pMemory;
-			pMemory->Show("");
-
 			TestMemoryObject* pTestMemoryObject = new("TestObject") TestMemoryObject();
-			pTestMemoryObject->Show("TestObject");
 
+			pTestMemoryObject->Show("TestObject");
 			pMemory->Show("");
 
 			delete pTestMemoryObject;
