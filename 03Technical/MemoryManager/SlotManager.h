@@ -122,10 +122,9 @@ public:
 			return pSlot;
 		}
 	}
-	SlotIndex* Free(Slot* pSlotFree) {
-		size_t indexSlot = (size_t)pSlotFree >> (size_t)(log2((double)this->m_pPageManager->GetSzPage()));
+	SlotIndex* Free(Slot* pSlotFree, size_t indexPage) {
 		// found
-		if (indexSlot == this->m_index) {
+		if (indexPage == this->m_index) {
 			// insert pSlotFree to Slot LIst
 			pSlotFree->pNext = m_pHead;
 			m_pHead = pSlotFree;
@@ -137,7 +136,7 @@ public:
 		}
 		// search in the sibling list
 		if (this->m_pSibling != nullptr) {
-			SlotIndex* pGarbage = this->m_pSibling->Free(pSlotFree);
+			SlotIndex* pGarbage = this->m_pSibling->Free(pSlotFree, indexPage);
 			if (pGarbage != nullptr) {
 				this->m_pSibling = pGarbage->GetPSibling();
 				delete pGarbage;
@@ -145,7 +144,7 @@ public:
 		}
 		// search in the next list
 		if (this->m_pNext != nullptr) {
-			SlotIndex* pGarbage = this->m_pNext->Free(pSlotFree);
+			SlotIndex* pGarbage = this->m_pNext->Free(pSlotFree, indexPage);
 			if (pGarbage != nullptr) {
 				this->m_pNext = pGarbage->GetPNext();
 				delete pGarbage;
@@ -156,10 +155,10 @@ public:
 
 	// maintenance
 	virtual void Show(const char* pTitle) {
-		LOG_HEADER("SlotIndex::Show", String(m_szSlot), String((size_t)(m_pPageManager->GetSzPage() / m_szSlot)), String(m_pPageManager->GetSzPage()));
+		LOG_HEADER("SlotIndex::Show", m_szSlot, (size_t)m_numSlots);
 		Slot* pSlot = this->m_pHead;
 		while (pSlot != nullptr) {
-			LOG("Slot-", String(size_t(pSlot)));
+			LOG("Slot-", (size_t)pSlot);
 			pSlot = pSlot->pNext;
 		}
 		LOG_FOOTER("SlotIndex");
@@ -191,6 +190,7 @@ public:
 		this->m_szPageExponentOf2 = static_cast<size_t>(log2(static_cast<double>(this->m_szPage)));
 
 		this->m_pHead = nullptr;
+
 		LOG_HEADER("SlotManager::SlotManager");
 		LOG(m_szWord, m_szWordExponentOf2, m_szPage, m_szPageExponentOf2);
 		LOG_FOOTER("SlotManager");
@@ -220,71 +220,17 @@ public:
 		}
 
 		Slot* pSlot = this->m_pHead->Malloc(szObject, nullptr);
-		LOG_FOOTER("SlotManager3", (size_t)pSlot);
+		LOG_FOOTER("SlotManager2", (size_t)pSlot);
 		return pSlot;
-
-		/*
-		// find SlotIndex to insert
-		SlotIndex* pSlotIndexToInsert = this->m_pHead;
-		while (pSlotIndex != nullptr) {
-			// if the slotIndex is arleady in the list
-			if (pSlotIndex->GetSzSlot() == szSlot) {
-				Slot* pSlot = pSlotIndex->Malloc();
-				LOG_FOOTER("SlotManager2", (size_t)pSlot);
-				return pSlot;
-			}
-			// insert new SlotIndex
-			else if (pSlotIndex->GetSzSlot() > szSlot) {
-				break;
-			}
-			pSlotIndexToInsert = pSlotIndex;
-			pSlotIndex = pSlotIndex->GetPNext();
-		}
-		// if slotlist of the size is not generated
-
-		// insert new SlotIndex
-		pSlotIndex = new SlotIndex(m_pPageManager, szSlot);
-		pSlotIndex->SetPNext(pSlotIndexToInsert->GetPNext());
-		pSlotIndexToInsert->SetPNext(pSlotIndex);
-
-		Slot* pSlot = pSlotIndex->Malloc();
-		*/
 	}
 
-	void Free(void *pObject) {
-		SlotIndex *pGarbage = this->m_pHead->Free((Slot*)pObject);
+	void Free(void* pObject) {
+		size_t indexPage = (size_t)pObject >> (size_t)(log2((double)this->m_pPageManager->GetSzPage()));
+		SlotIndex* pGarbage = this->m_pHead->Free((Slot*)pObject, indexPage);
 		if (pGarbage != nullptr) {
 			this->m_pHead = pGarbage->GetPNext();
 			delete pGarbage;
 		}
-		/*
-		Slot* pSlotToFree = (Slot *)pObject;
-		SlotIndex* pSlotIndex = this->m_pHead;
-		SlotIndex* pPreviousSlotIndex = this->m_pHead;
-		while (pSlotIndex != nullptr) {
-			SlotIndex* pTargetSlotIndex = pSlotIndex->Contains(pSlotToFree);
-			// if pObject is contained in pTargetSlotIndex
-			if (pTargetSlotIndex != nullptr) {
-				// if pTargetSlotIndex is not garbage
-				if (pTargetSlotIndex->Free(pSlotToFree)) {
-					return;
-				}
-				// if pTargetSlotIndex is garbage
-				else {
-					SlotIndex* pNewSlotIndex = pSlotIndex->RemoveFromSiblingList(pTargetSlotIndex);
-					if (pNewSlotIndex == nullptr) {
-
-					} else {
-
-					}
-					delete pTargetSlotIndex;
-				}
-			}
-			pPreviousSlotIndex = pSlotIndex;
-			pSlotIndex = pSlotIndex->GetNext();
-		}
-		throw Exception(static_cast<unsigned>(IMemory::EException::_eFree));
-		*/
 	}
 
 	// maintenance

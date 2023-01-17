@@ -30,7 +30,11 @@ public:
 	void SetNumPages(size_t numPages) { this->m_numPages = numPages; }
 
 	void Show(const char* pTitle) {
-		LOG("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext);
+		size_t pNextPage = 0;
+		if (m_pNext != nullptr) {
+			pNextPage = (size_t)m_pNext->GetPPage();
+		}
+		LOG("PageIndex::show", (size_t)m_pPage, pNextPage);
 	}
 
 };
@@ -102,7 +106,8 @@ public:
 				}
 				pLastPageIndex->SetPNext(nullptr);
 				pPageIndexAllocated->SetNumPages(numPagesAllocated);
-				LOG_FOOTER("PageManager::Malloc", (size_t)pPageIndexAllocated, pPageIndexAllocated->GetNumPages());
+				LOG_FOOTER("PageManager::Malloc", 
+					(size_t)pPageIndexAllocated->GetPPage(), pPageIndexAllocated->GetNumPages());
 				return pPageIndexAllocated;
 			}
 
@@ -130,28 +135,34 @@ public:
 			this->m_pHead = pPageIndexFree;
 			return;
 		}
-		// find a position to free pages
-		PageIndex* pPageIndex = m_pHead;
-		PageIndex* pPositionToFree = pPageIndex;
-		while (pPageIndex != nullptr) {
-			if (pPageIndex->GetPPage() > pPageIndexFree->GetPPage()) {
-				break;
-			}
-			pPositionToFree = pPageIndex;
-			pPageIndex = pPageIndex->GetPNext();
-		}
-
 		// find a last PageIndex from "pPageIndexFree"
-		pPageIndex = pPageIndexFree;
+		PageIndex* pPageIndex = pPageIndexFree;
 		PageIndex* pLastPageIndex = pPageIndex;
 		while (pPageIndex != nullptr) {
 			pLastPageIndex = pPageIndex;
 			pPageIndex = pPageIndex->GetPNext();
 		}
 
-		// insert "pPageIndexFree" to "pPositionToFree"
-		pLastPageIndex->SetPNext(pPositionToFree->GetPNext());
-		pPositionToFree->SetPNext(pPageIndexFree);
+		// find a position to free pages
+		if (m_pHead->GetPPage() > pPageIndexFree->GetPPage()) {
+			// insert "pPageIndexFree" to "pPositionToFree"
+			pLastPageIndex->SetPNext(m_pHead);
+			m_pHead = pPageIndexFree;
+		}
+		else {
+			pPageIndex = m_pHead;
+			PageIndex* pPositionToFree = pPageIndex;
+			while (pPageIndex != nullptr) {
+				if (pPageIndex->GetPPage() > pPageIndexFree->GetPPage()) {
+					break;
+				}
+				pPositionToFree = pPageIndex;
+				pPageIndex = pPageIndex->GetPNext();
+			}
+			// insert "pPageIndexFree" to "pPositionToFree"
+			pLastPageIndex->SetPNext(pPositionToFree->GetPNext());
+			pPositionToFree->SetPNext(pPageIndexFree);
+		}
 		this->m_numPages += pPageIndexFree->GetNumPages();
 	}
 
