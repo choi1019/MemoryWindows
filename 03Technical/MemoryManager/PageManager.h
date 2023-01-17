@@ -30,8 +30,7 @@ public:
 	void SetNumPages(size_t numPages) { this->m_numPages = numPages; }
 
 	void Show(const char* pTitle) {
-		LOG_HEADER("PageIndex::show - Free", String((size_t)m_pPage), String((size_t)m_pNext));
-		LOG_FOOTER("PageIndex");
+		LOG("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext);
 	}
 
 };
