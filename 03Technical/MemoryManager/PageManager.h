@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../typedef.h"
 #include "../../01Base/Memory/IMemory.h"
 
 class Page {
@@ -11,10 +12,12 @@ class PageIndex : public IMemory {
 private:
 	Page* m_pPage;
 	PageIndex* m_pNext;
+	size_t m_numPages;
 public:
 	PageIndex(Page *pPage)
 		: m_pPage(pPage)
 		, m_pNext(nullptr)
+		, m_numPages(0)
 	{
 	}
 	virtual ~PageIndex() {}
@@ -23,6 +26,8 @@ public:
 	void SetPPage(Page* pPage) { this->m_pPage = pPage; }
 	PageIndex* GetPNext() { return this->m_pNext; }
 	void SetPNext(PageIndex* pNext) { this->m_pNext = pNext; }
+	size_t GetNumPages() { return this->m_numPages; }
+	void SetNumPages(size_t numPages) { this->m_numPages = numPages; }
 
 	void Show(const char* pTitle) {
 		LOG_HEADER("PageIndex::show - Free", String((size_t)m_pPage), String((size_t)m_pNext));
@@ -33,34 +38,35 @@ public:
 
 class PageManager : public IMemory {
 private:
-	size_t m_szPage;
-	size_t m_numPages;
-	size_t m_szMemoryAllocated;
 	void* m_pMemoryAllocated;
+	size_t m_szMemoryAllocated;
+
+	size_t m_numPages;
+	size_t m_szPage;
 
 	// pageIndex
 	PageIndex* m_pHead;
 
 public:
-	PageManager(size_t szPage, size_t szMemoryAllocated, void *pMemeoryAllocated) {
-		this->m_szPage = szPage;
-		this->m_numPages = szMemoryAllocated / szPage;
+	PageManager(void* pMemeoryAllocated, size_t szMemoryAllocated, size_t szPage) {
+
+		this->m_pMemoryAllocated = pMemeoryAllocated;
 
 		this->m_szMemoryAllocated = szMemoryAllocated;
 		if (this->m_szMemoryAllocated < m_szPage) {
 			throw Exception(static_cast<unsigned>(IMemory::EException::_eMemoryAllocatedIsSmallerThanAPage));
 		}
+		this->m_szPage = szPage;
+		this->m_numPages = szMemoryAllocated / szPage;
 
-
-		this->m_pMemoryAllocated = pMemeoryAllocated;
 		for (int i = 0; i < m_numPages; i++) {
+			// allocate pages in reverse order
 			PageIndex* pPageIndex = new PageIndex((Page*)((size_t)(pMemeoryAllocated)+(m_szPage*(m_numPages -1 - i))));
 			pPageIndex->SetPNext(this->m_pHead);
 			this->m_pHead = pPageIndex;
 		}
 
-
-		LOG_HEADER("PageManager::PageManager", m_numPages, m_szPage, szMemoryAllocated);
+		LOG_HEADER("PageManager::PageManager", szMemoryAllocated, m_numPages, m_szPage);
 		PageIndex* pPageIndex = this->m_pHead;
 		while (pPageIndex != nullptr) {
 			LOG("Page", (size_t)pPageIndex->GetPPage());
@@ -70,36 +76,41 @@ public:
 	}
 
 	PageIndex* Malloc(size_t numPagesAllocated) {
-			// find available pages
-		m_numPages -= numPagesAllocated;
+		this->m_numPages -= numPagesAllocated;
 
-		// start page
+		// a page before the target page
 		PageIndex* pStartPageIndex = this->m_pHead;
-		PageIndex* pPageIndex = this->m_pHead;
+		// the last target page
 		PageIndex* pLastPageIndex = this->m_pHead;
+		// look ahead pointer usually after the LastPageIndex
+		PageIndex* pPageIndex = this->m_pHead;
 
 		LOG_HEADER("PageManager::Malloc", numPagesAllocated, m_numPages);
 
 		size_t count = 0;
 		while (pLastPageIndex != nullptr) {
+			// if found
 			if (count == numPagesAllocated) {
 				PageIndex* pPageIndexAllocated = nullptr;
+				// if the target pages at the m_pHead
 				if (pStartPageIndex == m_pHead) {
 					pPageIndexAllocated = this->m_pHead;
 					this->m_pHead = pLastPageIndex->GetPNext();
+				// if the target pages in the middle
 				} else {
 					pPageIndexAllocated = pStartPageIndex->GetPNext();
 					pStartPageIndex->SetPNext(pLastPageIndex->GetPNext());
 				}
 				pLastPageIndex->SetPNext(nullptr);
-				LOG_FOOTER("PageManager::Malloc", (size_t)pPageIndexAllocated);
+				pPageIndexAllocated->SetNumPages(numPagesAllocated);
+				LOG_FOOTER("PageManager::Malloc", (size_t)pPageIndexAllocated, pPageIndexAllocated->GetNumPages());
 				return pPageIndexAllocated;
 			}
 
 			// at least two or more PageIndexs
 			if (pPageIndex != m_pHead && pPageIndex != nullptr) {
 				// if pages are not consecutive, reset count
-				if ((size_t)(pLastPageIndex->GetPPage()) + m_szPage != (size_t)(pPageIndex->GetPPage())) {
+				if ((size_t)(pLastPageIndex->GetPPage()) + m_szPage != (size_t)(pPageIndex->GetNumPages())) {
 					count = 0;
 					PageIndex* pStartPageIndex = pLastPageIndex;
 				}
@@ -112,12 +123,13 @@ public:
 		}
 
 		// allocated Pages
-		throw Exception();
+		throw Exception((unsigned)IMemory::EException::_eNoMorePage);
 	}
 
 	void Free(PageIndex* pPageIndexFree) {
 		if (m_pHead == nullptr) {
 			this->m_pHead = pPageIndexFree;
+			return;
 		}
 		// find a position to free pages
 		PageIndex* pPageIndex = m_pHead;
@@ -139,8 +151,9 @@ public:
 		}
 
 		// insert "pPageIndexFree" to "pPositionToFree"
-		pPositionToFree->SetPNext(pPageIndexFree);
 		pLastPageIndex->SetPNext(pPositionToFree->GetPNext());
+		pPositionToFree->SetPNext(pPageIndexFree);
+		this->m_numPages += pPageIndexFree->GetNumPages();
 	}
 
 	size_t GetSzPage() { return this->m_szPage; }

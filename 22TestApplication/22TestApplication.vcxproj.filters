@@ -38,13 +38,13 @@
     <ClInclude Include="PTS1\PTC11\Config.h">
       <Filter>소스 파일\PTS1\PTC11</Filter>
     </ClInclude>
+    <ClInclude Include="PTS1\PTC11\DomainObject.h">
+      <Filter>소스 파일\PTS1\PTC11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PTestMain\PTestMain.cpp">
       <Filter>소스 파일\PTestMain</Filter>
-    </ClCompile>
-    <ClCompile Include="PTS1\PTC11\PTC11.cpp">
-      <Filter>소스 파일\PTS1\PTC11</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

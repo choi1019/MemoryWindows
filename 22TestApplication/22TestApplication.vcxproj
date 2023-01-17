@@ -146,11 +146,11 @@
     <ClInclude Include="PTS1\Config.h" />
     <ClInclude Include="PTS1\PTC11\Config.h" />
     <ClInclude Include="PTS1\PTC11\PTC11.h" />
+    <ClInclude Include="PTS1\PTC11\DomainObject.h" />
     <ClInclude Include="PTS1\PTS1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PTestMain\PTestMain.cpp" />
-    <ClCompile Include="PTS1\PTC11\PTC11.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\01Base\01Base.vcxproj">

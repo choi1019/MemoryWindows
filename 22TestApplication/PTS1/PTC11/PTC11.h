@@ -5,36 +5,10 @@
 #define _PTC11_NAME "PTC11"
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
-#include "../../../01Base/Aspect/Exception.h"
 #include "../../../13PTechnical/PMemoryManager/PMemory.h"
-#include "../../../01Base/StdLib/Vector.h"
+#include "../../../01Base/Aspect/Exception.h"
 
-#define SIZE_ARRARY 10
-class TestMemoryObject : public BaseObject {
-private:
-	int m_pArray[SIZE_ARRARY];
-	Vector<int>* m_pVector;
-
-public:
-	TestMemoryObject() : BaseObject() {
-		this->m_pVector = new("") Vector<int>();
-
-		for (int i = 0; i < SIZE_ARRARY; i++) {
-			this->m_pArray[i] = i;
-		}
-	}
-	virtual ~TestMemoryObject() {
-	}
-
-	void Show(const char* pcTitle) {
-		LOG_HEADER("TestMemoryObject::Show", String(sizeof(*this)));
-		for (int i = 0; i < SIZE_ARRARY; i++) {
-			LOG(this->m_pArray[i]);
-		}
-		LOG_FOOTER("TestMemoryObject");
-	}
-
-};
+#include "DomainObject.h"
 
 class PTC11 : public TestCase {
 private:
@@ -57,32 +31,30 @@ public:
 		TestCase::Finalize();
 	}
 
-	void Run() {
-		
-		try {
-			size_t szSystemMemory = 2048;
-			char* pSystemMemoryAllocated = new char[szSystemMemory];
-			IMemory::s_pSystemMemoryAllocated = pSystemMemoryAllocated;
+	void Run() {		
+		// system memory allocation
+		size_t szSystemMemory = 2048;
+		char* pSystemMemoryAllocated = new char[szSystemMemory];
+		IMemory::s_pSystemMemoryAllocated = pSystemMemoryAllocated;
 
-			size_t szTotalMemory = 2048;
-			this->m_pMemeoryAllocated = new char[szTotalMemory];
+		// user memory allocation
+		size_t szTotalMemory = 2048;
+		this->m_pMemeoryAllocated = new char[szTotalMemory];
+		Memory* pMemory = new PMemory(m_pMemeoryAllocated, szTotalMemory);
+		BaseObject::s_pMemory = pMemory;
 
-			Memory* pMemory = new PMemory(szTotalMemory, m_pMemeoryAllocated);
-			BaseObject::s_pMemory = pMemory;
-			TestMemoryObject* pTestMemoryObject = new("TestObject") TestMemoryObject();
+		// test case
+		DomainObject* pDomainObject = new("DomainObject") DomainObject();
+		pDomainObject->Show("DomainObject");
 
-			pTestMemoryObject->Show("TestObject");
-			pMemory->Show("");
+		// result
+		pMemory->Show("");
+		delete pDomainObject;
+		pMemory->Show("");
+		delete pMemory;
 
-			delete pTestMemoryObject;
-			delete pMemory;
-			delete[] this->m_pMemeoryAllocated;
-			delete[] pSystemMemoryAllocated;
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-		
+		delete[] this->m_pMemeoryAllocated;
+		delete[] pSystemMemoryAllocated;		
 	}
 };
 
