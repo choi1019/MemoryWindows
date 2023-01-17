@@ -47,3 +47,6 @@ public:
 
 	virtual void Show(const char* pTitle) { }
 };
+
+#include "../../01Base/Aspect/Exception.h"
+#include "../../01Base/Aspect/Log.h"

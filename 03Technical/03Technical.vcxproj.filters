@@ -20,6 +20,12 @@
     <ClInclude Include="MemoryManager\Memory.h">
       <Filter>소스 파일\MemoryManager</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManager\PageManager.h">
+      <Filter>소스 파일\MemoryManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager\SlotManager.h">
+      <Filter>소스 파일\MemoryManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MemoryManager\Memory.cpp">

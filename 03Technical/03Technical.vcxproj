@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemoryManager\Memory.h" />
+    <ClInclude Include="MemoryManager\PageManager.h" />
+    <ClInclude Include="MemoryManager\SlotManager.h" />
     <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
