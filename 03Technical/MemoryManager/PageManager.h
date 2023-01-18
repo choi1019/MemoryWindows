@@ -5,7 +5,7 @@
 
 class Page {
 public:
-	Page* pNext;
+//	Page* pNext;
 };
 
 class PageIndex : public IMemory {
@@ -14,11 +14,16 @@ private:
 	PageIndex* m_pNext;
 	size_t m_numPages;
 public:
-	PageIndex(Page *pPage)
-		: m_pPage(pPage)
+	PageIndex(size_t pMemoryAllocated, size_t numPages, size_t szPage)
+		: m_pPage(nullptr)
 		, m_pNext(nullptr)
 		, m_numPages(0)
 	{
+		m_pPage = (Page*)pMemoryAllocated;
+		numPages--;
+		if (numPages > 0) {
+			m_pNext = new PageIndex(pMemoryAllocated + szPage, numPages, szPage);
+		}
 	}
 	virtual ~PageIndex() {}
 
@@ -30,11 +35,13 @@ public:
 	void SetNumPages(size_t numPages) { this->m_numPages = numPages; }
 
 	void Show(const char* pTitle) {
-		size_t pNextPage = 0;
 		if (m_pNext != nullptr) {
-			pNextPage = (size_t)m_pNext->GetPPage();
+			LOG("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext->GetPPage());
+			m_pNext->Show("");
 		}
-		LOG("PageIndex::show", (size_t)m_pPage, pNextPage);
+		else {
+			LOG("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext);
+		}
 	}
 
 };
@@ -61,20 +68,11 @@ public:
 		}
 		this->m_szPage = szPage;
 		this->m_numPages = szMemoryAllocated / szPage;
-
-		for (int i = 0; i < m_numPages; i++) {
-			// allocate pages in reverse order
-			PageIndex* pPageIndex = new PageIndex((Page*)((size_t)(pMemeoryAllocated)+(m_szPage*(m_numPages -1 - i))));
-			pPageIndex->SetPNext(this->m_pHead);
-			this->m_pHead = pPageIndex;
-		}
+		m_pHead = new PageIndex((size_t)pMemeoryAllocated, m_numPages, m_szPage);
 
 		LOG_HEADER("PageManager::PageManager", szMemoryAllocated, m_numPages, m_szPage);
 		PageIndex* pPageIndex = this->m_pHead;
-		while (pPageIndex != nullptr) {
-			LOG("Page", (size_t)pPageIndex->GetPPage());
-			pPageIndex = pPageIndex->GetPNext();
-		}
+		pPageIndex->Show("");
 		LOG_FOOTER("PageManager");
 	}
 
@@ -170,14 +168,8 @@ public:
 	size_t GetNumPages() { return this->m_numPages; }
 
 	void Show(const char* pTitle) {
-		PageIndex* pCurrentPageIndex = m_pHead;
-		PageIndex* pPreviousPageIndex = m_pHead;
 		LOG_HEADER("PageManager::Show", m_szMemoryAllocated, m_szPage, m_numPages);
-		while (pCurrentPageIndex != nullptr) {
-			pCurrentPageIndex->Show("");
-			pPreviousPageIndex = pCurrentPageIndex;
-			pCurrentPageIndex = pCurrentPageIndex->GetPNext();
-		}
+		m_pHead->Show("");
 		LOG_FOOTER("PageManager");
 	}
 };
