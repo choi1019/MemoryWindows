@@ -3,8 +3,6 @@
 #include "../typedef.h"
 #include "../../01Base/Memory/IMemory.h"
 
-#include <math.h>
-
 class Slot {
 public:
 	Slot* pNext;
@@ -27,35 +25,33 @@ private:
 	bool m_bGarbage;
 
 	void GenerateSlots(PageManager* pPagemanager, size_t szSlot) {
+
+		LOG_HEADER("SlotIndex::GenerateSlots(size)", szSlot);
+
 		// check if szSlot is bigger than szPage
 		size_t szPage = pPagemanager->GetSzPage();
 		size_t numPagesAllocated = szSlot / szPage;
 		if (szSlot > numPagesAllocated * szPage) {
 			numPagesAllocated++;
 		}
-
-		PageIndex* pPageIndex = pPagemanager->Malloc(numPagesAllocated);
-		this->m_pPageIndex = pPageIndex;
+		this->m_pPageIndex = pPagemanager->Malloc(numPagesAllocated);
 		Page* pPage = this->m_pPageIndex->GetPPage();
-		this->m_index = ((size_t)pPage >> (size_t)log2((double)szPage));
+		this->m_index = this->m_pPageIndex->GetIndex();
 
 		this->m_numMaxSlots = numPagesAllocated * szPage / szSlot;
 		this->m_numSlots = this->m_numMaxSlots;
 
-
 		this->m_pHead = (Slot*)pPage;
 		Slot* pSlot = this->m_pHead;
 		Slot* pPreviousSlot = pSlot;
-
-		LOG_HEADER("SlotIndex::GenerateSlots", numPagesAllocated, szPage);
-		LOG(szSlot, m_numMaxSlots);
 		for (int i = 0; i < m_numMaxSlots; i++) {
-			LOG("Slot-", String(size_t(pSlot)));
+			LOG("Slot-", (size_t)pSlot);
 			pSlot->pNext = (Slot*)((size_t)pSlot + szSlot);
 			pPreviousSlot = pSlot;
 			pSlot = pSlot->pNext;
 		}
 		pPreviousSlot->pNext = nullptr;
+
 		LOG_FOOTER("SlotIndex::GenerateSlots");
 	}
 
@@ -204,11 +200,10 @@ public:
 		this->m_szWord = szWord;
 		// PAGE size
 		this->m_szPage = pPageManager->GetSzPage();
-
 		this->m_pHead = nullptr;
 
-		LOG_HEADER("SlotManager::SlotManager");
-		LOG(m_szWord, m_szPage);
+		LOG_HEADER("SlotManager::SlotManager", (size_t)pPageManager);
+		LOG("szWord, szPage", m_szWord, m_szPage);
 		LOG_FOOTER("SlotManager");
 	}
 	virtual ~SlotManager() {
@@ -226,19 +221,21 @@ public:
 		}
 
 		LOG_HEADER("SlotManager::Malloc", szObject, szSlot);
-		SlotIndex* pSlotIndex = this->m_pHead;
 		// if any SlotIndex is not generated
-		if (pSlotIndex == nullptr) {
-			pSlotIndex = new SlotIndex(m_pPageManager, szSlot);
-			this->m_pHead = pSlotIndex;
-			Slot* pSlot = pSlotIndex->Malloc(szObject, nullptr);
+		if (m_pHead == nullptr) {
+			LOG("m_pHead == nullptr");
+			m_pHead = new SlotIndex(m_pPageManager, szSlot);
+			this->m_pHead = m_pHead;
+			Slot* pSlot = m_pHead->Malloc(szObject, nullptr);
 			LOG_FOOTER("SlotManager1", (size_t)pSlot);
 			return pSlot;
 		}
-
-		Slot* pSlot = this->m_pHead->Malloc(szObject, nullptr);
-		LOG_FOOTER("SlotManager2", (size_t)pSlot);
-		return pSlot;
+		else {
+			LOG("m_pHead != nullptr");
+			Slot* pSlot = this->m_pHead->Malloc(szObject, nullptr);
+			LOG_FOOTER("SlotManager2", (size_t)pSlot);
+			return pSlot;
+		}
 	}
 
 	void Free(void* pObject) {

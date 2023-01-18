@@ -2,6 +2,7 @@
 
 #include "../typedef.h"
 #include "../../01Base/Memory/IMemory.h"
+#include <math.h>
 
 class Page {
 public:
@@ -10,6 +11,7 @@ public:
 
 class PageIndex : public IMemory {
 private:
+	size_t m_index;
 	Page* m_pPage;
 	PageIndex* m_pNext;
 	size_t m_numPages;
@@ -20,6 +22,10 @@ public:
 		, m_numPages(0)
 	{
 		m_pPage = (Page*)pMemoryAllocated;
+		this->m_index = ((size_t)m_pPage >> (size_t)log2((double)szPage));
+
+		LOG("PageIndex::PageIndex-", m_index, (size_t)m_pPage, numPages);
+
 		numPages--;
 		if (numPages > 0) {
 			m_pNext = new PageIndex(pMemoryAllocated + szPage, numPages, szPage);
@@ -27,6 +33,7 @@ public:
 	}
 	virtual ~PageIndex() {}
 
+	size_t GetIndex() { return this->m_index; }
 	Page* GetPPage() { return this->m_pPage; }
 	void SetPPage(Page* pPage) { this->m_pPage = pPage; }
 	PageIndex* GetPNext() { return this->m_pNext; }
@@ -60,19 +67,18 @@ private:
 public:
 	PageManager(void* pMemeoryAllocated, size_t szMemoryAllocated, size_t szPage) {
 
-		this->m_pMemoryAllocated = pMemeoryAllocated;
+		LOG_HEADER("PageManager::PageManager", szMemoryAllocated, m_numPages, m_szPage);
 
+		this->m_pMemoryAllocated = pMemeoryAllocated;
 		this->m_szMemoryAllocated = szMemoryAllocated;
 		if (this->m_szMemoryAllocated < m_szPage) {
 			throw Exception(static_cast<unsigned>(IMemory::EException::_eMemoryAllocatedIsSmallerThanAPage));
 		}
 		this->m_szPage = szPage;
 		this->m_numPages = szMemoryAllocated / szPage;
+
 		m_pHead = new PageIndex((size_t)pMemeoryAllocated, m_numPages, m_szPage);
 
-		LOG_HEADER("PageManager::PageManager", szMemoryAllocated, m_numPages, m_szPage);
-		PageIndex* pPageIndex = this->m_pHead;
-		pPageIndex->Show("");
 		LOG_FOOTER("PageManager");
 	}
 
