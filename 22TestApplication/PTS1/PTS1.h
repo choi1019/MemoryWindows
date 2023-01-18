@@ -8,6 +8,7 @@
 
 #include "Config.h"
 #include "PTC11/PTC11.h"
+#include "PTC12/PTC12.h"
 
 class PTS1: public TestSuite {
 public:
@@ -16,7 +17,8 @@ public:
 		const char* pClassName = _PTS1_NAME)
 		: TestSuite(typeId, pClassName)
 	{
-		this->add(new PTC11());
+//		this->add(new PTC11());
+		this->add(new PTC12());
 	}
 };
 

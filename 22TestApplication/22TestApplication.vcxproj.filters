@@ -18,6 +18,9 @@
     <Filter Include="소스 파일\PTS1\PTC11">
       <UniqueIdentifier>{85f1ee21-2863-4428-8682-91c5e9c28541}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\PTS1\PCT12">
+      <UniqueIdentifier>{8ab8b210-b404-400c-939a-f6cf6832c76f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PTestMain\Config.h">
@@ -40,6 +43,15 @@
     </ClInclude>
     <ClInclude Include="PTS1\PTC11\DomainObject.h">
       <Filter>소스 파일\PTS1\PTC11</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC12\Config.h">
+      <Filter>소스 파일\PTS1\PCT12</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC12\DomainObject.h">
+      <Filter>소스 파일\PTS1\PCT12</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC12\PTC12.h">
+      <Filter>소스 파일\PTS1\PCT12</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

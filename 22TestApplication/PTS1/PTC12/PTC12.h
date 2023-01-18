@@ -5,16 +5,10 @@
 #define _PTC12_NAME "PTC12"
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
-#include "TMemoryManager12.h"
+#include "../../../13PTechnical/PMemoryManager/PMemory.h"
+#include "../../../01Base/Aspect/Exception.h"
 
-template<int SIZE = 0>
-class TestData {
-private:
-	char data[SIZE];
-public:
-	char* getData() { return this->data; }
-	void setData(char d) { memset(this->data, d, SIZE); };
-};
+#include "DomainObject.h"
 
 class PTC12 : public TestCase {
 private:
@@ -29,29 +23,45 @@ public:
 	}
 	virtual ~PTC12() {
 	}
+
 	void Initialize() {
 		TestCase::Initialize();
-
 	}
-
 	void Finalize() {
 		TestCase::Finalize();
 	}
 
-	void Run() {
-		try {
-			size_t szTotalMemory = TMemoryManager12::getMemorySize();
-			this->m_pMemeoryAllocated = new char[szTotalMemory];
-				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager12(szTotalMemory);
-					Memory::s_pMemoryManager->Initialize();
-					Memory::s_pMemoryManager->Show("PTC12::TMemoryManager12");
-					Memory::s_pMemoryManager->Finalize();
-				delete Memory::s_pMemoryManager;
-			delete this->m_pMemeoryAllocated;
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-			
+	void Run() {		
+		// system memory allocation
+		size_t szSystemMemory = 2048;
+		char* pSystemMemoryAllocated = new char[szSystemMemory];
+		IMemory::s_pSystemMemoryAllocated = pSystemMemoryAllocated;
+
+		// user memory allocation
+		size_t szTotalMemory = 2048;
+		this->m_pMemeoryAllocated = new char[szTotalMemory];
+		Memory* pMemory = new PMemory(m_pMemeoryAllocated, szTotalMemory);
+		BaseObject::s_pMemory = pMemory;
+
+		// test case
+		DomainObject12* pDomainObject1 = new("DomainObject1") DomainObject12();
+		pDomainObject1->Run();
+		pMemory->Show("");
+
+		DomainObject12* pDomainObject2 = new("DomainObject2") DomainObject12();
+		pDomainObject2->Run();
+		pMemory->Show("");
+
+		delete pDomainObject1;
+		pMemory->Show("delete pDomainObject1");
+
+		delete pDomainObject2;
+		pMemory->Show("delete pDomainObject2");
+
+		delete pMemory;
+
+		delete[] this->m_pMemeoryAllocated;
+		delete[] pSystemMemoryAllocated;		
 	}
 };
+

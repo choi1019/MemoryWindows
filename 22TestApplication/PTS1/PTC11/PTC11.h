@@ -44,11 +44,10 @@ public:
 		BaseObject::s_pMemory = pMemory;
 
 		// test case
-		DomainObject* pDomainObject = new("DomainObject") DomainObject();
-		pDomainObject->Show("DomainObject");
-
-		// result
+		DomainObject11* pDomainObject = new("DomainObject") DomainObject11();
+		pDomainObject->Run();
 		pMemory->Show("");
+
 		delete pDomainObject;
 		pMemory->Show("");
 		delete pMemory;

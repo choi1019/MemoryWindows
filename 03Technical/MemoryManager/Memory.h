@@ -66,7 +66,7 @@ public:
 
 	// maintenance
 	virtual void Show(const char* pTitle) {
-		LOG_HEADER("Memory::Show");
+		LOG_HEADER("Memory::Show-", pTitle);
 		this->m_pSlotManager->Show("");
 		LOG_FOOTER("Memory");
 	};
