@@ -48,7 +48,7 @@ public:
 	void Show(const char* pcTitle) {
 		LOG_HEADER("Directory", (int)m_eType);
 		for (auto itr : *this) {
-			LOG(itr.first, itr.second);
+			LOG_NEWLINE(itr.first, itr.second);
 		}
 		LOG_FOOTER("Directory", (int)m_eType);
 	}

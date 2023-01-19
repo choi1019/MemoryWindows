@@ -11,7 +11,7 @@ public:
 	Slot* pNext;
 };
 
-class SlotIndex : public SystemMemoryObject {
+class SLotList : public SystemMemoryObject {
 
 private:
 	size_t m_szSlot;
@@ -22,14 +22,14 @@ private:
 
 	PageIndex* m_pPageIndex;
 	Slot* m_pHead;
-	SlotIndex* m_pNext;
-	SlotIndex* m_pSibling;
+	SLotList* m_pNext;
+	SLotList* m_pSibling;
 
 	PageManager* m_pPageManager;
 	bool m_bGarbage;
 
 public:
-	SlotIndex(size_t szSlot)
+	SLotList(size_t szSlot)
 		: m_szSlot(szSlot)
 
 		, m_index(0)
@@ -44,14 +44,14 @@ public:
 		, m_pPageManager(nullptr)
 		, m_bGarbage(false)
 	{
-		LOG_HEADER("SlotIndex::SlotIndex", m_szSlot);
-		LOG_FOOTER("SlotIndex::SlotIndex");
+		LOG_HEADER("SLotList::SLotList", m_szSlot);
+		LOG_FOOTER("SLotList::SLotList");
 	}
-	virtual ~SlotIndex() {
+	virtual ~SLotList() {
 		this->m_pPageManager->Free(this->m_pPageIndex);
 	}
 	virtual void Initialize(PageManager* pPagemanager) {
-		LOG_HEADER("SlotIndex::Initialize(size)", m_szSlot);
+		LOG_HEADER("SLotList::Initialize(size)", m_szSlot);
 
 		this->m_pPageManager = pPagemanager;
 		// check if szSlot is bigger than szPage
@@ -71,39 +71,39 @@ public:
 		Slot* pSlot = this->m_pHead;
 		Slot* pPreviousSlot = pSlot;
 		for (int i = 0; i < m_numSlots; i++) {
-			LOG("Slot-", (size_t)pSlot);
+			LOG_NEWLINE("Slot-", (size_t)pSlot);
 			pSlot->pNext = (Slot*)((size_t)pSlot + m_szSlot);
 			pPreviousSlot = pSlot;
 			pSlot = pSlot->pNext;
 		}
 		pPreviousSlot->pNext = nullptr;
 
-		LOG_FOOTER("SlotIndex::Initialize", m_numSlots);
+		LOG_FOOTER("SLotList::Initialize", m_numSlots);
 	}
 	virtual void Finalize() {
 	}
 
 	PageIndex* GetPPageIndex() { return this->m_pPageIndex; }
 	size_t GetSzSlot() { return this->m_szSlot; }
-	SlotIndex* GetPNext() { return this->m_pNext; }
-	void SetPNext(SlotIndex* pNext) { this->m_pNext = pNext;	}
-	SlotIndex* GetPSibling() { return this->m_pSibling; }
-	void SetPSibling(SlotIndex* pSibling) { this->m_pSibling = pSibling; }
+	SLotList* GetPNext() { return this->m_pNext; }
+	void SetPNext(SLotList* pNext) { this->m_pNext = pNext;	}
+	SLotList* GetPSibling() { return this->m_pSibling; }
+	void SetPSibling(SLotList* pSibling) { this->m_pSibling = pSibling; }
 	bool IsGarbage() { return this->m_bGarbage; }
 
-	Slot* Malloc(size_t szObject, SlotIndex *pPrevious) {
-		// if the Slotindex of the same size is found
-		LOG_HEADER("SlotIndex::Malloc");
+	Slot* Malloc(size_t szObject, SLotList *pPrevious) {
+		// if the SLotList of the same size is found
+		LOG_HEADER("SLotList::Malloc");
 		if (m_szSlot == szObject) {
-			LOG("m_szSlot == szObject", "found");
+			LOG_NEWLINE("m_szSlot == szObject", "found");
 			if (this->m_pHead == nullptr) {
 				if (this->m_pSibling == nullptr) {
-					// generate a new SlotIndex - Sibling
-					this->m_pSibling = new("") SlotIndex(szObject);
+					// generate a new SLotList - Sibling
+					this->m_pSibling = new("") SLotList(szObject);
 					this->m_pSibling->Initialize(m_pPageManager);
 				}
 				Slot* pSlot = this->m_pSibling->Malloc(szObject, nullptr);
-				LOG_FOOTER("SlotIndex::Malloc1", (size_t)pSlot, m_numSlots);
+				LOG_FOOTER("SLotList::Malloc1", (size_t)pSlot, m_numSlots);
 				return pSlot;
 
 			} else {
@@ -111,42 +111,42 @@ public:
 				Slot* pSlot = this->m_pHead;
 				this->m_pHead = this->m_pHead->pNext;
 				this->m_numSlots--;
-				LOG_FOOTER("SlotIndex::Malloc2", (size_t)pSlot, m_numSlots);
+				LOG_FOOTER("SLotList::Malloc2", (size_t)pSlot, m_numSlots);
 				return pSlot;
 			}
 		}
-		// if the slot size of current SlotIndex is less than needed, 
-		// proceed to the next SlotIndex
+		// if the slot size of current SLotList is less than needed, 
+		// proceed to the next SLotList
 		else if (m_szSlot < szObject) {
-			LOG("m_szSlot < szObject", "found");
+			LOG_NEWLINE("m_szSlot < szObject", "found");
 			if (m_pNext == nullptr) {
-				// generate new SlotIndex of the same size - Sibling
-				this->m_pNext = new("") SlotIndex(szObject);
+				// generate new SLotList of the same size - Sibling
+				this->m_pNext = new("") SLotList(szObject);
 				this->m_pNext->Initialize(m_pPageManager);
 			}
 			Slot* pSlot = this->m_pNext->Malloc(szObject, this);
-			LOG_FOOTER("SlotIndex::Malloc3", (size_t)pSlot, m_numSlots);
+			LOG_FOOTER("SLotList::Malloc3", (size_t)pSlot, m_numSlots);
 			return pSlot;
 		}
-		// if the slot size of current SlotIndex is grated than the required size,
-		// generate new SlotIndex
+		// if the slot size of current SLotList is grated than the required size,
+		// generate new SLotList
 		else {
-			LOG("m_szSlot > szObject", "found");
-			SlotIndex* pNewSlotIndex = new("") SlotIndex(m_szSlot);
-			pNewSlotIndex->Initialize(m_pPageManager);
+			LOG_NEWLINE("m_szSlot > szObject", "found");
+			SLotList* pNewSLotList = new("") SLotList(m_szSlot);
+			pNewSLotList->Initialize(m_pPageManager);
 
-			pNewSlotIndex->SetPNext(this);
-			pPrevious->SetPNext(pNewSlotIndex);
-			Slot* pSlot = pNewSlotIndex->Malloc(szObject, this);
-			LOG_FOOTER("SlotIndex::Malloc4", (size_t)pSlot, m_numSlots);
+			pNewSLotList->SetPNext(this);
+			pPrevious->SetPNext(pNewSLotList);
+			Slot* pSlot = pNewSLotList->Malloc(szObject, this);
+			LOG_FOOTER("SLotList::Malloc4", (size_t)pSlot, m_numSlots);
 			return pSlot;
 		}
 	}
 	bool Free(Slot* pSlotFree, size_t indexPage) {
 		// found
-		LOG_HEADER("SlotIndex::Free", (size_t)pSlotFree, (size_t)m_pPageIndex->GetPPage());
+		LOG_HEADER("SLotList::Free", (size_t)pSlotFree, (size_t)m_pPageIndex->GetPPage());
 		if (indexPage == this->m_index) {
-			LOG("indexPage == this->m_index");
+			LOG_NEWLINE("indexPage == this->m_index");
 			// insert pSlotFree to Slot LIst
 			pSlotFree->pNext = m_pHead;
 			m_pHead = pSlotFree;
@@ -155,43 +155,43 @@ public:
 				// this is garbage
 				this->m_bGarbage = true;
 			}
-			LOG_FOOTER("SlotIndex::Free1", (size_t)pSlotFree);
+			LOG_FOOTER("SLotList::Free1", (size_t)pSlotFree);
 			return true;
 		}
 		else {
-			LOG("indexPage != this->m_index");
+			LOG_NEWLINE("indexPage != this->m_index");
 			// search in the sibling list
 			if (this->m_pSibling != nullptr) {
-				LOG("this->m_pSibling != nullptr");
+				LOG_NEWLINE("this->m_pSibling != nullptr");
 				bool found = this->m_pSibling->Free(pSlotFree, indexPage);
 				if (found) {
 					if (this->m_pSibling->IsGarbage()) {
-						SlotIndex* pGarbage = this->m_pSibling;
+						SLotList* pGarbage = this->m_pSibling;
 						this->m_pSibling = m_pSibling->GetPSibling();
 						delete pGarbage;
 					}
-					LOG_FOOTER("SlotIndex::Free2", (size_t)pSlotFree);
+					LOG_FOOTER("SLotList::Free2", (size_t)pSlotFree);
 					return false;
 				}
 			}
 			// search in the next list
 			if (this->m_pNext != nullptr) {
-				LOG("this->m_pNext != nullptr");
+				LOG_NEWLINE("this->m_pNext != nullptr");
 				bool found = this->m_pNext->Free(pSlotFree, indexPage);
 				if (found) {
-					LOG("Found");
+					LOG_NEWLINE("Found");
 					if (this->m_pNext->IsGarbage()) {
-						SlotIndex* pGarbage = this->m_pNext;
+						SLotList* pGarbage = this->m_pNext;
 						if (pGarbage->GetPSibling() != nullptr) {
 							pGarbage->GetPSibling()->SetPNext(pGarbage->GetPNext());
 							this->SetPNext(pGarbage->GetPSibling());
 						} else {
 							this->m_pNext = pGarbage->GetPNext();
 						}
-						LOG("this->m_pNext->IsGarbage()", (size_t)pGarbage, (size_t)pGarbage->GetPPageIndex()->GetPPage());
+						LOG_NEWLINE("this->m_pNext->IsGarbage()", (size_t)pGarbage, (size_t)pGarbage->GetPPageIndex()->GetPPage());
 						delete pGarbage;
 					}
-					LOG_FOOTER("SlotIndex::Free3", (size_t)pSlotFree);
+					LOG_FOOTER("SLotList::Free3", (size_t)pSlotFree);
 					return false;
 				}
 			}
@@ -201,13 +201,13 @@ public:
 
 	// maintenance
 	virtual void Show(const char* pTitle) {
-		LOG_HEADER("SlotIndex::Show", pTitle, m_szSlot, (size_t)m_numSlots);
+		LOG_HEADER("SLotList::Show", pTitle, m_szSlot, (size_t)m_numSlots);
 		Slot* pSlot = this->m_pHead;
 		while (pSlot != nullptr) {
-			LOG("Slot-", (size_t)pSlot);
+			LOG_NEWLINE("Slot-", (size_t)pSlot);
 			pSlot = pSlot->pNext;
 		}
-		LOG_FOOTER("SlotIndex::Show", pTitle);
+		LOG_FOOTER("SLotList::Show", pTitle);
 	};
 };
 
@@ -219,7 +219,7 @@ private:
 	size_t m_szWord;
 	size_t m_szPage;
 
-	SlotIndex* m_pHead;
+	SLotList* m_pHead;
 
 public:
 	SlotManager(size_t szWord) {
@@ -232,7 +232,7 @@ public:
 		this->m_pHead = nullptr;
 		this->m_pPageManager = m_pPageManager;
 
-		LOG("szWord", m_szWord);
+		LOG_NEWLINE("szWord", m_szWord);
 		LOG_FOOTER("SlotManager");
 	}
 	virtual ~SlotManager() {
@@ -260,10 +260,10 @@ public:
 		}
 
 		LOG_HEADER("SlotManager::Malloc", szObject, szSlot);
-		// if any SlotIndex is not generated
+		// if any SLotList is not generated
 		if (m_pHead == nullptr) {
-			LOG("m_pHead == nullptr");
-			m_pHead = new("") SlotIndex(szSlot);
+			LOG_NEWLINE("m_pHead == nullptr");
+			m_pHead = new("") SLotList(szSlot);
 			m_pHead->Initialize(m_pPageManager);
 
 			this->m_pHead = m_pHead;
@@ -272,7 +272,7 @@ public:
 			return pSlot;
 		}
 		else {
-			LOG("m_pHead != nullptr");
+			LOG_NEWLINE("m_pHead != nullptr");
 			Slot* pSlot = this->m_pHead->Malloc(szObject, nullptr);
 			LOG_FOOTER("SlotManager::Malloc2", (size_t)pSlot);
 			return pSlot;
@@ -283,13 +283,13 @@ public:
 		LOG_HEADER("SlotManager::Free", (size_t)pObject);
 		size_t indexPage = (size_t)pObject >> (size_t)(log2((double)this->m_pPageManager->GetSzPage()));
 		bool found = this->m_pHead->Free((Slot*)pObject, indexPage);
-		// if m_pHead is a target SlotIndex
+		// if m_pHead is a target SLotList
 		if (found) {
-			LOG("found");
+			LOG_NEWLINE("found");
 			// if m_pHead is a Garbage
 			if (this->m_pHead->IsGarbage()) {
-				LOG("if (this->m_pHead->IsGarbage())");
-				SlotIndex* pGarbage = this->m_pHead;
+				LOG_NEWLINE("if (this->m_pHead->IsGarbage())");
+				SLotList* pGarbage = this->m_pHead;
 				if (this->m_pHead->GetPSibling() != nullptr) {
 					// promote pSibling and delete pGarbage
 					this->m_pHead = pGarbage->GetPSibling();
@@ -309,15 +309,15 @@ public:
 		this->m_pPageManager->Show("");
 
 		LOG_HEADER("SlotManager::Show");
-		SlotIndex* pSlotIndex = this->m_pHead;
-		while (pSlotIndex != nullptr) {
-			pSlotIndex->Show("Next");
-			SlotIndex *pSiblingSlotIndex = pSlotIndex->GetPSibling();
-			while (pSiblingSlotIndex != nullptr) {
-				pSiblingSlotIndex->Show("Sibling");
-				pSiblingSlotIndex = pSiblingSlotIndex->GetPSibling();
+		SLotList* pSLotList = this->m_pHead;
+		while (pSLotList != nullptr) {
+			pSLotList->Show("Next");
+			SLotList *pSiblingSLotList = pSLotList->GetPSibling();
+			while (pSiblingSLotList != nullptr) {
+				pSiblingSLotList->Show("Sibling");
+				pSiblingSLotList = pSiblingSLotList->GetPSibling();
 			}
-			pSlotIndex = pSlotIndex->GetPNext();
+			pSLotList = pSLotList->GetPNext();
 		}
 		LOG_FOOTER("SlotManager");
 	}

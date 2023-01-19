@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "Config.h"
@@ -23,21 +24,23 @@ public:
 
 	void Initialize() {
 		TestCase::Initialize();
+		LOG_TIME("PTC11");
 	}
 	void Finalize() {
 		TestCase::Finalize();
+		LOG_TIME("PTC11");
 	}
 
 	void Run() {
 		// test case
-		LOG("new DomainObject11");
+		LOG_NEWLINE("new DomainObject11");
 		DomainObject11* pDomainObject = new("DomainObject") DomainObject11();
 		pDomainObject->Initialize();
 		pDomainObject->Run();
 		BaseObject::s_pMemory->Show("");
 
 		pDomainObject->Finalize();
-		LOG("delete DomainObject11");
+		LOG_NEWLINE("delete DomainObject11");
 		delete pDomainObject;
 		BaseObject::s_pMemory->Show("");
 	}

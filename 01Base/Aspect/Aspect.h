@@ -31,7 +31,7 @@ public:
 		printf("%s\n", this->GetTab());
 	}
 	void PrintSeparator() {
-		printf("%s-------------------------------------------------\n", this->GetTab());
+		printf("\n%s-------------------------------------------------", this->GetTab());
 	}
 
 

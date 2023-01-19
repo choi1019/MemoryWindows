@@ -37,7 +37,7 @@ public:
 		, const char* pClassName = _Memory_Name)
 	{
 		LOG_HEADER("Memory::Memory");
-		LOG(szPage, szSlotUnit);
+		LOG_NEWLINE(szPage, szSlotUnit);
 		this->m_pPageManager = new("") PageManager(szMemoryAllocated, szPage);
 		this->m_pSlotManager = new("") SlotManager(szSlotUnit);
 		LOG_FOOTER("Memory");

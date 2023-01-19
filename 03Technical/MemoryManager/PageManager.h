@@ -27,7 +27,7 @@ public:
 		, m_pNext(nullptr)
 	{
 		m_numPages--;
-		LOG("PageIndex::PageIndex-", m_numPages, m_szPage);
+		LOG_NEWLINE("PageIndex::PageIndex-", m_numPages, m_szPage);
 		if (m_numPages > 0) {
 			m_pNext = new("") PageIndex(m_numPages, szPage);
 		}
@@ -38,7 +38,7 @@ public:
 		m_pPage = (Page*)pMemoryAllocated;
 		this->m_index = ((size_t)m_pPage >> (size_t)log2((double)m_szPage));
 
-		LOG("PageIndex::Initialize-", m_numPages, m_index, (size_t)pMemoryAllocated);
+		LOG_NEWLINE("PageIndex::Initialize-", m_numPages, m_index, (size_t)pMemoryAllocated);
 		if (m_numPages > 0) {
 			m_pNext->Initialize((size_t)pMemoryAllocated + m_szPage);
 		}
@@ -56,11 +56,11 @@ public:
 
 	void Show(const char* pTitle) {
 		if (m_pNext != nullptr) {
-			LOG("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext->GetPPage());
+			LOG_NEWLINE("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext->GetPPage());
 			m_pNext->Show("");
 		}
 		else {
-			LOG("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext);
+			LOG_NEWLINE("PageIndex::show", (size_t)m_pPage, (size_t)m_pNext);
 		}
 	}
 

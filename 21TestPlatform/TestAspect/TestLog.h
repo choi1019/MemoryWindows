@@ -49,7 +49,7 @@ public:
 
 	void Println() {
 		printf(
-			"%sTestLog%d %s::%s %s\n"
+			"\n%sTestLog%d %s::%s %s"
 			, this->GetTab()
 			, this->GetLogId()
 			, m_sObject.c_str()
@@ -59,7 +59,7 @@ public:
 		);
 	}
 	void PrintSeparator() {
-		printf("%s-------------------------------------------------\n", this->GetTab());
+		printf("\n%s-------------------------------------------------", this->GetTab());
 	}
 
 public:

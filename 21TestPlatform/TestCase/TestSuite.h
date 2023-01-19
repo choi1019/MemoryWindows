@@ -4,6 +4,8 @@
 #define _TestSuite_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestSuite)
 #define _TestSuite_Name "TestSuite"
 
+#include "../../01Base/Aspect/Exception.h"
+
 #include "TestObject.h"
 #include "TestCase.h"
 #include <vector>

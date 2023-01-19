@@ -22,7 +22,7 @@ public:
 			m_pVector->Add(i);
 		}
 		for (int i = 0; i < m_pVector->Max_size(); i++) {
-			LOG((*m_pVector)[i]);
+			LOG_NEWLINE((*m_pVector)[i]);
 		}		
 		LOG_FOOTER("DomainObject11::Run");
 	}
