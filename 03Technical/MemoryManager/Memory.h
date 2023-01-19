@@ -2,15 +2,12 @@
 
 #include "../typedef.h"
 #include "../../01Base/Memory/IMemory.h"
+#include "SystemMemoryObject.h"
 
 #include "PageManager.h"
 #include "SlotManager.h"
 
-
-#define SIZE_PAGE 256
-#define SIZE_WORD 8
-
-class Memory :public IMemory
+class Memory :public SystemMemoryObject, public IMemory
 {
 private:
 	// components
@@ -21,6 +18,7 @@ protected:
 	// critical section
 	virtual void Lock() = 0;
 	virtual void UnLock() = 0;
+
 	virtual void* Malloc(size_t szObject, const char* pcName) {
 		void* pObject = this->m_pSlotManager->Malloc(szObject);
 		return pObject;
@@ -31,23 +29,33 @@ protected:
 
 public:
 	// constructors and destructors
-	Memory(void* pMemoryAllocated
-		, size_t szMemoryAllocated
+	Memory(size_t szMemoryAllocated
+		, size_t szPage
+		, size_t szSlotUnit
+
 		, int nClassId = _Memory_Id
 		, const char* pClassName = _Memory_Name)
 	{
 		LOG_HEADER("Memory::Memory");
-		LOG((size_t)pMemoryAllocated, szMemoryAllocated, SIZE_PAGE, SIZE_WORD);
-		this->m_pPageManager = new PageManager(pMemoryAllocated, szMemoryAllocated, SIZE_PAGE);
-		this->m_pSlotManager = new SlotManager(this->m_pPageManager, SIZE_WORD);
+		LOG(szPage, szSlotUnit);
+		this->m_pPageManager = new("") PageManager(szMemoryAllocated, szPage);
+		this->m_pSlotManager = new("") SlotManager(szSlotUnit);
 		LOG_FOOTER("Memory");
 	}
 	virtual ~Memory() 
 	{
+		delete this->m_pPageManager;
+		delete this->m_pSlotManager;
 	}
-	virtual void Initialize() {
+	virtual void Initialize(void* pMemeoryAllocated) {
+		SystemMemoryObject::Initialize();
+
+		this->m_pPageManager->Initialize(pMemeoryAllocated);
+		this->m_pSlotManager->Initialize(this->m_pPageManager);
 	}
 	virtual void Finalize() {
+		this->m_pPageManager->Finalize();
+		this->m_pSlotManager->Finalize();
 	}
 
 	// methods

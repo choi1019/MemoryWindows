@@ -11,14 +11,11 @@
 #include "DomainObject.h"
 
 class PTC11 : public TestCase {
-private:
-	char* m_pMemeoryAllocated;
 public:
 	PTC11(
 		int nClassId = _PTC11_ID,
 		const char* pcClassName = _PTC11_NAME)
 		: TestCase(nClassId, pcClassName)
-		, m_pMemeoryAllocated(nullptr)
 	{
 	}
 	virtual ~PTC11() {
@@ -31,29 +28,18 @@ public:
 		TestCase::Finalize();
 	}
 
-	void Run() {		
-		// system memory allocation
-		size_t szSystemMemory = 2048;
-		char* pSystemMemoryAllocated = new char[szSystemMemory];
-		IMemory::s_pSystemMemoryAllocated = pSystemMemoryAllocated;
-
-		// user memory allocation
-		size_t szTotalMemory = 2048;
-		this->m_pMemeoryAllocated = new char[szTotalMemory];
-		Memory* pMemory = new PMemory(m_pMemeoryAllocated, szTotalMemory);
-		BaseObject::s_pMemory = pMemory;
-
+	void Run() {
 		// test case
+		LOG("new DomainObject11");
 		DomainObject11* pDomainObject = new("DomainObject") DomainObject11();
+		pDomainObject->Initialize();
 		pDomainObject->Run();
-		pMemory->Show("");
+		BaseObject::s_pMemory->Show("");
 
+		pDomainObject->Finalize();
+		LOG("delete DomainObject11");
 		delete pDomainObject;
-		pMemory->Show("");
-		delete pMemory;
-
-		delete[] this->m_pMemeoryAllocated;
-		delete[] pSystemMemoryAllocated;		
+		BaseObject::s_pMemory->Show("");
 	}
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../typedef.h"
-#include "../../01Base/Memory/IMemory.h"
+#include "SystemMemoryObject.h"
 #include <math.h>
 
 class Page {
@@ -9,30 +9,43 @@ public:
 //	Page* pNext;
 };
 
-class PageIndex : public IMemory {
+class PageIndex : public SystemMemoryObject {
 private:
+	size_t m_numPages;
+	size_t m_szPage;
+
 	size_t m_index;
 	Page* m_pPage;
 	PageIndex* m_pNext;
-	size_t m_numPages;
 public:
-	PageIndex(size_t pMemoryAllocated, size_t numPages, size_t szPage)
-		: m_pPage(nullptr)
+	PageIndex(size_t numPages, size_t szPage)
+		: m_numPages(numPages)
+		, m_szPage(szPage)
+
+		, m_index(0)
+		, m_pPage(nullptr)
 		, m_pNext(nullptr)
-		, m_numPages(0)
 	{
-		m_pPage = (Page*)pMemoryAllocated;
-		this->m_index = ((size_t)m_pPage >> (size_t)log2((double)szPage));
-
-		LOG("PageIndex::PageIndex-", m_index, (size_t)m_pPage, numPages);
-
-		numPages--;
-		if (numPages > 0) {
-			m_pNext = new PageIndex(pMemoryAllocated + szPage, numPages, szPage);
+		m_numPages--;
+		LOG("PageIndex::PageIndex-", m_numPages, m_szPage);
+		if (m_numPages > 0) {
+			m_pNext = new("") PageIndex(m_numPages, szPage);
 		}
 	}
 	virtual ~PageIndex() {}
 
+	virtual void Initialize(size_t pMemoryAllocated) {
+		m_pPage = (Page*)pMemoryAllocated;
+		this->m_index = ((size_t)m_pPage >> (size_t)log2((double)m_szPage));
+
+		LOG("PageIndex::Initialize-", m_numPages, m_index, (size_t)pMemoryAllocated);
+		if (m_numPages > 0) {
+			m_pNext->Initialize((size_t)pMemoryAllocated + m_szPage);
+		}
+	}
+	virtual void Finalize() {
+
+	}
 	size_t GetIndex() { return this->m_index; }
 	Page* GetPPage() { return this->m_pPage; }
 	void SetPPage(Page* pPage) { this->m_pPage = pPage; }
@@ -53,33 +66,40 @@ public:
 
 };
 
-class PageManager : public IMemory {
+class PageManager : public SystemMemoryObject {
 private:
-	void* m_pMemoryAllocated;
+//	void* m_pMemoryAllocated;
 	size_t m_szMemoryAllocated;
+	size_t m_szPage;
 
 	size_t m_numPages;
-	size_t m_szPage;
 
 	// pageIndex
 	PageIndex* m_pHead;
 
 public:
-	PageManager(void* pMemeoryAllocated, size_t szMemoryAllocated, size_t szPage) {
-
-		LOG_HEADER("PageManager::PageManager", szMemoryAllocated, m_numPages, m_szPage);
-
-		this->m_pMemoryAllocated = pMemeoryAllocated;
+	PageManager(size_t szMemoryAllocated, size_t szPage) {
 		this->m_szMemoryAllocated = szMemoryAllocated;
-		if (this->m_szMemoryAllocated < m_szPage) {
+		this->m_szPage = szPage;
+
+		LOG_HEADER("PageManager::PageManager", m_szPage);
+		if (m_szMemoryAllocated < m_szPage) {
 			throw Exception(static_cast<unsigned>(IMemory::EException::_eMemoryAllocatedIsSmallerThanAPage));
 		}
-		this->m_szPage = szPage;
-		this->m_numPages = szMemoryAllocated / szPage;
-
-		m_pHead = new PageIndex((size_t)pMemeoryAllocated, m_numPages, m_szPage);
+		this->m_numPages = m_szMemoryAllocated / m_szPage;
+		this->m_pHead = new("") PageIndex(m_numPages, m_szPage);
 
 		LOG_FOOTER("PageManager");
+	}
+	virtual ~PageManager() {
+
+	}
+	virtual void Initialize(void* pMemeoryAllocated) {
+		LOG_HEADER("PageManager::Initialize", (size_t)pMemeoryAllocated);
+		this->m_pHead->Initialize((size_t)pMemeoryAllocated);
+		LOG_FOOTER("PageManager::Initialize");
+	}
+	virtual void Finalize() {
 	}
 
 	PageIndex* Malloc(size_t numPagesAllocated) {
@@ -92,7 +112,7 @@ public:
 		// look ahead pointer usually after the LastPageIndex
 		PageIndex* pPageIndex = this->m_pHead;
 
-		LOG_HEADER("PageManager::Malloc", numPagesAllocated, m_numPages);
+		LOG_HEADER("PageManager::Malloc(numPagesAllocated, m_numPages)", numPagesAllocated, m_numPages);
 
 		size_t count = 0;
 		while (pLastPageIndex != nullptr) {
@@ -110,7 +130,7 @@ public:
 				}
 				pLastPageIndex->SetPNext(nullptr);
 				pPageIndexAllocated->SetNumPages(numPagesAllocated);
-				LOG_FOOTER("PageManager::Malloc", 
+				LOG_FOOTER("PageManager::Malloc(", 
 					(size_t)pPageIndexAllocated->GetPPage(), pPageIndexAllocated->GetNumPages());
 				return pPageIndexAllocated;
 			}

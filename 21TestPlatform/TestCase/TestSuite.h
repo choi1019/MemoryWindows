@@ -6,6 +6,7 @@
 
 #include "TestObject.h"
 #include "TestCase.h"
+#include <vector>
 
 class TestSuite : public TestObject
 {
@@ -14,11 +15,10 @@ private:
 	unsigned m_uLength;
 
 protected:
-	TestObject* m_aTestObjects[MAX_TESTCASES];
+	std::vector<TestObject*> m_vPTestObjects;
 
 	void add(TestObject* pTestCase) {
-		this->m_aTestObjects[m_uCurrentIndex++] = pTestCase;
-		this->m_uLength++;
+		this->m_vPTestObjects.push_back(pTestCase);
 	}
 
 public:
@@ -26,19 +26,10 @@ public:
 		: TestObject(nClassId, pClassName)
 		, m_uLength(0)
 		, m_uCurrentIndex(0)
-		, m_aTestObjects()
+//		, m_aTestObjects()
 	{
 	}
 	virtual ~TestSuite() {
-		for (unsigned i = 0; i < this->m_uLength; i++) {
-			try {
-				delete m_aTestObjects[i];
-			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
-		}
-
 	}
 	virtual void Initialize() {
 		TestObject::Initialize();
@@ -47,8 +38,7 @@ public:
 		TestObject::Finalize();
 	}
 	void Run() {
-		for (unsigned i = 0; i < this->m_uLength; i++) {
-			TestObject* pTestCase = m_aTestObjects[i];
+		for (TestObject* pTestCase: m_vPTestObjects) {
 			try {
 				pTestCase->Initialize();
 			}

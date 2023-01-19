@@ -20,11 +20,13 @@ protected:
 
 public:
 	PMemory(
-		void* pMemoryAllocated,
-		size_t szAllocated,
+		size_t szMemoryAllocated,
+		size_t szPage,
+		size_t szSlotUnit,
+
 		int nClassId = _PMemory_Id,
 		const char* pcClassName = _PMemory_Name)
-		: Memory(pMemoryAllocated, szAllocated, nClassId, pcClassName)
+		: Memory(szMemoryAllocated, szPage, szSlotUnit, nClassId, pcClassName)
 	{
 		InitializeCriticalSection(&CriticalSection);
 	}
@@ -32,8 +34,8 @@ public:
 		DeleteCriticalSection(&CriticalSection);
 	}
 
-	virtual void Initialize() {
-		Memory::Initialize();
+	virtual void Initialize(void* pMemeoryAllocated) {
+		Memory::Initialize(pMemeoryAllocated);
 	}
 	virtual void Finalize() {
 		Memory::Finalize();
