@@ -20,12 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemoryManager\Memory.h" />
+    <ClInclude Include="MemoryManager\PageIndex.h" />
+    <ClInclude Include="MemoryManager\SlotList.h" />
     <ClInclude Include="MemoryManager\SystemMemoryObject.h" />
     <ClInclude Include="MemoryManager\PageManager.h" />
     <ClInclude Include="MemoryManager\SlotManager.h" />
     <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="MemoryManager\SlotList.cpp" />
     <ClCompile Include="MemoryManager\SystemMemoryObject.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

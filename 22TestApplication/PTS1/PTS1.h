@@ -34,8 +34,7 @@ public:
 			// system memory allocation
 			size_t szSystemMemory = SIZE_SYSTEM_MEMORY;
 			m_pSystemMemeoryAllocated = new char[szSystemMemory];
-			SystemMemoryObject::s_pSystemMemoryAllocated = m_pSystemMemeoryAllocated;
-			SystemMemoryObject::s_pCurrentSystemMemoryAllocated = m_pSystemMemeoryAllocated;
+			SystemMemoryObject::Allocate(szSystemMemory, m_pSystemMemeoryAllocated);
 
 			// user memory allocation
 			size_t szUserMemory = SIZE_USER_MEMORY;

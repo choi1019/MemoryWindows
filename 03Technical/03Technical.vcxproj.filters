@@ -29,9 +29,18 @@
     <ClInclude Include="MemoryManager\SystemMemoryObject.h">
       <Filter>소스 파일\MemoryManager</Filter>
     </ClInclude>
+    <ClInclude Include="MemoryManager\PageIndex.h">
+      <Filter>소스 파일\MemoryManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager\SlotList.h">
+      <Filter>소스 파일\MemoryManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MemoryManager\SystemMemoryObject.cpp">
+      <Filter>소스 파일\MemoryManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryManager\SlotList.cpp">
       <Filter>소스 파일\MemoryManager</Filter>
     </ClCompile>
   </ItemGroup>

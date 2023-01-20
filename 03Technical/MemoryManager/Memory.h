@@ -54,6 +54,8 @@ public:
 		this->m_pSlotManager->Initialize(this->m_pPageManager);
 	}
 	virtual void Finalize() {
+		SystemMemoryObject::Finalize();
+
 		this->m_pPageManager->Finalize();
 		this->m_pSlotManager->Finalize();
 	}
