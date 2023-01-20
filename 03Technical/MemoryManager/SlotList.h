@@ -3,7 +3,7 @@
 #include "../typedef.h"
 #include "SystemMemoryObject.h"
 
-#include "PageManager.h"
+#include "PageList.h"
 
 class Slot {
 public:
@@ -13,6 +13,7 @@ public:
 class SlotList : public SystemMemoryObject {
 private:
 	static SlotList* s_pFreeSlotList;
+
 public:
 	void* operator new(size_t szThis, const char* sMessage) {
 		void* pNewSlotList = nullptr;
@@ -49,12 +50,13 @@ private:
 	SlotList* m_pNext;
 	SlotList* m_pSibling;
 
-	PageManager* m_pPageManager;
+	PageList* m_pPageList;
 	bool m_bGarbage;
 
 public:
-	SlotList(size_t szSlot)
+	SlotList(size_t szSlot, PageList* pPageList)
 		: m_szSlot(szSlot)
+		, m_pPageList(pPageList)
 
 		, m_index(0)
 		, m_numSlots(0)
@@ -65,26 +67,16 @@ public:
 		, m_pNext(nullptr)
 		, m_pSibling(nullptr)
 
-		, m_pPageManager(nullptr)
 		, m_bGarbage(false)
 	{
-		LOG_HEADER("SlotList::SlotList", m_szSlot);
-		LOG_FOOTER("SlotList::SlotList");
-	}
-	virtual ~SlotList() {
-		this->m_pPageManager->Free(this->m_pPageIndex);
-	}
-	virtual void Initialize(PageManager* pPagemanager) {
-		LOG_HEADER("SlotList::Initialize(size)", m_szSlot);
-
-		this->m_pPageManager = pPagemanager;
+		LOG_HEADER("SlotList::SlotList(m_szSlot, m_pPageList)", m_szSlot, (size_t)m_pPageList);
 		// check if szSlot is bigger than szPage
-		size_t szPage = m_pPageManager->GetSzPage();
+		size_t szPage = m_pPageList->GetSzPage();
 		size_t numPagesAllocated = m_szSlot / szPage;
 		if (m_szSlot > numPagesAllocated * szPage) {
 			numPagesAllocated++;
 		}
-		this->m_pPageIndex = m_pPageManager->Malloc(numPagesAllocated);
+		this->m_pPageIndex = m_pPageList->Malloc(numPagesAllocated);
 		Page* pPage = this->m_pPageIndex->GetPPage();
 		this->m_index = this->m_pPageIndex->GetIndex();
 
@@ -102,7 +94,14 @@ public:
 		}
 		pPreviousSlot->pNext = nullptr;
 
-		LOG_FOOTER("SlotList::Initialize", m_numSlots);
+		LOG_FOOTER("SlotList::SlotList");
+	}
+	virtual ~SlotList() {
+		this->m_pPageList->Free(this->m_pPageIndex);
+	}
+	virtual void Initialize() {
+		LOG_HEADER("SlotList::Initialize(size)");
+		LOG_FOOTER("SlotList::Initialize");
 	}
 	virtual void Finalize() {
 	}
@@ -117,17 +116,16 @@ public:
 
 	Slot* Malloc(size_t szObject, SlotList *pPrevious) {
 		// if the SlotList of the same size is found
-		LOG_HEADER("SlotList::Malloc");
+		LOG_HEADER("SlotList::Malloc(szObject, pPrevious)", szObject, (size_t)pPrevious);
 		if (m_szSlot == szObject) {
 			LOG_NEWLINE("m_szSlot == szObject", "found");
 			if (this->m_pHead == nullptr) {
 				if (this->m_pSibling == nullptr) {
 					// generate a new SlotList - Sibling
-					this->m_pSibling = new("") SlotList(szObject);
-					this->m_pSibling->Initialize(m_pPageManager);
+					this->m_pSibling = new("") SlotList(szObject, m_pPageList);
 				}
 				Slot* pSlot = this->m_pSibling->Malloc(szObject, nullptr);
-				LOG_FOOTER("SlotList::Malloc1", (size_t)pSlot, m_numSlots);
+				LOG_FOOTER("SlotList::Malloc1(pSlot, m_numSlots)", (size_t)pSlot, m_numSlots);
 				return pSlot;
 
 			} else {
@@ -135,7 +133,7 @@ public:
 				Slot* pSlot = this->m_pHead;
 				this->m_pHead = this->m_pHead->pNext;
 				this->m_numSlots--;
-				LOG_FOOTER("SlotList::Malloc2", (size_t)pSlot, m_numSlots);
+				LOG_FOOTER("SlotList::Malloc2(pSlot, m_numSlots)", (size_t)pSlot, m_numSlots);
 				return pSlot;
 			}
 		}
@@ -145,30 +143,28 @@ public:
 			LOG_NEWLINE("m_szSlot < szObject", "found");
 			if (m_pNext == nullptr) {
 				// generate new SlotList of the same size - Sibling
-				this->m_pNext = new("") SlotList(szObject);
-				this->m_pNext->Initialize(m_pPageManager);
+				this->m_pNext = new("") SlotList(szObject, m_pPageList);
 			}
 			Slot* pSlot = this->m_pNext->Malloc(szObject, this);
-			LOG_FOOTER("SlotList::Malloc3", (size_t)pSlot, m_numSlots);
+			LOG_FOOTER("SlotList::Malloc3(pSlot, m_numSlots)", (size_t)pSlot, m_numSlots);
 			return pSlot;
 		}
 		// if the slot size of current SlotList is grated than the required size,
 		// generate new SlotList
 		else {
 			LOG_NEWLINE("m_szSlot > szObject", "found");
-			SlotList* pNewSlotList = new("") SlotList(m_szSlot);
-			pNewSlotList->Initialize(m_pPageManager);
+			SlotList* pNewSlotList = new("") SlotList(m_szSlot, m_pPageList);
 
 			pNewSlotList->SetPNext(this);
 			pPrevious->SetPNext(pNewSlotList);
 			Slot* pSlot = pNewSlotList->Malloc(szObject, this);
-			LOG_FOOTER("SlotList::Malloc4", (size_t)pSlot, m_numSlots);
+			LOG_FOOTER("SlotList::Malloc4(pSlot, m_numSlots)", (size_t)pSlot, m_numSlots);
 			return pSlot;
 		}
 	}
 	bool Free(Slot* pSlotFree, size_t indexPage) {
 		// found
-		LOG_HEADER("SlotList::Free", (size_t)pSlotFree, (size_t)m_pPageIndex->GetPPage());
+		LOG_HEADER("SlotList::Free(pSlotFree, indexPage)", (size_t)pSlotFree, indexPage);
 		if (indexPage == this->m_index) {
 			LOG_NEWLINE("indexPage == this->m_index");
 			// insert pSlotFree to Slot LIst
@@ -179,7 +175,7 @@ public:
 				// this is garbage
 				this->m_bGarbage = true;
 			}
-			LOG_FOOTER("SlotList::Free1", (size_t)pSlotFree);
+			LOG_FOOTER("SlotList::Free1(pSlotFree)", (size_t)pSlotFree);
 			return true;
 		}
 		else {
@@ -194,7 +190,7 @@ public:
 						this->m_pSibling = m_pSibling->GetPSibling();
 						delete pGarbage;
 					}
-					LOG_FOOTER("SlotList::Free2", (size_t)pSlotFree);
+					LOG_FOOTER("SlotList::Free2(pSlotFree)", (size_t)pSlotFree);
 					return false;
 				}
 			}
@@ -215,7 +211,7 @@ public:
 						LOG_NEWLINE("this->m_pNext->IsGarbage()", (size_t)pGarbage, (size_t)pGarbage->GetPPageIndex()->GetPPage());
 						delete pGarbage;
 					}
-					LOG_FOOTER("SlotList::Free3", (size_t)pSlotFree);
+					LOG_FOOTER("SlotList::Free3(pSlotFree)", (size_t)pSlotFree);
 					return false;
 				}
 			}

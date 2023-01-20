@@ -18,7 +18,7 @@ private:
 	Page* m_pPage;
 	PageIndex* m_pNext;
 public:
-	PageIndex(size_t numPages, size_t szPage)
+	PageIndex(size_t pMemoryAllocated, size_t numPages, size_t szPage)
 		: m_numPages(numPages)
 		, m_szPage(szPage)
 
@@ -26,25 +26,21 @@ public:
 		, m_pPage(nullptr)
 		, m_pNext(nullptr)
 	{
-		m_numPages--;
-		LOG_NEWLINE("PageIndex::PageIndex-", m_numPages, m_szPage);
-		if (m_numPages > 0) {
-			// generate PageIndex
-			m_pNext = new("") PageIndex(m_numPages, szPage);
-		}
-	}
-	virtual ~PageIndex() {}
-
-	virtual void Initialize(size_t pMemoryAllocated) {
 		// allocate a m_pPage - User Memory
 		m_pPage = (Page*)pMemoryAllocated;
 		// index as a Page Address
 		this->m_index = ((size_t)m_pPage >> (size_t)log2((double)m_szPage));
+		LOG_NEWLINE("PageIndex::PageIndex-", (size_t)m_pPage, m_numPages, m_szPage);
 
-		LOG_NEWLINE("PageIndex::Initialize-", m_numPages, m_index, (size_t)m_pPage);
-		if (m_pNext != nullptr) {
-			m_pNext->Initialize((size_t)pMemoryAllocated + m_szPage);
+		m_numPages--;
+		if (m_numPages > 0) {
+			// generate PageIndex
+			m_pNext = new("") PageIndex(pMemoryAllocated + szPage, m_numPages, szPage);
 		}
+	}
+	virtual ~PageIndex() {}
+
+	virtual void Initialize() {
 	}
 	virtual void Finalize() {
 	}

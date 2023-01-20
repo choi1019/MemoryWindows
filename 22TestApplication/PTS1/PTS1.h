@@ -33,61 +33,31 @@ public:
 
 			// system memory allocation
 			size_t szSystemMemory = SIZE_SYSTEM_MEMORY;
-			m_pSystemMemeoryAllocated = new char[szSystemMemory];
-			SystemMemoryObject::Allocate(szSystemMemory, m_pSystemMemeoryAllocated);
-
-			// user memory allocation
 			size_t szUserMemory = SIZE_USER_MEMORY;
+
+			m_pSystemMemeoryAllocated = new char[szSystemMemory];
 			m_pUserMemeoryAllocated = new char[szUserMemory];
 
-			m_pMemory = new("") PMemory(szUserMemory, szPage, szSlotUnit);
+			m_pMemory = new(szSystemMemory, m_pSystemMemeoryAllocated) 
+				PMemory(m_pUserMemeoryAllocated, szUserMemory, szPage, szSlotUnit);
 			BaseObject::s_pMemory = m_pMemory;
 
 			this->add(new PTC11());
 			this->add(new PTC12());
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-	}
 
-
-	virtual void Initialize() {
-		try {
-			TestSuite::Initialize();
-			m_pMemory->Initialize(m_pUserMemeoryAllocated);
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-		}
-
-	virtual void Run() {
-		try {
-			TestSuite::Run();
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-
-	}
-	virtual void Finalize() {
-		try {
-			TestSuite::Finalize();
-			m_pMemory->Finalize();
-		}
-		catch (Exception& exception) {
+		} catch (Exception& exception) {
 			exception.Println();
 		}
 	}
 
 	virtual ~PTS1() {
 		try {
+			m_pMemory->Finalize();
+
 			delete m_pMemory;
 			delete m_pUserMemeoryAllocated;
 			delete[] m_pSystemMemeoryAllocated;
-		}
-		catch (Exception& exception) {
+		} catch (Exception& exception) {
 			exception.Println();
 		}
 	}

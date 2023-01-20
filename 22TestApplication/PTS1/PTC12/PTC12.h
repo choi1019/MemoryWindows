@@ -21,13 +21,6 @@ public:
 	virtual ~PTC12() {
 	}
 
-	void Initialize() {
-		TestCase::Initialize();
-	}
-	void Finalize() {
-		TestCase::Finalize();
-	}
-
 	void Run() {		
 		// test case
 		DomainObject12* pDomainObject1 = new("DomainObject1") DomainObject12();

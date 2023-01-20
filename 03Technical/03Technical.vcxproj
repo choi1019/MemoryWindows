@@ -23,8 +23,7 @@
     <ClInclude Include="MemoryManager\PageIndex.h" />
     <ClInclude Include="MemoryManager\SlotList.h" />
     <ClInclude Include="MemoryManager\SystemMemoryObject.h" />
-    <ClInclude Include="MemoryManager\PageManager.h" />
-    <ClInclude Include="MemoryManager\SlotManager.h" />
+    <ClInclude Include="MemoryManager\PageList.h" />
     <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
