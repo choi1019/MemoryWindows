@@ -3,8 +3,10 @@
 #define _BaseObject_Id _GET_CLASS_UID(_ELayer_Base::_eBaseObject)
 #define _BaseObject_Name "BaseObject"
 
+//#include "../../01Base/Aspect/Log.h"
 #include "../../01Base/Object/RootObject.h"
 #include "../../01Base/Memory/IMemory.h"
+#include <stdio.h>
 
 class BaseObject : public RootObject {
 public:
@@ -25,11 +27,13 @@ public:
 	// custom memory manager
 	static IMemory* s_pMemory;
 
-	void* operator new (size_t szThis, const char* pcName) {
-		void* pAllocated = s_pMemory->SafeMalloc(szThis, pcName);
+	void* operator new (size_t szThis, const char* sMessage) {
+		printf("\n@new %s (%zu)\n", sMessage, szThis);
+		void* pAllocated = s_pMemory->SafeMalloc(szThis, sMessage);
 		return pAllocated;
 	}
 	void operator delete(void* pObject) {
+		printf("\n@delete %zu\n", (size_t)pObject);
 		s_pMemory->SafeFree(pObject);
 	}
 	// dummy

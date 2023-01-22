@@ -18,8 +18,11 @@
     <Filter Include="소스 파일\PTS1\PTC11">
       <UniqueIdentifier>{85f1ee21-2863-4428-8682-91c5e9c28541}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\PTS1\PCT12">
+    <Filter Include="소스 파일\PTS1\PTC12">
       <UniqueIdentifier>{8ab8b210-b404-400c-939a-f6cf6832c76f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PTS1\PTC13">
+      <UniqueIdentifier>{6eabb4db-32de-45af-9475-334025a90400}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,17 +44,26 @@
     <ClInclude Include="PTS1\PTC11\Config.h">
       <Filter>소스 파일\PTS1\PTC11</Filter>
     </ClInclude>
-    <ClInclude Include="PTS1\PTC11\DomainObject.h">
+    <ClInclude Include="PTS1\PTC11\DomainObject11.h">
       <Filter>소스 파일\PTS1\PTC11</Filter>
     </ClInclude>
     <ClInclude Include="PTS1\PTC12\Config.h">
-      <Filter>소스 파일\PTS1\PCT12</Filter>
+      <Filter>소스 파일\PTS1\PTC12</Filter>
     </ClInclude>
-    <ClInclude Include="PTS1\PTC12\DomainObject.h">
-      <Filter>소스 파일\PTS1\PCT12</Filter>
+    <ClInclude Include="PTS1\PTC12\DomainObject12.h">
+      <Filter>소스 파일\PTS1\PTC12</Filter>
     </ClInclude>
     <ClInclude Include="PTS1\PTC12\PTC12.h">
-      <Filter>소스 파일\PTS1\PCT12</Filter>
+      <Filter>소스 파일\PTS1\PTC12</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC13\Config.h">
+      <Filter>소스 파일\PTS1\PTC13</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC13\DomainObject13.h">
+      <Filter>소스 파일\PTS1\PTC13</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS1\PTC13\PTC13.h">
+      <Filter>소스 파일\PTS1\PTC13</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

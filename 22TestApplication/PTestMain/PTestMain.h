@@ -19,4 +19,7 @@ public:
 		this->add(new PTS1());
 //		this->add(new PTS2());
 	}
+	~PTestMain() {
+		DeleteTestSuites();
+	}
 };

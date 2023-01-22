@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "Config.h"
@@ -9,40 +8,36 @@
 #include "../../../13PTechnical/PMemoryManager/PMemory.h"
 #include "../../../01Base/Aspect/Exception.h"
 
-#include "DomainObject.h"
+#include "DomainObject11.h"
 
 class PTC11 : public TestCase {
+private:
+	DomainObject11* m_pDomainObject;
+
 public:
 	PTC11(
 		int nClassId = _PTC11_ID,
 		const char* pcClassName = _PTC11_NAME)
 		: TestCase(nClassId, pcClassName)
 	{
+		LOG_NEWLINE("new PTC11::PTC11");
+		this->m_pDomainObject = new("PTC11::DomainObject") DomainObject11();
+		BaseObject::s_pMemory->Show("");
 	}
 	virtual ~PTC11() {
+		delete this->m_pDomainObject;
+		BaseObject::s_pMemory->Show("delete PTC11::m_pDomainObject");
 	}
 
 	void Initialize() {
-		TestCase::Initialize();
-		LOG_TIME("PTC11");
 	}
-	void Finalize() {
-		TestCase::Finalize();
-		LOG_TIME("PTC11");
-	}
-
 	void Run() {
 		// test case
-		LOG_NEWLINE("new DomainObject11");
-		DomainObject11* pDomainObject = new("DomainObject") DomainObject11();
-		pDomainObject->Initialize();
-		pDomainObject->Run();
-		BaseObject::s_pMemory->Show("");
-
-		pDomainObject->Finalize();
-		LOG_NEWLINE("delete DomainObject11");
-		delete pDomainObject;
+		this->m_pDomainObject->Run();
 		BaseObject::s_pMemory->Show("");
 	}
+	void Finalize() {
+	}
+
 };
 

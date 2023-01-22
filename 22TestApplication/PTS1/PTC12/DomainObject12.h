@@ -10,9 +10,10 @@ private:
 
 public:
 	DomainObject12() : BaseObject() {
-		this->m_pVector = new("") Vector<int>();
+		this->m_pVector = new("DomainObject12::m_pVector") Vector<int>();
 	}
 	virtual ~DomainObject12() {
+		LOG_NEWLINE("delete DomainObject12::m_pVector");
 		delete this->m_pVector;
 	}
 
@@ -21,9 +22,6 @@ public:
 		for (int i = 0; i < m_pVector->Max_size(); i++) {
 			m_pVector->Add(i);
 		}
-//		for (int i = 0; i < m_pVector->Max_size(); i++) {
-//			LOG((*m_pVector)[i]);
-//		}		
 		LOG_FOOTER("DomainObject12::Run");
 	}
 };

@@ -17,46 +17,40 @@ private:
 	unsigned m_uLength;
 
 protected:
-	std::vector<TestObject*> m_vPTestObjects;
+	std::vector<TestCase*> m_vPTestCasess;
 
-	void add(TestObject* pTestCase) {
-		this->m_vPTestObjects.push_back(pTestCase);
+	void add(TestCase* pTestCase) {
+		this->m_vPTestCasess.push_back(pTestCase);
 	}
-
+	void DeleteTestCases() {
+		for (TestCase* pTestCase : m_vPTestCasess) {
+			delete pTestCase;
+		}
+	}
 public:
 	TestSuite(int nClassId = _TestSuite_Id, const char* pClassName = _TestSuite_Name)
 		: TestObject(nClassId, pClassName)
 		, m_uLength(0)
 		, m_uCurrentIndex(0)
-//		, m_aTestObjects()
+		, m_vPTestCasess()
 	{
 	}
 	virtual ~TestSuite() {
 	}
-	virtual void Initialize() {
-		TestObject::Initialize();
+	virtual void InitializeSuite() {
 	}
-	virtual void Finalize() {
-		TestObject::Finalize();
+	virtual void FinalizeSuite() {
 	}
-	void Run() {
-		for (TestObject* pTestCase: m_vPTestObjects) {
+	void RunSuite() {
+		for (TestCase* pTestCase: m_vPTestCasess) {
 			try {
+				pTestCase->BeforeInitialize();
 				pTestCase->Initialize();
-			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
-
-			try {
+				pTestCase->BeforeRun();
 				pTestCase->Run();
-			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
-
-			try {
+				pTestCase->AfterRun();
 				pTestCase->Finalize();
+				pTestCase->AfterFinalize();
 			}
 			catch (TestException& exception) {
 				exception.Println();

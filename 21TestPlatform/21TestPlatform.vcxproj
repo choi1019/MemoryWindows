@@ -163,9 +163,6 @@
   <ItemGroup>
     <ClCompile Include="TestAspect\TestException.cpp" />
     <ClCompile Include="TestAspect\TestLog.cpp" />
-    <ClCompile Include="TestCase\TestCase.cpp" />
-    <ClCompile Include="TestCase\TestMain.cpp" />
-    <ClCompile Include="TestCase\TestSuite.cpp" />
     <ClCompile Include="TestObject\TestRoot.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

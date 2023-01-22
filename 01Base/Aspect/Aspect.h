@@ -10,9 +10,6 @@
 
 class Aspect : public RootObject
 {
-protected:
-
-
 public:
 	Aspect(unsigned classId = _Aspect_Id,
 		const char* pClassName = _Aspect_Name)

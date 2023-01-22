@@ -9,11 +9,7 @@
 #include "Config.h"
 #include "PTC11/PTC11.h"
 #include "PTC12/PTC12.h"
-
-#define SIZE_SYSTEM_MEMORY 2048
-#define SIZE_USER_MEMORY 2048
-#define SIZE_PAGE 256
-#define SIZE_SLOT_UNIT 8
+#include "PTC13/PTC13.h"
 
 class PTS1: public TestSuite {
 private:
@@ -26,8 +22,17 @@ public:
 		unsigned typeId = _PTS1_ID,
 		const char* pClassName = _PTS1_NAME)
 		: TestSuite(typeId, pClassName)
+		, m_pMemory(nullptr)
+		, m_pSystemMemeoryAllocated(nullptr)
+		, m_pUserMemeoryAllocated(nullptr)
 	{
+	}
+	virtual ~PTS1() {
+	}
+
+	virtual void InitializeSuite() {
 		try {
+
 			size_t szPage = SIZE_PAGE;
 			size_t szSlotUnit = SIZE_SLOT_UNIT;
 
@@ -38,26 +43,33 @@ public:
 			m_pSystemMemeoryAllocated = new char[szSystemMemory];
 			m_pUserMemeoryAllocated = new char[szUserMemory];
 
-			m_pMemory = new(szSystemMemory, m_pSystemMemeoryAllocated) 
+			m_pMemory = new(szSystemMemory, m_pSystemMemeoryAllocated)
 				PMemory(m_pUserMemeoryAllocated, szUserMemory, szPage, szSlotUnit);
 			BaseObject::s_pMemory = m_pMemory;
+			m_pMemory->Initialize();
+
+			m_pMemory->Show("");
 
 			this->add(new PTC11());
 			this->add(new PTC12());
-
-		} catch (Exception& exception) {
+			this->add(new PTC13());
+		}
+		catch (Exception& exception) {
 			exception.Println();
 		}
 	}
-
-	virtual ~PTS1() {
+	virtual void FinalizeSuite() {
 		try {
+			DeleteTestCases();
+
 			m_pMemory->Finalize();
+			m_pMemory->Show("");
 
 			delete m_pMemory;
 			delete m_pUserMemeoryAllocated;
 			delete[] m_pSystemMemeoryAllocated;
-		} catch (Exception& exception) {
+		}
+		catch (Exception& exception) {
 			exception.Println();
 		}
 	}

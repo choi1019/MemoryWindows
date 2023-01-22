@@ -30,15 +30,10 @@ public:
 	virtual ~TestCase() {}
 
 	virtual void Initialize() {
-		TestObject::Initialize();
 	}
-
 	virtual void Finalize() {
-		TestObject::Finalize();
 	}
-
 	virtual void Run() {
-		TestObject::Run();
 	}
 
 protected:

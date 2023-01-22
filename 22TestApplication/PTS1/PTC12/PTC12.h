@@ -8,34 +8,37 @@
 #include "../../../13PTechnical/PMemoryManager/PMemory.h"
 #include "../../../01Base/Aspect/Exception.h"
 
-#include "DomainObject.h"
+#include "DomainObject12.h"
 
 class PTC12 : public TestCase {
+private:
+	DomainObject12* m_pDomainObject1;
+	DomainObject12* m_pDomainObject2;
 public:
 	PTC12(
 		int nClassId = _PTC12_ID,
 		const char* pcClassName = _PTC12_NAME)
 		: TestCase(nClassId, pcClassName)
+		, m_pDomainObject1(nullptr)
+		, m_pDomainObject2(nullptr)
 	{
+		LOG_NEWLINE("new PTC12::PTC12");
+		m_pDomainObject1 = new("PTC12::DomainObject1") DomainObject12();
+		BaseObject::s_pMemory->Show("");
+		m_pDomainObject2 = new("PTC12::DomainObject2") DomainObject12();
+		BaseObject::s_pMemory->Show("");
 	}
 	virtual ~PTC12() {
+		delete m_pDomainObject1;
+		BaseObject::s_pMemory->Show("delete PTC12::m_pDomainObject1");
+		delete m_pDomainObject2;
+		BaseObject::s_pMemory->Show("delete PTC12::m_pDomainObject2");
 	}
-
-	void Run() {		
+	void Run() {
 		// test case
-		DomainObject12* pDomainObject1 = new("DomainObject1") DomainObject12();
-		pDomainObject1->Run();
+		m_pDomainObject1->Run();
+		m_pDomainObject2->Run();
 		BaseObject::s_pMemory->Show("");
-
-		DomainObject12* pDomainObject2 = new("DomainObject2") DomainObject12();
-		pDomainObject2->Run();
-		BaseObject::s_pMemory->Show("");
-
-		delete pDomainObject1;
-		BaseObject::s_pMemory->Show("delete pDomainObject1");
-
-		delete pDomainObject2;
-		BaseObject::s_pMemory->Show("delete pDomainObject2");
 	}
 };
 

@@ -18,7 +18,7 @@ private:
 	size_t m_szThis;
 
 protected:
-	static size_t s_szThis;
+//	static size_t s_szThis;
 
 public:
 	TestRoot(

@@ -1,5 +1,6 @@
 #pragma once
 #include "../../01Base/Object/BaseObject.h"
+#include "../../01Base/Aspect/Log.h"
 
 class SystemMemoryObject : public BaseObject {
 public:
@@ -9,12 +10,15 @@ public:
 	static void* s_pCurrentSystemMemoryAllocated;
 
 	void* operator new(size_t szThis, const char *sMessage) {
-		s_szSystemMemoryAllocated += szThis;
+		LOG_NEWLINE("@new SystemMemoryObject(sMessage, szThis)", sMessage, szThis);
+
+		s_szSystemMemoryAllocated -= szThis;
 		void* pCurrentSystemMemoryAllocated = s_pCurrentSystemMemoryAllocated;
-		s_pCurrentSystemMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(s_pCurrentSystemMemoryAllocated) + szThis);
+		s_pCurrentSystemMemoryAllocated = (void*)((size_t)s_pCurrentSystemMemoryAllocated + szThis);
 		return pCurrentSystemMemoryAllocated;
 	}
 	void operator delete(void* pObject) {
+		LOG_NEWLINE("@delete SystemMemoryObject(pObject)", (size_t)pObject);
 	}
 	void operator delete(void* pObject, const char* sMessage) {
 	//	s_szSystemMemoryAllocated = 0;

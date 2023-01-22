@@ -10,8 +10,6 @@
 
 class TestObject: public TestRoot
 {
-private:
-
 public:
 	TestObject(
 		int nClassId = _TestObject_Id,
@@ -19,25 +17,33 @@ public:
 		: TestRoot(nClassId, pClassName)
 	{
 	}
-
 	virtual ~TestObject() {}
 
-	virtual void Initialize() {
-		TestRoot::Initialize();
-
+	void BeforeInitialize() {
 		TestLog().PrintSeparator();
-		TestLog(this->GetClassName(), __func__, "시작 합니다").Println();
+		TestLog(this->GetClassName(), "Initialize", "시작 합니다").Println();
 		TestLog::AddTab();
 	}
-
-	virtual void Finalize() {
-		TestLog::RemoveTab();
-		TestLog(this->GetClassName(), __func__, "종료 되었습니다").Println();
-		TestLog().PrintSeparator();
-
-		TestRoot::Finalize();
+	virtual void Initialize() {
 	}
-
-	virtual void Run() {}
+	void BeforeRun() {
+		TestLog().PrintSeparator();
+		TestLog(this->GetClassName(), "Run", "시작 합니다").Println();
+		TestLog::AddTab();
+	}
+	virtual void Run() {
+	}
+	void AfterRun() {
+		TestLog::RemoveTab();
+		TestLog(this->GetClassName(), "Run", "종료 되었습니다").Println();
+		TestLog().PrintSeparator();
+	}
+	virtual void Finalize() {
+	}
+	void AfterFinalize() {
+		TestLog::RemoveTab();
+		TestLog(this->GetClassName(), "Finalize", "종료 되었습니다").Println();
+		TestLog().PrintSeparator();
+	}
 };
 

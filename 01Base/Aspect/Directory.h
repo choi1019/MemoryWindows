@@ -8,7 +8,7 @@
 #include "../../01Base/Aspect/Log.h"
 #undef GetClassName
 
-typedef Map<long long, String> DirectoryMap;
+typedef Map<size_t, String> DirectoryMap;
 class Directory : public DirectoryMap
 {
 public:

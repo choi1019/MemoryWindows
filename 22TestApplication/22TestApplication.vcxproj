@@ -146,10 +146,13 @@
     <ClInclude Include="PTS1\Config.h" />
     <ClInclude Include="PTS1\PTC11\Config.h" />
     <ClInclude Include="PTS1\PTC11\PTC11.h" />
-    <ClInclude Include="PTS1\PTC11\DomainObject.h" />
+    <ClInclude Include="PTS1\PTC11\DomainObject11.h" />
     <ClInclude Include="PTS1\PTC12\Config.h" />
-    <ClInclude Include="PTS1\PTC12\DomainObject.h" />
+    <ClInclude Include="PTS1\PTC12\DomainObject12.h" />
     <ClInclude Include="PTS1\PTC12\PTC12.h" />
+    <ClInclude Include="PTS1\PTC13\Config.h" />
+    <ClInclude Include="PTS1\PTC13\DomainObject13.h" />
+    <ClInclude Include="PTS1\PTC13\PTC13.h" />
     <ClInclude Include="PTS1\PTS1.h" />
   </ItemGroup>
   <ItemGroup>

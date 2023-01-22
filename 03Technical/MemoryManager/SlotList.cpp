@@ -1,3 +1,3 @@
 #include "SlotList.h"
 
-SlotList* SlotList::s_pFreeSlotList = nullptr;
+SlotList* SlotList::s_pSlotListFree = nullptr;

@@ -123,7 +123,6 @@ public:
 		unsigned uLength = computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
-	*/
 	String(time_t tValue) : BaseObject(_String_Id, _String_Name)
 	{
 		char rCharArray[MAXLENGTH_STRING + 1];
@@ -131,6 +130,8 @@ public:
 		unsigned uLength = computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
+	*/
+
 	~String() {}
 	virtual void Initialize() { BaseObject::Initialize(); }
 	virtual void Finalize() { BaseObject::Finalize(); }
