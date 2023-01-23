@@ -9,16 +9,20 @@
 class TestRoot {
 public:
 	// static members
-	void* operator new(size_t szThis) {
-		printf("\n#new TestRoot(%zu)", szThis);
-		return malloc(szThis);
+	void* operator new(size_t szThis, const char* sMessage) {
+		void* pObject = malloc(szThis);
+		printf("\n#new %s(%zu) = %zu", sMessage, szThis, (size_t)pObject);
+		return pObject;
 	}
 	void operator delete(void* pObject) {
 		printf("\n#delete (%zu)", (size_t)pObject);
 		free(pObject);
 	}
-	void operator delete(void* pObject, const size_t szSystemMemory, void* pSystemMemory) {
+	void operator delete(void* pObject, const char* sMessage) {
+		printf("\n#delete %s(%zu)", sMessage,(size_t)pObject);
+		free(pObject);
 	}
+
 private:
 	// class variable
 	static unsigned s_uCounter;

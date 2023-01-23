@@ -5,7 +5,7 @@
 #define _Exception_Name "Exception"
 
 #include "../../01Base/Aspect/Aspect.h"
-#include "../../01Base/Memory/IMemory.h"
+#include "../StdLib/String.h"
 
 class Exception : public Aspect
 {
@@ -14,17 +14,9 @@ protected:
 	String m_sObject;
 	String m_sFunction;
 	String m_sMessage;
-	time_t m_tTime;
+//	time_t m_tTime;
 
 public:
-	static IMemory* s_pMemory;
-	void* operator new (size_t size) throw() {
-		return s_pMemory->SafeMalloc(size, _Exception_Name);
-	}
-	void operator delete(void* pObject) throw() {
-		s_pMemory->SafeFree(pObject);
-	}
-
 	Exception(
 		int nType = UNDEFINED,
 		String sObject = "",
@@ -36,7 +28,7 @@ public:
 		, m_sFunction(sFunction)
 		, m_sMessage(sMessage)
 	{
-		m_tTime = time(0);
+//		m_tTime = time(0);
 	}
 	virtual ~Exception() {}
 

@@ -21,24 +21,23 @@ public:
 		: TestCase(nClassId, pcClassName)
 		, m_pDomainObject(nullptr)
 	{
-	}
-	virtual ~PTC11() {
-	}
-
-	void Initialize() {
 		LOG_NEWLINE("new PTC11::PTC11");
 		this->m_pDomainObject = new("PTC11::DomainObject") DomainObject11();
 		BaseObject::s_pMemory->Show("");
+	}
+	virtual ~PTC11() {
+		delete this->m_pDomainObject;
+		BaseObject::s_pMemory->Show("delete PTC11::m_pDomainObject");
+	}
+
+	void Initialize() {
+	}
+	void Finalize() {
 	}
 	void Run() {
 		// test case
 		this->m_pDomainObject->Run();
 		BaseObject::s_pMemory->Show("");
 	}
-	void Finalize() {
-		delete this->m_pDomainObject;
-		BaseObject::s_pMemory->Show("delete PTC11::m_pDomainObject");
-	}
-
 };
 

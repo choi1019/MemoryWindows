@@ -20,8 +20,8 @@ public:
 	~PTestMain() {
 	}
 	void Initialize() {
-		this->add(new PTS1());
-		this->add(new PTS1());
+		this->add(new("PTS1") PTS1());
+		this->add(new("PTS1") PTS1());
 		//		this->add(new PTS2());
 	}
 	void Finalize() {

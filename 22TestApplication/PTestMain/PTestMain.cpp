@@ -2,7 +2,7 @@
 
 int main() {
 	try {
-		PTestMain* pPTestMain = new PTestMain();
+		PTestMain* pPTestMain = new("PTestMain") PTestMain();
 		pPTestMain->InitializeMain();
 		pPTestMain->RunMain();
 		pPTestMain->FinalizeMain();

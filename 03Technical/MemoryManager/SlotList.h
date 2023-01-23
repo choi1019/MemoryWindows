@@ -18,6 +18,9 @@ public:
 	void* operator new(size_t szThis, const char* sMessage) {
 		LOG_NEWLINE("@new SlotList(sMessage, szThis)", sMessage, szThis);
 
+		if (s_szSystemMemoryAllocated < szThis) {
+			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, "SlotList", "new", "_eNoMoreSystemMemory");
+		}
 		void* pNewSlotList = nullptr;
 		if (s_pSlotListFree == nullptr) {
 			s_szSystemMemoryAllocated -= szThis;
@@ -242,7 +245,6 @@ public:
 			LOG_FOOTER("SlotList::Free-False(pSlotFree)", (size_t)pSlotFree);
 			return false;
 		}
-//		throw Exception((unsigned)IMemory::EException::_eFree, "SlotList", "Free", "notFound");
 	}
 
 	// maintenance

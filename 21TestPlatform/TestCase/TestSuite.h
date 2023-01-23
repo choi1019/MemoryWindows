@@ -42,21 +42,17 @@ public:
 		this->Initialize();
 	}
 	void FinalizeSuite() {
-		this->Finalize();
 		this->DeleteTestCases();
+		this->Finalize();
 	}
 	void RunSuite() {
 		try {
 			for (TestCase* pTestCase: m_vPTestCasess) {
 				pTestCase->BeforeInitialize();
 				pTestCase->InitializeCase();
-			}
-			for (TestCase* pTestCase : m_vPTestCasess) {
 				pTestCase->BeforeRun();
 				pTestCase->RunCase();
 				pTestCase->AfterRun();
-			}
-			for (TestCase* pTestCase : m_vPTestCasess) {
 				pTestCase->FinalizeCase();
 				pTestCase->AfterFinalize();
 			}

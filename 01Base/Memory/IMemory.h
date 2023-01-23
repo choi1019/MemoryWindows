@@ -10,15 +10,14 @@ public:
 	enum class EException
 	{
 		_eBegin = _Memory_Id,
+		_eNoMoreSystemMemory,
 		_eMemoryAllocatedIsSmallerThanAPage,
 		_eNoMorePage,
-		_eOutOfMemory,
 		_eNoMoreSlot,
-		_eSlotCountZero,
 		_eSlotSizeSmall,
-		_eNullPtr,
-		_eNotSupported,
-		_eFree,
+		_ePageIndexNotFound,
+//		_eNotSupported,
+
 		_eEnd
 	};
 

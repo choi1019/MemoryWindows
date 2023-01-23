@@ -6,6 +6,7 @@
 
 #include "../../01Base/Aspect/Aspect.h"
 #include "../../01Base/Memory/IMemory.h"
+#include "../StdLib/String.h"
 
 class Log : public Aspect
 {
@@ -14,7 +15,7 @@ protected:
 	String m_sFunction;
 	String m_sMessage1;
 	String m_sMessage2;
-	time_t m_tTime;
+//	time_t m_tTime;
 
 public:
 	Log( String sObject = "",
@@ -29,7 +30,7 @@ public:
 		, m_sMessage1(sMessage1)
 		, m_sMessage2(sMessage2)
 	{
-		m_tTime = time(0);
+//		m_tTime = time(0);
 
 	}
 	virtual ~Log() {}

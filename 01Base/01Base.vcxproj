@@ -174,9 +174,7 @@
   <ItemGroup>
     <ClCompile Include="Aspect\Aspect.cpp" />
     <ClCompile Include="Aspect\Directory.cpp" />
-    <ClCompile Include="Aspect\Exception.cpp" />
     <ClCompile Include="Aspect\Log.cpp" />
-    <ClCompile Include="Memory\IMemory.cpp" />
     <ClCompile Include="Object\BaseObject.cpp" />
     <ClCompile Include="Object\RootObject.cpp" />
   </ItemGroup>

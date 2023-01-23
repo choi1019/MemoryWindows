@@ -15,6 +15,10 @@ public:
 	void* operator new(size_t szThis, const size_t szSystemMemory, void* pSystemMemory) {
 		LOG_NEWLINE("@new Memory(szThis,szSystemMemory,pSystemMemory)"
 			, szThis, szSystemMemory, (size_t)pSystemMemory);
+		if (szSystemMemory < szThis) {
+			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, "Memory", "new", "_eNoMoreSystemMemory");
+		}		
+		
 		s_pSystemMemoryAllocated = pSystemMemory;
 		s_pCurrentSystemMemoryAllocated = (void *)((size_t)pSystemMemory + szThis);
 		s_szSystemMemoryAllocated = szSystemMemory - szThis;
@@ -71,7 +75,7 @@ protected:
 			LOG_NEWLINE("else (m_pHead != nullptr)");
 		}
 
-		Slot* pSlot = m_pHead->Malloc(szObject, nullptr);
+		Slot* pSlot = m_pHead->Malloc(szSlot, nullptr);
 		LOG_FOOTER("Memory::Malloc(pSlot)", (size_t)pSlot);
 		return pSlot;
 	}
@@ -103,9 +107,7 @@ protected:
 			}
 		}
 		else {
-			throw Exception((unsigned)IMemory::EException::_eFree, "Memory", "Free"
-				, (size_t)pObject);
-			exit(1);
+			throw Exception((unsigned)IMemory::EException::_ePageIndexNotFound, "Memory", "Free", (size_t)pObject);
 		}
 		LOG_FOOTER("Memory::Free");
 	}

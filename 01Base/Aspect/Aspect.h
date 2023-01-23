@@ -5,7 +5,6 @@
 #define _Aspect_Name "Aspect"
 
 #include "../Object/RootObject.h"
-#include "../StdLib/String.h"
 #include <stdio.h>
 
 class Aspect : public RootObject

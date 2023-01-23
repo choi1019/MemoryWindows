@@ -51,13 +51,16 @@ public:
 			m_pMemory->Show("");
 			m_pMemory->GetPPageList()->Show("");
 
-			this->add(new PTC11());
-			this->add(new PTC12());
-			this->add(new PTC13());
-			this->add(new PTC14());
+			this->add(new("PTC11") PTC11());
+			this->add(new("PTC12") PTC12());
+			this->add(new("PTC13") PTC13());
+			this->add(new("PTC14") PTC14());
+			this->add(new("PTC11") PTC11());
+			this->add(new("PTC12") PTC12());
 		}
 		catch (Exception& exception) {
 			exception.Println();
+			exit(1);
 		}
 	}
 	void Finalize() {
@@ -72,6 +75,7 @@ public:
 		}
 		catch (Exception& exception) {
 			exception.Println();
+			exit(2);
 		}
 	}
 };

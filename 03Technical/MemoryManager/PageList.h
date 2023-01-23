@@ -62,7 +62,7 @@ public:
 					pPageIndexFirst->SetPPageIndexLast(pPageIndexLast);
 					pPageIndexLast->SetPNext(nullptr);
 				}
-				m_numPages--;
+				m_numPages -= numPagesRequired;
 				LOG_FOOTER("PageList::Malloc(pPage)", (size_t)pPageIndexFirst->GetPPage());
 				return pPageIndexFirst;
 			}
@@ -70,7 +70,7 @@ public:
 		throw Exception((unsigned)IMemory::EException::_eNoMorePage, "Memory", "Malloc", "_eNoMorePage");
 	}
 	void Free(PageIndex* pPageIndexFree) {
-		m_numPages++;
+		m_numPages += pPageIndexFree->GetNumPages();
 		LOG_HEADER("PageList::Free(pPageIndexFree)", (size_t)pPageIndexFree);
 		if (this->m_pHead == nullptr) {
 			LOG_NEWLINE("if (this->m_pHead == nullptr)");
@@ -172,7 +172,9 @@ public:
 	void Show(const char* pTitle) {
 		LOG_HEADER("PageList::Show(m_szMemoryAllocated, m_szPage, m_numPages)"
 			, m_szMemoryAllocated, m_szPage, m_numPages);
-		m_pHead->Show("");
+		if (m_pHead != nullptr) {
+			m_pHead->Show("");
+		}
 		LOG_FOOTER("PageList");
 	}
 };

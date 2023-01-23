@@ -2,11 +2,11 @@
 
 #include "../TypeDef.h"
 #define _String_Id _GET_CLASS_UID(_ELayer_Base::_eString)
-#define _String_Name "string"
+#define _String_Name "String"
 
 #include "../../01Base/Object/BaseObject.h"
 
-#include <time.h>
+//#include <time.h>
 #include <string.h>
 
 #define EOS '\0'
