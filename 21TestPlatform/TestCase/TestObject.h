@@ -22,6 +22,7 @@ public:
 	void BeforeInitialize() {
 		TestLog().PrintSeparator();
 		TestLog(this->GetClassName(), "Initialize", "시작 합니다").Println();
+		TestLog().PrintSeparator();
 		TestLog::AddTab();
 	}
 	virtual void Initialize() {
@@ -29,12 +30,14 @@ public:
 	void BeforeRun() {
 		TestLog().PrintSeparator();
 		TestLog(this->GetClassName(), "Run", "시작 합니다").Println();
+		TestLog().PrintSeparator();
 		TestLog::AddTab();
 	}
 	virtual void Run() {
 	}
 	void AfterRun() {
 		TestLog::RemoveTab();
+		TestLog().PrintSeparator();
 		TestLog(this->GetClassName(), "Run", "종료 되었습니다").Println();
 		TestLog().PrintSeparator();
 	}
@@ -42,6 +45,7 @@ public:
 	}
 	void AfterFinalize() {
 		TestLog::RemoveTab();
+		TestLog().PrintSeparator();
 		TestLog(this->GetClassName(), "Finalize", "종료 되었습니다").Println();
 		TestLog().PrintSeparator();
 	}

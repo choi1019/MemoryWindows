@@ -30,9 +30,8 @@ public:
 	virtual ~PTS1() {
 	}
 
-	virtual void InitializeSuite() {
+	void Initialize() {
 		try {
-
 			size_t szPage = SIZE_PAGE;
 			size_t szSlotUnit = SIZE_SLOT_UNIT;
 
@@ -46,9 +45,10 @@ public:
 			m_pMemory = new(szSystemMemory, m_pSystemMemeoryAllocated)
 				PMemory(m_pUserMemeoryAllocated, szUserMemory, szPage, szSlotUnit);
 			BaseObject::s_pMemory = m_pMemory;
-			m_pMemory->Initialize();
 
+			m_pMemory->Initialize();
 			m_pMemory->Show("");
+			m_pMemory->GetPPageList()->Show("");
 
 			this->add(new PTC11());
 			this->add(new PTC12());
@@ -58,11 +58,10 @@ public:
 			exception.Println();
 		}
 	}
-	virtual void FinalizeSuite() {
+	void Finalize() {
 		try {
-			DeleteTestCases();
-
 			m_pMemory->Finalize();
+			m_pMemory->GetPPageList()->Show("");
 			m_pMemory->Show("");
 
 			delete m_pMemory;

@@ -22,9 +22,9 @@ public:
 		for (int i = 0; i < m_pVector->Max_size(); i++) {
 			this->m_pVector->Add(i);
 		}
-		for (int i = 0; i < m_pVector->Max_size(); i++) {
-			LOG((*m_pVector)[i]);
-		}
+//		for (int i = 0; i < m_pVector->Max_size(); i++) {
+//			LOG((*m_pVector)[i]);
+//		}
 
 		LOG_FOOTER("DomainObject13::Run");
 	}

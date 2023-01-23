@@ -27,7 +27,7 @@ public:
 			throw Exception((unsigned)(IMemory::EException::_eMemoryAllocatedIsSmallerThanAPage), "PageList", "PageList", "MemoryTooSmall");
 		}
 		this->m_numPages = m_szMemoryAllocated / m_szPage;
-		this->m_pHead = new("PageList-PageIndex") PageIndex(pMemeoryAllocated, m_numPages, m_szPage);
+		this->m_pHead = new("PageList-PageIndex") PageIndex(pMemeoryAllocated, m_numPages, 0, m_szPage);
 
 		LOG_FOOTER("PageList::PageList");
 	}
@@ -47,10 +47,16 @@ public:
 	PageIndex* Malloc(size_t numPagesRequired) {
 		LOG_HEADER("PageList::Malloc(numPagesRequired, m_numPages)", numPagesRequired, m_numPages);
 		if (this->m_pHead != nullptr) {
+			// if pages are available
+			LOG_NEWLINE("if (this->m_pHead != nullptr)");
+			// allocate a page
 			PageIndex *pPageIndexLast = this->m_pHead->Malloc(numPagesRequired, numPagesRequired, this->m_pHead);
 			if (pPageIndexLast != nullptr) {
+				LOG_NEWLINE("if (pPageIndexLast != nullptr)");
+				// get the first page
 				PageIndex* pPageIndexFirst = pPageIndexLast->GetPPageIndexFirst();
 				if (pPageIndexFirst == m_pHead) {
+					LOG_NEWLINE("if (pPageIndexFirst == m_pHead)");
 					this->m_pHead = pPageIndexLast->GetPNext();
 
 					pPageIndexFirst->SetPPageIndexLast(pPageIndexLast);
@@ -65,14 +71,15 @@ public:
 	}
 	void Free(PageIndex* pPageIndexFree) {
 		m_numPages++;
-		LOG_HEADER("PageList::Free(pPageIndexFree, m_numPages)", (size_t)pPageIndexFree, m_numPages);
+		LOG_HEADER("PageList::Free(pPageIndexFree)", (size_t)pPageIndexFree);
 		if (this->m_pHead == nullptr) {
+			LOG_NEWLINE("if (this->m_pHead == nullptr)");
 			this->m_pHead = pPageIndexFree;
 		}
 		else {
 			this->m_pHead = this->m_pHead->Free(pPageIndexFree, m_pHead);
 		}
-		LOG_FOOTER("PageList::Free");
+		LOG_FOOTER("PageList::Free(m_numPages)", m_numPages);
 	}
 /*
 	PageIndex* Malloc(size_t numPagesAllocated) {

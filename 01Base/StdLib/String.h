@@ -101,20 +101,25 @@ public:
 		unsigned uLength = this->computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
+	String(const size_t nValue) : BaseObject(_String_Id, _String_Name)
+	{
+		IToA(nValue);
+	}
 	String(const int nValue) : BaseObject(_String_Id, _String_Name)
 	{
 		IToA(nValue);
 	}
-
 	String(const unsigned int uValue) : BaseObject(_String_Id, _String_Name)
 	{
 		IToA(static_cast<size_t>(uValue));
 	}
 
-	String(const size_t nValue) : BaseObject(_String_Id, _String_Name)
+	/*
+	String(const void* pValue) : BaseObject(_String_Id, _String_Name)
 	{
-		IToA(nValue);
+		IToA((size_t)pValue);
 	}
+	*/
 	/*
 	String(const float fValue) : Collection(_String_Id, _String_Name)
 	{

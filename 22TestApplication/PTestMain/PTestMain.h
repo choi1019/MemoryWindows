@@ -16,10 +16,14 @@ public:
 		const char* pcClassName = _PTESTMAIN_NAME)
 		: TestMain(nClassId, pcClassName)
 	{
-		this->add(new PTS1());
-//		this->add(new PTS2());
 	}
 	~PTestMain() {
-		DeleteTestSuites();
+	}
+	void Initialize() {
+		this->add(new PTS1());
+		this->add(new PTS1());
+		//		this->add(new PTS2());
+	}
+	void Finalize() {
 	}
 };

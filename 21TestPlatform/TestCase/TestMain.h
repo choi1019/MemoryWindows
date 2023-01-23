@@ -16,11 +16,6 @@ protected:
 	void add(TestSuite* pTestSuite) {
 		this->m_vPTestSuites.push_back(pTestSuite);
 	}
-	void DeleteTestSuites() {
-		for (TestSuite* pTestSuite : m_vPTestSuites) {
-			delete pTestSuite;
-		}
-	}
 public:
 	TestMain(int nClassId = _TestMain_Id, const char* pClassName = _TestMain_Name)
 		: TestObject(nClassId, pClassName)
@@ -32,12 +27,17 @@ public:
 	virtual ~TestMain() {
 	}
 	void InitializeMain() {
+		this->Initialize();
 	}
 	void FinalizeMain() {
+		this->Finalize();
+		for (TestSuite* pTestSuite : m_vPTestSuites) {
+			delete pTestSuite;
+		}
 	}
 	void RunMain() {
-		for (TestSuite* pTestSuite : m_vPTestSuites) {
-			try {
+		try {
+			for (TestSuite* pTestSuite : m_vPTestSuites) {
 				pTestSuite->BeforeInitialize();
 				pTestSuite->InitializeSuite();
 				pTestSuite->BeforeRun();
@@ -46,10 +46,10 @@ public:
 				pTestSuite->FinalizeSuite();
 				pTestSuite->AfterFinalize();
 			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
+			this->Run();
+		}
+		catch (TestException& exception) {
+			exception.Println();
 		}
 	}
-
 };

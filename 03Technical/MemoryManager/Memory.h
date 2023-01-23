@@ -11,12 +11,16 @@
 class Memory :public SystemMemoryObject, public IMemory
 {
 public:
+	// static members
 	void* operator new(size_t szThis, const size_t szSystemMemory, void* pSystemMemory) {
 		LOG_NEWLINE("@new Memory(szThis,szSystemMemory,pSystemMemory)"
 			, szThis, szSystemMemory, (size_t)pSystemMemory);
 		s_pSystemMemoryAllocated = pSystemMemory;
 		s_pCurrentSystemMemoryAllocated = (void *)((size_t)pSystemMemory + szThis);
 		s_szSystemMemoryAllocated = szSystemMemory - szThis;
+
+		SlotList::s_pSlotListFree = nullptr;
+
 		return s_pSystemMemoryAllocated;
 	}
 	void operator delete(void* pObject) {
@@ -26,6 +30,8 @@ public:
 	}
 
 private:
+	// attributes
+	void* m_pMemeoryAllocated;
 	size_t m_szUnit;
 	size_t m_szPage;
 
@@ -35,6 +41,10 @@ private:
 
 	size_t m_szUnitExponentOf2;
 	size_t m_szPageExponentOf2;
+
+public:
+	// getters and setters
+	PageList* GetPPageList() { return this->m_pPageList; }
 
 protected:
 	// critical section
@@ -54,11 +64,11 @@ protected:
 		LOG_HEADER("Memory::Malloc(szObject, szSlot)", szObject, szSlot);
 		if (m_pHead == nullptr) {
 			// if any SlotList is not generated
-			LOG_NEWLINE("m_pHead == nullptr");
+			LOG_NEWLINE("if (m_pHead == nullptr)");
 			m_pHead = new("SlotList") SlotList(szSlot, m_pPageList);
 		}
 		else {
-			LOG_NEWLINE("m_pHead != nullptr");
+			LOG_NEWLINE("else (m_pHead != nullptr)");
 		}
 
 		Slot* pSlot = m_pHead->Malloc(szObject, nullptr);
@@ -67,12 +77,13 @@ protected:
 	}
 
 	void Free(void* pObject) {
-		LOG_HEADER("Memory::Free", (size_t)pObject);
-		size_t indexPObject = (size_t)pObject >> m_szPageExponentOf2;
-		bool found = this->m_pHead->Free((Slot*)pObject, indexPObject);
+		size_t indexPage = ((size_t)pObject - (size_t)m_pMemeoryAllocated) / m_szPage;
+
+		LOG_HEADER("Memory::Free(pObject, indexPage)", (size_t)pObject, indexPage);
+		bool found = this->m_pHead->Free((Slot*)pObject, indexPage);
 		// if m_pHead is a target SlotList
 		if (found) {
-			LOG_NEWLINE("found");
+			LOG_NEWLINE("if(found)");
 			// if m_pHead is a Garbage
 			if (this->m_pHead->IsGarbage()) {
 				LOG_NEWLINE("if (this->m_pHead->IsGarbage())");
@@ -107,33 +118,41 @@ public:
 		, size_t szSlotUnit
 		, int nClassId = _Memory_Id
 		, const char* pClassName = _Memory_Name)
-	{
-		this->m_szPage = szPage;
-		this->m_szUnit = szSlotUnit;
 
-		LOG_HEADER("Memory::Memory");
+		: m_pMemeoryAllocated(pMemeoryAllocated)
+		, m_szPage(szPage)
+		, m_szUnit(szSlotUnit)
+	{
+		LOG_HEADER("Memory::Memory(pMemeoryAllocated,szMemoryAllocated,szPage,szSlotUnit)");
+		LOG_NEWLINE((size_t)pMemeoryAllocated, szMemoryAllocated, szPage, szSlotUnit);
+
 		this->m_pPageList = new("PageList") PageList((size_t)pMemeoryAllocated, szMemoryAllocated, m_szPage);
 		this->m_pHead = nullptr;
 		this->m_pFreeHead = nullptr;
 		this->m_szUnitExponentOf2 = (size_t)(log2(static_cast<double>(this->m_szUnit)));
 		this->m_szPageExponentOf2 = (size_t)(log2(static_cast<double>(this->m_szPage)));
 
-		LOG_FOOTER("Memory");
+		LOG_FOOTER("Memory::Memory");
 	}
 	virtual ~Memory() 
 	{
-		this->m_pPageList->Finalize();
 		delete this->m_pPageList;
 	}
 
 	virtual void Initialize() {
 		LOG_HEADER("Memory::Initialize");
+
 		SystemMemoryObject::Initialize();
+		this->m_pPageList->Initialize();
+
 		LOG_FOOTER("Memory::Initialize");
 	}
 	virtual void Finalize() {
 		LOG_HEADER("Memory::Finalize");
+
 		SystemMemoryObject::Finalize();
+		this->m_pPageList->Finalize();
+
 		LOG_FOOTER("Memory::Finalize");
 	}
 

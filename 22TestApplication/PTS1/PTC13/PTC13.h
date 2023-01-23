@@ -22,19 +22,15 @@ public:
 		, m_pDomainObject1(nullptr)
 		, m_pDomainObject2(nullptr)
 	{
+	}
+	virtual ~PTC13() {
+	}
+	void Initialize() {
 		LOG_NEWLINE("new PTC13::PTC13");
 		m_pDomainObject1 = new("PTC13::DomainObject1") DomainObject13();
 		BaseObject::s_pMemory->Show("");
 		m_pDomainObject2 = new("PTC13::DomainObject2") DomainObject13();
 		BaseObject::s_pMemory->Show("");
-	}
-	virtual ~PTC13() {
-		delete m_pDomainObject1;
-		BaseObject::s_pMemory->Show("delete PTC13::m_pDomainObject1");
-		delete m_pDomainObject2;
-		BaseObject::s_pMemory->Show("delete PTC13::m_pDomainObject2");
-	}
-	void Initialize() {
 	}
 	void Run() {
 		// test case
@@ -43,6 +39,11 @@ public:
 		BaseObject::s_pMemory->Show("");
 	}
 	void Finalize() {
-	}	
+		BaseObject::s_pMemory->Show("delete PTC13::m_pDomainObject1");
+		delete m_pDomainObject1;
+		BaseObject::s_pMemory->Show("delete PTC13::m_pDomainObject1");
+		delete m_pDomainObject2;
+		BaseObject::s_pMemory->Show("delete PTC13::m_pDomainObject2");
+	}
 };
 

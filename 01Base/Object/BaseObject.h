@@ -28,12 +28,12 @@ public:
 	static IMemory* s_pMemory;
 
 	void* operator new (size_t szThis, const char* sMessage) {
-		printf("\n@new %s (%zu)\n", sMessage, szThis);
+		printf("\n\n@BaseObject::new %s (%zu)", sMessage, szThis);
 		void* pAllocated = s_pMemory->SafeMalloc(szThis, sMessage);
 		return pAllocated;
 	}
 	void operator delete(void* pObject) {
-		printf("\n@delete %zu\n", (size_t)pObject);
+		printf("\n@BaseObject::delete %zu\n", (size_t)pObject);
 		s_pMemory->SafeFree(pObject);
 	}
 	// dummy

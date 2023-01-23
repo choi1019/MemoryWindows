@@ -29,11 +29,14 @@ public:
 	}
 	virtual ~TestCase() {}
 
-	virtual void Initialize() {
+	virtual void InitializeCase() {
+		this->Initialize();
 	}
-	virtual void Finalize() {
+	virtual void FinalizeCase() {
+		this->Finalize();
 	}
-	virtual void Run() {
+	virtual void RunCase() {
+		this->Run();
 	}
 
 protected:

@@ -19,17 +19,16 @@ public:
 		int nClassId = _PTC11_ID,
 		const char* pcClassName = _PTC11_NAME)
 		: TestCase(nClassId, pcClassName)
+		, m_pDomainObject(nullptr)
 	{
-		LOG_NEWLINE("new PTC11::PTC11");
-		this->m_pDomainObject = new("PTC11::DomainObject") DomainObject11();
-		BaseObject::s_pMemory->Show("");
 	}
 	virtual ~PTC11() {
-		delete this->m_pDomainObject;
-		BaseObject::s_pMemory->Show("delete PTC11::m_pDomainObject");
 	}
 
 	void Initialize() {
+		LOG_NEWLINE("new PTC11::PTC11");
+		this->m_pDomainObject = new("PTC11::DomainObject") DomainObject11();
+		BaseObject::s_pMemory->Show("");
 	}
 	void Run() {
 		// test case
@@ -37,6 +36,8 @@ public:
 		BaseObject::s_pMemory->Show("");
 	}
 	void Finalize() {
+		delete this->m_pDomainObject;
+		BaseObject::s_pMemory->Show("delete PTC11::m_pDomainObject");
 	}
 
 };

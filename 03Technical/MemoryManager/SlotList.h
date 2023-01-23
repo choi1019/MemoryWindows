@@ -11,11 +11,10 @@ public:
 };
 
 class SlotList : public SystemMemoryObject {
-private:
+public:
 	static SlotList* s_pSlotListFree;
 //	static SlotList* s_pSlotListInUse;
 
-public:
 	void* operator new(size_t szThis, const char* sMessage) {
 		LOG_NEWLINE("@new SlotList(sMessage, szThis)", sMessage, szThis);
 
@@ -97,9 +96,11 @@ public:
 		if (m_szSlot > numPagesRequired * szPage) {
 			numPagesRequired++;
 		}
+
 		// get required number of pages
 		this->m_pPageIndex = m_pPageList->Malloc(numPagesRequired);
 		Page* pPage = this->m_pPageIndex->GetPPage();
+
 		this->m_index = this->m_pPageIndex->GetIndex();
 		LOG_NEWLINE("m_pPageList::m_pPageList(pPageFirst,pPageLast)", (size_t)pPage
 			, (size_t)m_pPageIndex->GetPPageIndexLast()->GetPPage());
@@ -183,11 +184,11 @@ public:
 			return pSlot;
 		}
 	}
-	bool Free(Slot* pSlotFree, size_t targetIndex) {
+	bool Free(Slot* pSlotFree, size_t indexPage) {
 		// found
-		LOG_HEADER("SlotList::Free(pSlotFree, indexPage)", (size_t)pSlotFree, targetIndex);
-		if (targetIndex == this->m_index) {
-			LOG_NEWLINE("targetIndex == this->m_index");
+		LOG_HEADER("SlotList::Free(pSlotFree, indexPage)", (size_t)pSlotFree, indexPage);
+		if (indexPage == this->m_index) {
+			LOG_NEWLINE("indexPage == m_index)", (size_t)indexPage, (size_t)m_index);
 			// insert pSlotFree to Slot LIst
 			pSlotFree->pNext = m_pHead;
 			m_pHead = pSlotFree;
@@ -200,41 +201,40 @@ public:
 			return true;
 		}
 		else {
-			LOG_NEWLINE("targetIndex != this->m_index");
+			LOG_NEWLINE("targetIndex != m_index", (size_t)indexPage, (size_t)m_index);
 			// search in the sibling list
 			if (this->m_pSibling != nullptr) {
-				LOG_NEWLINE("this->m_pSibling != nullptr");
-				bool found = this->m_pSibling->Free(pSlotFree, targetIndex);
-				if (found) {
-					if (this->m_pSibling->IsGarbage()) {
-						SlotList* pGarbage = this->m_pSibling;
-						this->m_pSibling = m_pSibling->GetPSibling();
-						delete pGarbage;
-					}
-					LOG_FOOTER("SlotList::Free-Found Sibling(pSlotFree)", (size_t)pSlotFree);
-					return found;
+				LOG_NEWLINE("if (this->m_pSibling != nullptr)", (size_t)m_pSibling);
+				bool found = this->m_pSibling->Free(pSlotFree, indexPage);
+				if (this->m_pSibling->IsGarbage()) {
+					LOG_NEWLINE("if (this->m_pSibling->IsGarbage())", (size_t)m_pSibling);
+					SlotList* pGarbage = this->m_pSibling;
+					this->m_pSibling = m_pSibling->GetPSibling();
+					delete pGarbage;
 				}
+				LOG_FOOTER("SlotList::Free-Found Sibling(pSlotFree)", (size_t)pSlotFree);
+				return found;
 			}
 			// search in the next list
 			if (this->m_pNext != nullptr) {
-				LOG_NEWLINE("this->m_pNext != nullptr");
-				bool found = this->m_pNext->Free(pSlotFree, targetIndex);
-				if (found) {
-					LOG_NEWLINE("Found");
-					if (this->m_pNext->IsGarbage()) {
-						SlotList* pGarbage = this->m_pNext;
-						if (pGarbage->GetPSibling() != nullptr) {
-							pGarbage->GetPSibling()->SetPNext(pGarbage->GetPNext());
-							this->SetPNext(pGarbage->GetPSibling());
-						} else {
-							this->m_pNext = pGarbage->GetPNext();
-						}
-						LOG_NEWLINE("this->m_pNext->IsGarbage()", (size_t)pGarbage, (size_t)pGarbage->GetPPageIndex()->GetPPage());
-						delete pGarbage;
+				LOG_NEWLINE("if (this->m_pNext != nullptr)", (size_t)m_pNext);
+				bool found = this->m_pNext->Free(pSlotFree, indexPage);
+				if (this->m_pNext->IsGarbage()) {
+					LOG_NEWLINE("if (this->m_pNext->IsGarbage()))", (size_t)m_pNext);
+					SlotList* pGarbage = this->m_pNext;
+					if (pGarbage->GetPSibling() != nullptr) {
+						LOG_NEWLINE("if (pGarbage->GetPSibling() != nullptr) ", (size_t)m_pNext->GetPSibling());
+						pGarbage->GetPSibling()->SetPNext(pGarbage->GetPNext());
+						this->SetPNext(pGarbage->GetPSibling());
+					} else {
+						LOG_NEWLINE("if (pGarbage->GetPSibling() == nullptr) ", (size_t)m_pNext->GetPSibling());
+						this->m_pNext = pGarbage->GetPNext();
 					}
-					LOG_FOOTER("SlotList::Free-next Found(pSlotFree)", (size_t)pSlotFree);
-					return found;
+					LOG_NEWLINE("delete pGarbage", (size_t)pGarbage->GetPPageIndex()->GetPPage());
+					delete pGarbage;
 				}
+				LOG_FOOTER("SlotList::Free-next Found(pSlotFree)", (size_t)pSlotFree);
+				return found;
 			}
 			LOG_FOOTER("SlotList::Free-False(pSlotFree)", (size_t)pSlotFree);
 			return false;

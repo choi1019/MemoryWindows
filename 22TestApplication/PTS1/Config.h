@@ -10,8 +10,8 @@ enum class _ELayer_PTS1 {
 
 };
 
-#define SIZE_SYSTEM_MEMORY 6000
-#define SIZE_USER_MEMORY 10000
+#define SIZE_SYSTEM_MEMORY 4000
+#define SIZE_USER_MEMORY 5000
 #define SIZE_PAGE 256
 #define SIZE_SLOT_UNIT 8
 

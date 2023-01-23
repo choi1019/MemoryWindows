@@ -36,25 +36,34 @@ public:
 	{
 	}
 	virtual ~TestSuite() {
+
 	}
-	virtual void InitializeSuite() {
+	void InitializeSuite() {
+		this->Initialize();
 	}
-	virtual void FinalizeSuite() {
+	void FinalizeSuite() {
+		this->Finalize();
+		this->DeleteTestCases();
 	}
 	void RunSuite() {
-		for (TestCase* pTestCase: m_vPTestCasess) {
-			try {
+		try {
+			for (TestCase* pTestCase: m_vPTestCasess) {
 				pTestCase->BeforeInitialize();
-				pTestCase->Initialize();
+				pTestCase->InitializeCase();
+			}
+			for (TestCase* pTestCase : m_vPTestCasess) {
 				pTestCase->BeforeRun();
-				pTestCase->Run();
+				pTestCase->RunCase();
 				pTestCase->AfterRun();
-				pTestCase->Finalize();
+			}
+			for (TestCase* pTestCase : m_vPTestCasess) {
+				pTestCase->FinalizeCase();
 				pTestCase->AfterFinalize();
 			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
+			this->Run();
+		}
+		catch (TestException& exception) {
+			exception.Println();
 		}
 	}
 };
