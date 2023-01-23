@@ -10,6 +10,7 @@
 #include "PTC11/PTC11.h"
 #include "PTC12/PTC12.h"
 #include "PTC13/PTC13.h"
+#include "PTC14/PTC14.h"
 
 class PTS1: public TestSuite {
 private:
@@ -53,6 +54,7 @@ public:
 			this->add(new PTC11());
 			this->add(new PTC12());
 			this->add(new PTC13());
+			this->add(new PTC14());
 		}
 		catch (Exception& exception) {
 			exception.Println();

@@ -153,6 +153,9 @@
     <ClInclude Include="PTS1\PTC13\Config.h" />
     <ClInclude Include="PTS1\PTC13\DomainObject13.h" />
     <ClInclude Include="PTS1\PTC13\PTC13.h" />
+    <ClInclude Include="PTS1\PTC14\Config.h" />
+    <ClInclude Include="PTS1\PTC14\DomainObject14.h" />
+    <ClInclude Include="PTS1\PTC14\PTC14.h" />
     <ClInclude Include="PTS1\PTS1.h" />
   </ItemGroup>
   <ItemGroup>
