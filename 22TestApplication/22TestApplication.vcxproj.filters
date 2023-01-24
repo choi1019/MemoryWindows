@@ -27,6 +27,15 @@
     <Filter Include="소스 파일\PTS1\PTC14">
       <UniqueIdentifier>{a1f9c670-8ff8-4786-95d4-820eccd2edaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\PTS2">
+      <UniqueIdentifier>{c6514ae0-67ce-43e5-9d1c-1b0e2b5f8ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PTS2\PTC21">
+      <UniqueIdentifier>{70e968fb-4f7a-4f78-98a3-4bcb2743632e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\PTS2\PTC22">
+      <UniqueIdentifier>{707aa4d2-18c9-4dd7-91f9-3e3a952bfdb8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PTestMain\Config.h">
@@ -77,10 +86,34 @@
     <ClInclude Include="PTS1\PTC14\PTC14.h">
       <Filter>소스 파일\PTS1\PTC14</Filter>
     </ClInclude>
+    <ClInclude Include="PTS2\Config.h">
+      <Filter>소스 파일\PTS2</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS2\PTS2.h">
+      <Filter>소스 파일\PTS2</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS2\PTC21\Config.h">
+      <Filter>소스 파일\PTS2\PTC21</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS2\PTC21\PTC21.h">
+      <Filter>소스 파일\PTS2\PTC21</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS2\PTC22\Config.h">
+      <Filter>소스 파일\PTS2\PTC22</Filter>
+    </ClInclude>
+    <ClInclude Include="PTS2\PTC22\PTC22.h">
+      <Filter>소스 파일\PTS2\PTC22</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PTestMain\PTestMain.cpp">
       <Filter>소스 파일\PTestMain</Filter>
+    </ClCompile>
+    <ClCompile Include="PTS2\PTC21\PTC21.cpp">
+      <Filter>소스 파일\PTS2\PTC21</Filter>
+    </ClCompile>
+    <ClCompile Include="PTS2\PTC22\PTC22.cpp">
+      <Filter>소스 파일\PTS2\PTC22</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

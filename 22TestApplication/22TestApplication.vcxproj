@@ -157,9 +157,17 @@
     <ClInclude Include="PTS1\PTC14\DomainObject14.h" />
     <ClInclude Include="PTS1\PTC14\PTC14.h" />
     <ClInclude Include="PTS1\PTS1.h" />
+    <ClInclude Include="PTS2\Config.h" />
+    <ClInclude Include="PTS2\PTC21\Config.h" />
+    <ClInclude Include="PTS2\PTC21\PTC21.h" />
+    <ClInclude Include="PTS2\PTC22\Config.h" />
+    <ClInclude Include="PTS2\PTC22\PTC22.h" />
+    <ClInclude Include="PTS2\PTS2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PTestMain\PTestMain.cpp" />
+    <ClCompile Include="PTS2\PTC21\PTC21.cpp" />
+    <ClCompile Include="PTS2\PTC22\PTC22.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\01Base\01Base.vcxproj">

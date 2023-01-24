@@ -5,7 +5,6 @@
 #define _PTC22_NAME "PTC22"
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
-#include "TMemoryManager22.h"
 
 class PTC22 : public TestCase {
 private:
@@ -30,14 +29,6 @@ public:
 	}
 
 	void Run() {
-		size_t szTotalMemory = TMemoryManager22::getMemorySize();
-		this->m_pMemeoryAllocated = new char[szTotalMemory];
-			Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager22(szTotalMemory);
-				Memory::s_pMemoryManager->Initialize();
-				Memory::s_pMemoryManager->Show("PTC22::TMemoryManager22");
-				Memory::s_pMemoryManager->Finalize();
-			delete Memory::s_pMemoryManager;
-		delete this->m_pMemeoryAllocated;
 	}
 };
 

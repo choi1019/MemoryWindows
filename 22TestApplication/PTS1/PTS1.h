@@ -12,6 +12,7 @@
 #include "PTC13/PTC13.h"
 #include "PTC14/PTC14.h"
 
+template <int SIZE_SYSTEM_MEMORY, int SIZE_USER_MEMORY, int SIZE_PAGE, int SIZE_SLOT_UNIT>
 class PTS1: public TestSuite {
 private:
 	Memory* m_pMemory;
@@ -33,19 +34,16 @@ public:
 
 	void Initialize() {
 		try {
-			size_t szPage = SIZE_PAGE;
-			size_t szSlotUnit = SIZE_SLOT_UNIT;
-
 			// system memory allocation
 			size_t szSystemMemory = SIZE_SYSTEM_MEMORY;
-			size_t szUserMemory = SIZE_USER_MEMORY;
-
 			m_pSystemMemeoryAllocated = new char[szSystemMemory];
+
+			// aplication memorty allocation
+			size_t szUserMemory = SIZE_USER_MEMORY;
 			m_pUserMemeoryAllocated = new char[szUserMemory];
 
-			m_pMemory = new(szSystemMemory, m_pSystemMemeoryAllocated)
-				PMemory(m_pUserMemeoryAllocated, szUserMemory, szPage, szSlotUnit);
-			BaseObject::s_pMemory = m_pMemory;
+			m_pMemory = new(m_pSystemMemeoryAllocated, szSystemMemory)
+				PMemory(m_pUserMemeoryAllocated, szUserMemory, SIZE_PAGE, SIZE_SLOT_UNIT);
 
 			m_pMemory->Initialize();
 			m_pMemory->Show("");

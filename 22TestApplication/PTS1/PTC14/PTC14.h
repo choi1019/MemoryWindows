@@ -24,8 +24,12 @@ public:
 	{
 		LOG_NEWLINE("new PTC14::PTC14");
 		m_pDomainObject1 = new("PTC14::DomainObject1") DomainObject14();
+		AssertNotNull(m_pDomainObject1);
+
 		BaseObject::s_pMemory->Show("");
 		m_pDomainObject2 = new("PTC14::DomainObject2") DomainObject14();
+		AssertNotNull(m_pDomainObject2);
+
 		BaseObject::s_pMemory->Show("");
 	}
 	virtual ~PTC14() {

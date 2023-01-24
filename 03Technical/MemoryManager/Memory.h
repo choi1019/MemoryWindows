@@ -12,11 +12,11 @@ class Memory :public SystemMemoryObject, public IMemory
 {
 public:
 	// static members
-	void* operator new(size_t szThis, const size_t szSystemMemory, void* pSystemMemory) {
-		LOG_NEWLINE("@new Memory(szThis,szSystemMemory,pSystemMemory)"
-			, szThis, szSystemMemory, (size_t)pSystemMemory);
+	void* operator new(size_t szThis, void* pSystemMemory, const size_t szSystemMemory) {
+		LOG_NEWLINE("@new Memory(szThis,pSystemMemory,szSystemMemory)"
+			, szThis, (size_t)pSystemMemory, szSystemMemory);
 		if (szSystemMemory < szThis) {
-			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, "Memory", "new", "_eNoMoreSystemMemory");
+			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, "Memory","new","_eNoMoreSystemMemory");
 		}		
 		
 		s_pSystemMemoryAllocated = pSystemMemory;
@@ -30,7 +30,7 @@ public:
 	void operator delete(void* pObject) {
 		LOG_NEWLINE("@delete Memory(pObject)", (size_t)pObject);
 	}
-	void operator delete(void* pObject, const size_t szSystemMemory, void* pSystemMemory) {
+	void operator delete(void* pObject, void* pSystemMemory, const size_t szSystemMemory) {
 	}
 
 private:
@@ -133,6 +133,9 @@ public:
 		this->m_pFreeHead = nullptr;
 		this->m_szUnitExponentOf2 = (size_t)(log2(static_cast<double>(this->m_szUnit)));
 		this->m_szPageExponentOf2 = (size_t)(log2(static_cast<double>(this->m_szPage)));
+
+		// set as an application memory manager
+		BaseObject::s_pMemory = this;
 
 		LOG_FOOTER("Memory::Memory");
 	}

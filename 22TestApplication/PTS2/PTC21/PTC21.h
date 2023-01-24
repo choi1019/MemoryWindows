@@ -6,7 +6,80 @@
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
 
-#include "TMemoryManager21.h"
+class TestPage {
+private:
+	int m_nSlots[10];
+public:
+	TestPage(unsigned index) {
+		for (int i = 0; i < 10; i++) {
+			m_nSlots[i] = index * 100 + i;
+		}
+	}
+};
+
+class TestPageIndex {
+private:
+	unsigned m_index;
+	TestPage* m_pPage;
+public:
+	TestPageIndex(unsigned index) :
+		m_index(index)
+	{
+		m_pPage = new TestPage(index);
+	}
+	TestPage* GetPPage() { return this->m_pPage; }
+	void SetPPage(TestPage* pPage) { this->m_pPage = pPage; }
+};
+
+class TestMemory {
+private:
+	void* m_pMemoryAllocated;
+	size_t m_szPage;
+public:
+	TestMemory() {
+		m_pMemoryAllocated = nullptr;
+		m_szPage = 0;
+	}
+	~TestMemory() {
+	}
+	void* Malloc(size_t szObject) {
+	}
+	void Free(void* pObject) {
+	}
+	void* GetPAddress(void* pObject) {
+		size_t index = ((size_t)pObject - (size_t)m_pMemoryAllocated) / m_szPage;
+		if ((index * m_szPage + (size_t)m_pMemoryAllocated) < (size_t)pObject) {
+			index++;
+		}
+	}
+};
+
+class TestBaseObject {
+public:
+	static TestMemory* s_pMemory;
+private:
+	size_t m_index;
+public:
+	void* operator new(size_t szThis) {
+		//		printf("\n\n@BaseObject::new %s (%zu)", sMessage, szThis);
+		s_pMemory->Malloc(szThis);
+	}
+	void operator delete(void* pObject) {
+		//		printf("\n@BaseObject::delete %zu\n", (size_t)pObject);
+		s_pMemory->Free(pObject);
+	}
+	void* operator->() {
+		void* pAddress = s_pMemory->GetPAddress(this);
+		return pAddress;
+	}
+public:
+	TestBaseObject()
+	{
+		m_index = 0;
+	}
+
+
+};
 
 class PTC21 : public TestCase {
 private:
@@ -23,28 +96,11 @@ public:
 	}
 
 	void Initialize() {
-		TestCase::Initialize();
 	}
 	void Finalize() {
-		TestCase::Finalize();
 	}
 
 	void Run() {
-		
-		try {
-			size_t szTotalMemory = TMemoryManager21::getMemorySize();
-			this->m_pMemeoryAllocated = new char[szTotalMemory];
-				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager21(szTotalMemory);
-					Memory::s_pMemoryManager->Initialize();
-					Memory::s_pMemoryManager->Show("PTC21::TMemoryManager21");
-					Memory::s_pMemoryManager->Finalize();
-				delete Memory::s_pMemoryManager;
-			delete this->m_pMemeoryAllocated;
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-		
 	}
 };
 

@@ -5,15 +5,13 @@
 #define _TestCase_Name "TestCase"
 
 #include "TestObject.h"
-#include "../TestAspect/TestException.h"
-#include "../TestAspect/TestLog.h"
-//#undef GetClassName
 
 class TestCase: public TestObject
 {
 public:
 	enum class EAssertion {
 		_eBegin = _TestCase_Id,
+		_eNotNull,
 		_eEqual,
 		_eNotEqual,
 		_eGT,
@@ -40,6 +38,11 @@ public:
 	}
 
 protected:
+	void AssertNotNull(void* pObject) {
+		if (pObject == nullptr) {
+			throw TestException((unsigned)EAssertion::_eNotNull, this->GetClassName(), __func__, "Test Failed");
+		}
+	}
 	void AssertEqual(unsigned x, unsigned y) {
 		if (x != y) {
 			throw TestException((unsigned)EAssertion::_eEqual, this->GetClassName(), __func__, "Test Failed");

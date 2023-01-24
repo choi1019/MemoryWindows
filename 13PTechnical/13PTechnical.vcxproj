@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PMemoryManager\PMemory.h" />
+    <ClInclude Include="PTimer\PTimer.h" />
     <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
