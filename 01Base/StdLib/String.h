@@ -85,6 +85,18 @@ private:
 			this->Reverse(cArray, szLength);
 		}
 	}
+	inline void bToA(bool bValue) {
+		if (bValue) {
+			m_uLength = 2;
+			m_lCharArray[0] = 't';
+			m_lCharArray[1] = EOS;
+		}
+		else {
+			m_uLength = 2;
+			m_lCharArray[0] = 'f';
+			m_lCharArray[1] = EOS;
+		}
+	}
 
 public:
 	String() : BaseObject(_String_Id, _String_Name)
@@ -113,6 +125,11 @@ public:
 	{
 		IToA(static_cast<size_t>(uValue));
 	}
+	String(const bool bValue) : BaseObject(_String_Id, _String_Name)
+	{
+		IToA(static_cast<size_t>(bValue));
+	}
+
 
 	/*
 	String(const void* pValue) : BaseObject(_String_Id, _String_Name)

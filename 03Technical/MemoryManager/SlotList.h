@@ -105,8 +105,6 @@ public:
 		Page* pPage = this->m_pPageIndex->GetPPage();
 
 		this->m_index = this->m_pPageIndex->GetIndex();
-		LOG_NEWLINE("m_pPageList::m_pPageList(pPageFirst,pPageLast)", (size_t)pPage
-			, (size_t)m_pPageIndex->GetPPageIndexLast()->GetPPage());
 
 		// compute the number of slots allocatable
 		this->m_numMaxSlots = numPagesRequired * szPage / m_szSlot;
@@ -129,7 +127,7 @@ public:
 		LOG_FOOTER("SlotList::SlotList");
 	}
 	virtual ~SlotList() {
-		this->m_pPageList->Free(this->m_pPageIndex);
+		this->m_pPageList->Free(this->m_index);
 	}
 	virtual void Initialize() {
 		LOG_HEADER("SlotList::Initialize(size)");
