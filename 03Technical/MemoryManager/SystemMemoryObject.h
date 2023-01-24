@@ -24,12 +24,19 @@ public:
 		s_pCurrentSystemMemoryAllocated = (void*)((size_t)s_pCurrentSystemMemoryAllocated + szThis);
 		return pCurrentSystemMemoryAllocated;
 	}
+	void* operator new[](size_t szThis, const char* sMessage) {
+		return SystemMemoryObject::operator new(szThis, sMessage);
+	}
 	void operator delete(void* pObject) {
 		LOG_NEWLINE("@delete SystemMemoryObject(pObject)", (size_t)pObject);
 	}
+	void operator delete[](void* pObject) {
+		LOG_NEWLINE("@delete[] SystemMemoryObject(pObject)", (size_t)pObject);
+	}
+
 	void operator delete(void* pObject, const char* sMessage) {
-	//	s_szSystemMemoryAllocated = 0;
-	//		s_pSystemMemoryAllocated = nullptr;
+	}
+	void operator delete[](void* pObject, const char* sMessage) {
 	}
 
 public:

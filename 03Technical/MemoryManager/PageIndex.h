@@ -47,7 +47,16 @@ public:
 	bool IsAllocated() { return this->m_bAllocated; }
 	void SetIsAllocated(bool bAllocated) { this->m_bAllocated = bAllocated; }
 
+	void MAlloc(size_t numPagesAllocated) {
+		m_numPagesAllocated = numPagesAllocated;
+	}
+	size_t Free() {
+		size_t numPagesAllocated = m_numPagesAllocated;
+		m_numPagesAllocated = 1;
+		return numPagesAllocated;
+	}
+
 	void Show(const char* pTitle) {
-		LOG_NEWLINE("PageIndex::show(index, m_pPage)", m_index, (size_t)m_pPage, m_bAllocated);
+		LOG_NEWLINE("PageIndex::show(index, m_pPage, m_bAllocated)", m_index, (size_t)m_pPage, m_bAllocated);
 	}
 };

@@ -14,7 +14,7 @@ private:
 	size_t m_numPagesAvaiable;
 
 	// pageIndex
-	PageIndex** m_apPageIndeces;
+	PageIndex** m_apPageIndices;
 
 public:
 	PageList(size_t pMemeoryAllocated, size_t szMemoryAllocated, size_t szPage) :
@@ -30,10 +30,11 @@ public:
 		this->m_numPagesMax = m_szMemoryAllocated / m_szPage;
 		this->m_numPagesAvaiable = this->m_numPagesMax;
 
-		// this->m_pHead = new("PageList-PageIndex") PageIndex(pMemeoryAllocated, m_numPages, 0, m_szPage);
-		this->m_apPageIndeces = new PageIndex*[m_numPagesAvaiable];
-		for (int index = 0; index < this->m_numPagesAvaiable; index++) {
-			m_apPageIndeces[index] = new("") PageIndex(pMemeoryAllocated, m_szPage, index);
+		// operator new[] for pointer array
+//		this->m_apPageIndices = new("") PageIndex*[m_numPagesMax];
+		this->m_apPageIndices = (PageIndex**)(SystemMemoryObject::operator new(sizeof(PageIndex*)*m_numPagesMax, "m_apPageIndices"));
+		for (int index = 0; index < this->m_numPagesMax; index++) {
+			m_apPageIndices[index] = new("m_apPageIndices") PageIndex(pMemeoryAllocated, m_szPage, index);
 			pMemeoryAllocated += m_szPage;
 		}
 		LOG_FOOTER("PageList::PageList(m_numPages)", m_numPagesAvaiable);
@@ -48,7 +49,8 @@ public:
 	}
 
 	size_t GetSzPage() { return this->m_szPage; }
-	size_t GetNumMaxPages() { return this->m_numPagesAvaiable; }
+	size_t GetNumPagesAvailable() { return this->m_numPagesAvaiable; }
+	size_t GetNumPagesMax() { return this->m_numPagesMax; }
 
 	PageIndex* Malloc(size_t numPagesRequired) {
 		LOG_HEADER("PageList::Malloc(numPagesRequired, m_numPages)", numPagesRequired, m_numPagesAvaiable);
@@ -56,35 +58,35 @@ public:
 		unsigned index = 0;
 		unsigned indexFound = 0;
 		while (numPagesAllocated > 0) {
-			if ((m_apPageIndeces[index++]->IsAllocated())) {
+			if ((m_apPageIndices[index++]->IsAllocated())) {
 				numPagesAllocated = numPagesRequired;
 				indexFound = index;
 			}
 			else {
 				numPagesAllocated--;
 			}
-			if (index == m_numPagesAvaiable) {
+			if (index > m_numPagesMax) {
 				// not found
 				throw Exception((unsigned)IMemory::EException::_eNoMorePage, "Memory", "Malloc", "_eNoMorePage");
 			}
 		}
 
-		m_apPageIndeces[indexFound]->SetNumPages(numPagesRequired);
+		m_apPageIndices[indexFound]->MAlloc(numPagesRequired);
 		for (int i = 0; i < numPagesRequired; i++) {
-			m_apPageIndeces[i + indexFound]->SetIsAllocated(true);
+			m_apPageIndices[i + indexFound]->SetIsAllocated(true);
 		}
 		m_numPagesAvaiable -= numPagesRequired;
 		LOG_FOOTER("PageList::Malloc(indexFound)", indexFound);
 
-		return m_apPageIndeces[indexFound];
+		return m_apPageIndices[indexFound];
 	}
 
-	void Free(unsigned indexFree) {
+	void Free(size_t indexFree) {
 		LOG_HEADER("PageList::Free(indexFree)", indexFree);
 
-		unsigned numPagesAllocated = m_apPageIndeces[indexFree]->GetNumPages();
-		for (int i = 0; i < numPagesAllocated; i++) {
-			m_apPageIndeces[i]->SetIsAllocated(false);
+		size_t numPagesAllocated = m_apPageIndices[indexFree]->Free();
+		for (size_t i = 0; i < numPagesAllocated; i++) {
+			m_apPageIndices[indexFree+i]->SetIsAllocated(false);
 		}
 
 		m_numPagesAvaiable += numPagesAllocated;
@@ -94,8 +96,8 @@ public:
 	void Show(const char* pTitle) {
 		LOG_HEADER("PageList::Show(m_szMemoryAllocated, m_szPage, m_numPages)"
 			, m_szMemoryAllocated, m_szPage, m_numPagesAvaiable);
-		for (int i=0; i< m_numPagesAvaiable; i++) {
-			m_apPageIndeces[i]->Show("");
+		for (int i=0; i< m_numPagesMax; i++) {
+			m_apPageIndices[i]->Show("");
 		}
 		LOG_FOOTER("PageList");
 	}

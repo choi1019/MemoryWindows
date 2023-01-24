@@ -87,12 +87,12 @@ private:
 	}
 	inline void bToA(bool bValue) {
 		if (bValue) {
-			m_uLength = 2;
+			m_uLength = 1;
 			m_lCharArray[0] = 't';
 			m_lCharArray[1] = EOS;
 		}
 		else {
-			m_uLength = 2;
+			m_uLength = 1;
 			m_lCharArray[0] = 'f';
 			m_lCharArray[1] = EOS;
 		}
