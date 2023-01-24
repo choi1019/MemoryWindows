@@ -19,5 +19,6 @@ enum class _ELayer_Technical {
 	_eEnd
 };
 
-
+#include "../01Base/Aspect/Exception.h"
+#include "../01Base/Aspect/Log.h"
 

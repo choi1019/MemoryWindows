@@ -10,22 +10,41 @@ public:
 	enum class EException
 	{
 		_eBegin = _Memory_Id,
+		_eMemoryAllocatedIsSmallerThanAPage,
+		_eNoMorePage,
 		_eOutOfMemory,
 		_eNoMoreSlot,
 		_eSlotCountZero,
 		_eSlotSizeSmall,
 		_eNullPtr,
 		_eNotSupported,
+		_eFree,
 		_eEnd
 	};
 
+	// system memory allocated
+	static size_t s_szSystemMemoryAllocated;
+	static void* s_pSystemMemoryAllocated;
+
+	void* operator new(size_t szThis) {
+		s_szSystemMemoryAllocated -= szThis;
+		void* pMemoryAllocated = s_pSystemMemoryAllocated;
+		s_pSystemMemoryAllocated = reinterpret_cast<void*>(reinterpret_cast<size_t>(pMemoryAllocated) + szThis);
+		return pMemoryAllocated;
+	}
+	void operator delete(void* pObject) {
+		s_szSystemMemoryAllocated = 0;
+		s_pSystemMemoryAllocated = nullptr;
+	}
+
 	virtual ~IMemory() {};
-	virtual void Initialize() = 0;
-	virtual void Finalize() = 0;
+	virtual void Initialize() {}
+	virtual void Finalize() {}
 
 	// methods
-	virtual void* SafeMalloc(size_t szAllocate, const char* pcName) = 0;
-	virtual void SafeFree(void* pPtr) = 0;
+	virtual void* SafeMalloc(size_t szAllocate, const char* pcName) { return nullptr;  }
+	virtual void SafeFree(void* pPtr) {}
 
-	virtual size_t Show(const char* pTitle) = 0;
+	virtual void Show(const char* pTitle) { }
 };
+

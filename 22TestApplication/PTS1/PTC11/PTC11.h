@@ -5,8 +5,10 @@
 #define _PTC11_NAME "PTC11"
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
+#include "../../../13PTechnical/PMemoryManager/PMemory.h"
+#include "../../../01Base/Aspect/Exception.h"
 
-#include "TMemoryManager11.h"
+#include "DomainObject.h"
 
 class PTC11 : public TestCase {
 private:
@@ -29,22 +31,30 @@ public:
 		TestCase::Finalize();
 	}
 
-	void Run() {
-		
-		try {
-			size_t szTotalMemory = TMemoryManager11::getMemorySize();
-			this->m_pMemeoryAllocated = new char[szTotalMemory];
-				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager11(szTotalMemory);
-					Memory::s_pMemoryManager->Initialize();
-					Memory::s_pMemoryManager->Show("PTC11::TMemoryManager11");
-					Memory::s_pMemoryManager->Finalize();
-				delete Memory::s_pMemoryManager;
-			delete this->m_pMemeoryAllocated;
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-		
+	void Run() {		
+		// system memory allocation
+		size_t szSystemMemory = 2048;
+		char* pSystemMemoryAllocated = new char[szSystemMemory];
+		IMemory::s_pSystemMemoryAllocated = pSystemMemoryAllocated;
+
+		// user memory allocation
+		size_t szTotalMemory = 2048;
+		this->m_pMemeoryAllocated = new char[szTotalMemory];
+		Memory* pMemory = new PMemory(m_pMemeoryAllocated, szTotalMemory);
+		BaseObject::s_pMemory = pMemory;
+
+		// test case
+		DomainObject* pDomainObject = new("DomainObject") DomainObject();
+		pDomainObject->Show("DomainObject");
+
+		// result
+		pMemory->Show("");
+		delete pDomainObject;
+		pMemory->Show("");
+		delete pMemory;
+
+		delete[] this->m_pMemeoryAllocated;
+		delete[] pSystemMemoryAllocated;		
 	}
 };
 

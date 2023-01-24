@@ -7,7 +7,7 @@
 #include "../../21TestPlatform/TestCase/TestMain.h"
 #include "Config.h"
 #include "../PTS1/PTS1.h"
-#include "../PTS2/PTS2.h"
+//#include "../PTS2/PTS2.h"
 
 class PTestMain : public TestMain {
 public:
@@ -17,6 +17,6 @@ public:
 		: TestMain(nClassId, pcClassName)
 	{
 		this->add(new PTS1());
-		this->add(new PTS2());
+//		this->add(new PTS2());
 	}
 };

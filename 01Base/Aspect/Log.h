@@ -17,14 +17,6 @@ protected:
 	time_t m_tTime;
 
 public:
-	static IMemory* s_pMemory;
-	void* operator new (size_t szSize) {
-		return s_pMemory->SafeMalloc(szSize, "Log::s_pMemory");
-	}
-	void operator delete(void* pObject) {
-		s_pMemory->SafeFree(pObject);
-	}
-
 	Log( String sObject = "",
 		 String sFunction = "",
 		 String sMessage1 = "",

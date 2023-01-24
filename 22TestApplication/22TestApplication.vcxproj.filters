@@ -18,18 +18,6 @@
     <Filter Include="소스 파일\PTS1\PTC11">
       <UniqueIdentifier>{85f1ee21-2863-4428-8682-91c5e9c28541}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\PTS1\PTC12">
-      <UniqueIdentifier>{14266338-d506-4ef1-af27-2005c2ea8f24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\PTS2">
-      <UniqueIdentifier>{17579fa1-422f-4d15-baca-6c5b98cd31f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\PTS2\PTC21">
-      <UniqueIdentifier>{b89420a4-93d7-40e2-80cf-2d40ede8a89f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\PTS2\PTC22">
-      <UniqueIdentifier>{769ab5ca-a1f9-4579-9d1c-c797a674e43e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PTestMain\Config.h">
@@ -50,58 +38,13 @@
     <ClInclude Include="PTS1\PTC11\Config.h">
       <Filter>소스 파일\PTS1\PTC11</Filter>
     </ClInclude>
-    <ClInclude Include="PTS1\PTC12\Config.h">
-      <Filter>소스 파일\PTS1\PTC12</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS1\PTC12\PTC12.h">
-      <Filter>소스 파일\PTS1\PTC12</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS1\PTC11\TMemoryManager11.h">
+    <ClInclude Include="PTS1\PTC11\DomainObject.h">
       <Filter>소스 파일\PTS1\PTC11</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS1\PTC12\TMemoryManager12.h">
-      <Filter>소스 파일\PTS1\PTC12</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\Config.h">
-      <Filter>소스 파일\PTS2</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\PTS2.h">
-      <Filter>소스 파일\PTS2</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\PTC22\Config.h">
-      <Filter>소스 파일\PTS2\PTC22</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\PTC22\PTC22.h">
-      <Filter>소스 파일\PTS2\PTC22</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\PTC22\TMemoryManager22.h">
-      <Filter>소스 파일\PTS2\PTC22</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\PTC21\Config.h">
-      <Filter>소스 파일\PTS2\PTC21</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\PTC21\PTC21.h">
-      <Filter>소스 파일\PTS2\PTC21</Filter>
-    </ClInclude>
-    <ClInclude Include="PTS2\PTC21\TMemoryManager21.h">
-      <Filter>소스 파일\PTS2\PTC21</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PTestMain\PTestMain.cpp">
       <Filter>소스 파일\PTestMain</Filter>
-    </ClCompile>
-    <ClCompile Include="PTS1\PTC11\PTC11.cpp">
-      <Filter>소스 파일\PTS1\PTC11</Filter>
-    </ClCompile>
-    <ClCompile Include="PTS1\PTC12\PTC12.cpp">
-      <Filter>소스 파일\PTS1\PTC12</Filter>
-    </ClCompile>
-    <ClCompile Include="PTS2\PTC22\PTC22.cpp">
-      <Filter>소스 파일\PTS2\PTC22</Filter>
-    </ClCompile>
-    <ClCompile Include="PTS2\PTC21\PTC21.cpp">
-      <Filter>소스 파일\PTS2\PTC21</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

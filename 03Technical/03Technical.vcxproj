@@ -20,18 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemoryManager\Memory.h" />
-    <ClInclude Include="MemoryManager\MemoryEven.h" />
-    <ClInclude Include="MemoryManager\MemoryManager.h" />
-    <ClInclude Include="MemoryManager\MemoryStatic.h" />
-    <ClInclude Include="MemoryManager\MemoryVariable.h" />
+    <ClInclude Include="MemoryManager\PageManager.h" />
+    <ClInclude Include="MemoryManager\SlotManager.h" />
     <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MemoryManager\Memory.cpp" />
-    <ClCompile Include="MemoryManager\MemoryEven.cpp" />
-    <ClCompile Include="MemoryManager\MemoryManager.cpp" />
-    <ClCompile Include="MemoryManager\MemoryStatic.cpp" />
-    <ClCompile Include="MemoryManager\MemoryVariable.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -155,7 +149,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

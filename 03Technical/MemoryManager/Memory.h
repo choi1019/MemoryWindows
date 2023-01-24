@@ -1,84 +1,73 @@
 #pragma once
 
+#include "../typedef.h"
 #include "../../01Base/Memory/IMemory.h"
-#include "../../01Base/Object/BaseObject.h"
-//#include "../../2Platform/Component/ComponentPart.h"
 
-class Memory :public IMemory, public BaseObject
+#include "PageManager.h"
+#include "SlotManager.h"
+
+
+#define SIZE_PAGE 256
+#define SIZE_WORD 8
+
+class Memory :public IMemory
 {
-public:
-	static IMemory* s_pMemoryManager;
-
-	void* operator new(size_t szThis, const char* pcName) {
-		void* pAllocated = s_pMemoryManager->SafeMalloc(szThis, pcName);
-		return pAllocated;
-	}
-	void operator delete(void* pObject) {
-		s_pMemoryManager->SafeFree(pObject);
-	}
-
 private:
-	// attributes
-//	ComponentPart::EState m_eState;
+	// components
+	PageManager* m_pPageManager;
+	SlotManager* m_pSlotManager;
 
-	size_t m_szAllocated;
-	void* m_pAllocated;
-
-	virtual void* Malloc(size_t szAllocate, const char* pcName) = 0;
-	virtual void Free(void* ptr) = 0;
-
-public:
+protected:
 	// critical section
 	virtual void Lock() = 0;
 	virtual void UnLock() = 0;
-
-	size_t GetSzAllocated() { return this->m_szAllocated; }
-	void SetSzAllocated(size_t szAllocated) { this->m_szAllocated = szAllocated; }
-
-	void* GetPAllocated() { return this->m_pAllocated; }
-	void SetPAllocated(void* pAllocated) { this->m_pAllocated = pAllocated; }
+	virtual void* Malloc(size_t szObject, const char* pcName) {
+		void* pObject = this->m_pSlotManager->Malloc(szObject);
+		return pObject;
+	}
+	virtual void Free(void* pObject) {
+		this->m_pSlotManager->Free(pObject);
+	}
 
 public:
 	// constructors and destructors
-	Memory(int nClassId = _Memory_Id,
-		const char* pClassName = _Memory_Name)
-		: BaseObject(nClassId, pClassName)
-//		: ComponentPart(nClassId, pClassName)
-		, m_szAllocated(0)
-		, m_pAllocated(nullptr)
+	Memory(void* pMemoryAllocated
+		, size_t szMemoryAllocated
+		, int nClassId = _Memory_Id
+		, const char* pClassName = _Memory_Name)
 	{
+		LOG_HEADER("Memory::Memory");
+		LOG((size_t)pMemoryAllocated, szMemoryAllocated, SIZE_PAGE, SIZE_WORD);
+		this->m_pPageManager = new PageManager(pMemoryAllocated, szMemoryAllocated, SIZE_PAGE);
+		this->m_pSlotManager = new SlotManager(this->m_pPageManager, SIZE_WORD);
+		LOG_FOOTER("Memory");
 	}
 	virtual ~Memory() 
 	{
 	}
 	virtual void Initialize() {
-//		ComponentPart::Initialize();
-
 	}
 	virtual void Finalize() {
-//		ComponentPart::Finalize();
-	}	
+	}
 
 	// methods
-	void* SafeMalloc(size_t szAllocate, const char *pcName)
+	void* SafeMalloc(size_t szAllocate, const char *pcName = "")
 	{
 		Lock();
 		void* pMemoryAllocated = this->Malloc(szAllocate, pcName);
 		UnLock();
 		return pMemoryAllocated;
 	}
-	void SafeFree(void* pPtr) {
+	void SafeFree(void* pObject) {
 		Lock();
-		this->Free(pPtr);
+		this->Free(pObject);
 		UnLock();
 	}
 
-	virtual void SetId(void* pObject) {}
-
 	// maintenance
-	virtual size_t Show(const char* pTitle) = 0;
+	virtual void Show(const char* pTitle) {
+		LOG_HEADER("Memory::Show");
+		this->m_pSlotManager->Show("");
+		LOG_FOOTER("Memory");
+	};
 };
-
-#define SHOW_MEMORYSTATIC(MESSAGE) MemoryStatic::s_pMemoryManager->Show(MESSAGE)
-#define SHOW_MEMORYEVEN(CLASS, MESSAGE) CLASS::s_pMemory->Show(MESSAGE)
-#define SHOW_MEMORYVARIABLE(MESSAGE) BaseObject::s_pMemory->Show(MESSAGE)
