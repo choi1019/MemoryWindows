@@ -125,9 +125,8 @@ public:
 		, m_szPage(szPage)
 		, m_szUnit(szSlotUnit)
 	{
-		LOG_HEADER("Memory::Memory(pMemeoryAllocated,szMemoryAllocated,szPage,szSlotUnit)");
-		LOG_NEWLINE((size_t)pMemeoryAllocated, szMemoryAllocated, szPage, szSlotUnit);
-
+		LOG_HEADER("Memory::Memory(pMemeory,szMemory,szPage,szSlotUnit)"
+			, (size_t)pMemeoryAllocated, szMemoryAllocated, szPage, szSlotUnit);
 		this->m_pPageList = new("PageList") PageList((size_t)pMemeoryAllocated, szMemoryAllocated, m_szPage);
 		this->m_pHead = nullptr;
 		this->m_pFreeHead = nullptr;

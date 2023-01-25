@@ -13,11 +13,9 @@ public:
 		: BaseObject()
 		, m_pVector(0)
 	{
-		LOG_NEWLINE("DomainObject11::DomainObject11");
 		this->m_pVector = new("DomainObject11::m_pVector") Vector<int>();
 	}
 	virtual ~DomainObject11() {
-		LOG_NEWLINE("delete DomainObject11::m_pVector");
 		delete this->m_pVector;
 	}
 

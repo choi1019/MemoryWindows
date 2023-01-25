@@ -11,45 +11,6 @@ public:
 };
 
 class SlotList : public SystemMemoryObject {
-public:
-	static SlotList* s_pSlotListFree;
-//	static SlotList* s_pSlotListInUse;
-
-	void* operator new(size_t szThis, const char* sMessage) {
-		LOG_NEWLINE("@new SlotList(sMessage, szThis)", sMessage, szThis);
-
-		if (s_szSystemMemoryAllocated < szThis) {
-			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, "SlotList", "new", "_eNoMoreSystemMemory");
-		}
-		void* pNewSlotList = nullptr;
-		if (s_pSlotListFree == nullptr) {
-			s_szSystemMemoryAllocated -= szThis;
-			pNewSlotList = s_pCurrentSystemMemoryAllocated;
-			s_pCurrentSystemMemoryAllocated = (void*)((size_t)s_pCurrentSystemMemoryAllocated + szThis);			
-		}
-		else {
-			pNewSlotList = s_pSlotListFree;
-			s_pSlotListFree = s_pSlotListFree->GetPNext();
-		}
-		///////////////////////////////////////////////
-		///////////////////////////////////////////////
-		return pNewSlotList;
-	}
-	void operator delete(void* pObject) {
-		LOG_NEWLINE("@delete SlotList(pObject)", (size_t)pObject);
-		SlotList* pSlotList = (SlotList*) pObject;
-		pSlotList->SetPNext(s_pSlotListFree);
-		s_pSlotListFree = pSlotList;
-		///////////////////////////////////////////////
-		
-		///////////////////////////////////////////////
-	}
-	void operator delete(void* pObject, const char* sMessage) {
-		SlotList* pSlotList = (SlotList*)pObject;
-		pSlotList->SetPNext(s_pSlotListFree);
-		s_pSlotListFree = pSlotList;
-	}
-
 private:
 	size_t m_szSlot;
 
@@ -74,6 +35,42 @@ public:
 	SlotList* GetPSibling() { return this->m_pSibling; }
 	void SetPSibling(SlotList* pSibling) { this->m_pSibling = pSibling; }
 	bool IsGarbage() { return this->m_bGarbage; }
+
+public:
+	static SlotList* s_pSlotListFree;
+	//	static SlotList* s_pSlotListInUse;
+
+	void* operator new(size_t szThis, const char* sMessage) {
+		if (s_szSystemMemoryAllocated < szThis) {
+			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, "SlotList", "new", "_eNoMoreSystemMemory");
+		}
+		void* pNewSlotList = nullptr;
+		if (s_pSlotListFree == nullptr) {
+			s_szSystemMemoryAllocated -= szThis;
+			pNewSlotList = s_pCurrentSystemMemoryAllocated;
+			s_pCurrentSystemMemoryAllocated = (void*)((size_t)s_pCurrentSystemMemoryAllocated + szThis);
+			LOG_NEWLINE("***allocate SlotList");
+		}
+		else {
+			pNewSlotList = s_pSlotListFree;
+			s_pSlotListFree = s_pSlotListFree->GetPNext();
+			LOG_NEWLINE("***reuse SlotList");
+		}
+		LOG_NEWLINE("@new SlotList(szThis, pAllocated)", sMessage, szThis, (size_t)pNewSlotList);
+		return pNewSlotList;
+	}
+	void operator delete(void* pObject) {
+		LOG_NEWLINE("@delete SlotList(pObject)", (size_t)pObject);
+		SlotList* pSlotList = (SlotList*)pObject;
+		pSlotList->SetPNext(s_pSlotListFree);
+		s_pSlotListFree = pSlotList;
+		///////////////////////////////////////////////
+
+		///////////////////////////////////////////////
+	}
+	void operator delete(void* pObject, const char* sMessage) {
+		LOG_NEWLINE("@DUMMY delete SlotList(pObject)", sMessage, (size_t)pObject);
+	}
 
 public:
 	SlotList(size_t szSlot, PageList* pPageList)

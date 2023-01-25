@@ -32,9 +32,9 @@ public:
 
 		// operator new[] for pointer array
 //		this->m_apPageIndices = new("") PageIndex*[m_numPagesMax];
-		this->m_apPageIndices = (PageIndex**)(SystemMemoryObject::operator new(sizeof(PageIndex*)*m_numPagesMax, "m_apPageIndices"));
+		this->m_apPageIndices = (PageIndex**)(SystemMemoryObject::operator new(sizeof(PageIndex*)*m_numPagesMax, "m_apPageIndices**"));
 		for (int index = 0; index < this->m_numPagesMax; index++) {
-			m_apPageIndices[index] = new("m_apPageIndices") PageIndex(pMemeoryAllocated, m_szPage, index);
+			m_apPageIndices[index] = new((String("m_apPageIndices[]")+String()).c_str()) PageIndex(pMemeoryAllocated, m_szPage, index);
 			pMemeoryAllocated += m_szPage;
 		}
 		LOG_FOOTER("PageList::PageList(m_numPages)", m_numPagesAvaiable);
@@ -76,7 +76,7 @@ public:
 			m_apPageIndices[i + indexFound]->SetIsAllocated(true);
 		}
 		m_numPagesAvaiable -= numPagesRequired;
-		LOG_FOOTER("PageList::Malloc(indexFound)", indexFound);
+		LOG_FOOTER("PageList::Malloc(indexFound)", indexFound, (size_t)(m_apPageIndices[indexFound]->GetPPage()));
 
 		return m_apPageIndices[indexFound];
 	}

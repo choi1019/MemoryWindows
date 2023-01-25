@@ -21,7 +21,6 @@ public:
 		: TestCase(nClassId, pcClassName)
 		, m_pDomainObject(nullptr)
 	{
-		LOG_NEWLINE("new PTC11::PTC11");
 		this->m_pDomainObject = new("PTC11::DomainObject") DomainObject11();
 		BaseObject::s_pMemory->Show("");
 	}
@@ -37,7 +36,6 @@ public:
 	void Run() {
 		// test case
 		this->m_pDomainObject->Run();
-		BaseObject::s_pMemory->Show("");
 	}
 };
 

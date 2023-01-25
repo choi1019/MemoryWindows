@@ -13,7 +13,6 @@ public:
 		this->m_pVector = new("DomainObject14::m_pVector") Vector<int, 200>();
 	}
 	virtual ~DomainObject14() {
-		LOG_NEWLINE("delete DomainObject14::m_pVector");
 		delete this->m_pVector;
 	}
 

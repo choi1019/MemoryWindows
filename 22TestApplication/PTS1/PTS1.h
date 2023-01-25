@@ -46,8 +46,7 @@ public:
 				PMemory(m_pUserMemeoryAllocated, szUserMemory, SIZE_PAGE, SIZE_SLOT_UNIT);
 
 			m_pMemory->Initialize();
-			m_pMemory->Show("");
-			m_pMemory->GetPPageList()->Show("");
+			m_pMemory->Show("m_pMemory::Initialize()");
 
 			this->add(new("PTC11") PTC11());
 			this->add(new("PTC12") PTC12());

@@ -11,15 +11,15 @@ public:
 	// static members
 	void* operator new(size_t szThis, const char* sMessage) {
 		void* pObject = malloc(szThis);
-		printf("\n#new %s(%zu) = %zu", sMessage, szThis, (size_t)pObject);
+		printf("\n#TestRoot::malloc %s(%zu) = %zu", sMessage, szThis, (size_t)pObject);
 		return pObject;
 	}
 	void operator delete(void* pObject) {
-		printf("\n#delete (%zu)", (size_t)pObject);
+		printf("\n#TestRoot::free (%zu)", (size_t)pObject);
 		free(pObject);
 	}
 	void operator delete(void* pObject, const char* sMessage) {
-		printf("\n#delete %s(%zu)", sMessage,(size_t)pObject);
+		printf("\n#DUMMY TestRoot::free %s(%zu)", sMessage,(size_t)pObject);
 		free(pObject);
 	}
 

@@ -15,13 +15,15 @@ protected:
 	String m_sFunction;
 	String m_sMessage1;
 	String m_sMessage2;
+	String m_sMessage3;
 //	time_t m_tTime;
 
 public:
-	Log( String sObject = "",
-		 String sFunction = "",
-		 String sMessage1 = "",
-		 String sMessage2 = "",
+	Log(String sObject = "",
+		String sFunction = "",
+		String sMessage1 = "",
+		String sMessage2 = "",
+		String sMessage3 = "",
 		unsigned classId = _Log_Id,
 		const char* pClassName = _Log_Name)
 		: Aspect(classId, pClassName)
@@ -29,6 +31,8 @@ public:
 		, m_sFunction(sFunction)
 		, m_sMessage1(sMessage1)
 		, m_sMessage2(sMessage2)
+		, m_sMessage3(sMessage3)
+
 	{
 //		m_tTime = time(0);
 
@@ -56,48 +60,52 @@ public:
 	*/
 	void Print() {
 		printf(
-			"%s%s %s %s %s"
+			"%s%s %s %s %s %s"
 			, this->GetTab()
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
 			, m_sMessage1.c_str()
 			, m_sMessage2.c_str()
+			, m_sMessage3.c_str()
 			//			,String(m_tTime).c_str()
 		);
 	}
 	void Println() {
 		printf(
-			"\n%s%s %s %s %s"
+			"\n%s%s %s %s %s %s"
 			, this->GetTab()
 			,m_sObject.c_str()
 			,m_sFunction.c_str()
 			, m_sMessage1.c_str()
 			, m_sMessage2.c_str()
-//			,String(m_tTime).c_str()
+			, m_sMessage3.c_str()
+			///			,String(m_tTime).c_str()
 		);
 	}
 	void PrintHeader() {
 		printf(
-			"\n%s<<%s %s %s %s"
+			"\n%s<<%s %s %s %s %s"
 			, this->GetTab()
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
 			, m_sMessage1.c_str()
 			, m_sMessage2.c_str()
-//			,String(m_tTime).c_str()
+			, m_sMessage3.c_str()
+			//			,String(m_tTime).c_str()
 		);
 		this->AddTab();
 	}
 	void PrintFooter() {
 		this->RemoveTab();
 		printf(
-			"\n%s>>%s %s %s %s"
+			"\n%s>>%s %s %s %s %s"
 			, this->GetTab()
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
 			, m_sMessage1.c_str()
 			, m_sMessage2.c_str()
-//			,String(m_tTime).c_str()
+			, m_sMessage3.c_str()
+			//			,String(m_tTime).c_str()
 		);
 	}
 
@@ -105,7 +113,8 @@ public:
 	String GetFunction() { return this->m_sFunction; }
 	String GetMessage1() { return this->m_sMessage1; }
 	String GetMessage2() { return this->m_sMessage2; }
-//	String GetTime() { return String(m_tTime); }
+	String GetMessage3() { return this->m_sMessage3; }
+	//	String GetTime() { return String(m_tTime); }
 };
 
 

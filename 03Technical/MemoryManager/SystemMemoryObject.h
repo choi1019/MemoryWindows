@@ -11,17 +11,13 @@ public:
 	static void* s_pCurrentSystemMemoryAllocated;
 
 	void* operator new(size_t szThis, const char *sMessage) {
-		LOG_NEWLINE("@new SystemMemoryObject(sMessage, szThis)", sMessage, szThis);
-
 		if (s_szSystemMemoryAllocated < szThis) {
 			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, sMessage, "new", "_eNoMoreSystemMemory");
 		}
-
 		s_szSystemMemoryAllocated -= szThis;
-		if (s_szSystemMemoryAllocated < 0)
-			throw Exception((unsigned)IMemory::EException::_eNoMoreSystemMemory, "SystemMemoryObject", "new", "_eNoMoreSystemMemory");
 		void* pCurrentSystemMemoryAllocated = s_pCurrentSystemMemoryAllocated;
 		s_pCurrentSystemMemoryAllocated = (void*)((size_t)s_pCurrentSystemMemoryAllocated + szThis);
+		LOG_NEWLINE("@new ", sMessage, "(szThis, pAllocated)", szThis, (size_t)pCurrentSystemMemoryAllocated);
 		return pCurrentSystemMemoryAllocated;
 	}
 	void* operator new[](size_t szThis, const char* sMessage) {

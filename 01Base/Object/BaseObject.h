@@ -28,28 +28,30 @@ public:
 	static IMemory* s_pMemory;
 
 	void* operator new (size_t szThis, const char* sMessage) {
-		// printf("\n\n@BaseObject::new %s (%zu)", sMessage, szThis);
+		printf("\n\n@BaseObject::new %s (%zu)", sMessage, szThis);
 		void* pAllocated = s_pMemory->SafeMalloc(szThis, sMessage);
 		return pAllocated;
 	}
 	void* operator new[] (size_t szThis, const char* sMessage) {
-		// printf("\n\n@BaseObject::new %s (%zu)", sMessage, szThis);
+		printf("\n\n@BaseObject::new[] %s (%zu)", sMessage, szThis);
 		void* pAllocated = s_pMemory->SafeMalloc(szThis, sMessage);
 		return pAllocated;
 	}
 	void operator delete(void* pObject) {
-		// printf("\n@BaseObject::delete %zu\n", (size_t)pObject);
+		printf("\n@BaseObject::delete %zu", (size_t)pObject);
 		s_pMemory->SafeFree(pObject);
 	}
 	void operator delete[](void* pObject) {
-		// printf("\n@BaseObject::delete %zu\n", (size_t)pObject);
+		printf("\n@BaseObject::delete[] %zu", (size_t)pObject);
 		s_pMemory->SafeFree(pObject);
 	}
 
 	// dummy
 	void operator delete(void* pObject, const char* sMessage) {
+		printf("\n@DUMMY BaseObject::delete %zu", (size_t)pObject);
 	}
 	void operator delete[](void* pObject, const char* sMessage) {
+		printf("\n@DUMMY BaseObject::delete[] %zu", (size_t)pObject);
 	}
 
 
