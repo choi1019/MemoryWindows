@@ -3,9 +3,9 @@
 int main() {
 	try {
 		PTestMain* pPTestMain = new PTestMain();
-		pPTestMain->Initialize();
-		pPTestMain->Run();
-		pPTestMain->Finalize();
+		pPTestMain->InitializeMain();
+		pPTestMain->RunMain();
+		pPTestMain->FinalizeMain();
 		delete pPTestMain;
 	}
 	catch (TestException& exception) {

@@ -15,6 +15,7 @@
 //template<int MAXLENGTH_STRING = 200>
 class String : public BaseObject {
 private:
+	char hdigit[16] = { '0', '1', '2', '3', '4', '5' , '6', '7', '8' , '9', 'a', 'b' , 'c', 'd', 'e' };
 	char m_lCharArray[MAXLENGTH_STRING + 1];
 	unsigned m_uLength;
 
@@ -54,21 +55,35 @@ private:
 		this->m_lCharArray[this->m_uLength] = EOS;
 	}
 	inline void IToA(int nValue) {
-		char cArray[MAXLENGTH_STRING + 1];
-		size_t szLength = 0;
-		for (int quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
-			cArray[szLength++] = quotient % 10 + '0';
+		if (nValue == 0) {
+			m_uLength = 1;
+			m_lCharArray[0] = '0';
+			m_lCharArray[1] = EOS;
 		}
-		this->Reverse(cArray, szLength);
+		else {
+			char cArray[MAXLENGTH_STRING + 1];
+			size_t szLength = 0;
+			for (int quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
+				cArray[szLength++] = hdigit[quotient % 10];
+			}
+			this->Reverse(cArray, szLength);
+		}
 	}
 
 	inline void IToA(size_t nValue) {
-		char cArray[MAXLENGTH_STRING + 1];
-		size_t szLength = 0;
-		for (size_t quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
-			cArray[szLength++] = quotient % 10 + '0';
+		if (nValue == 0) {
+			m_uLength = 1;
+			m_lCharArray[0] = '0';
+			m_lCharArray[1] = EOS;
 		}
-		this->Reverse(cArray, szLength);
+		else {
+			char cArray[MAXLENGTH_STRING + 1];
+			size_t szLength = 0;
+			for (size_t quotient = nValue; quotient > 0 && szLength < MAXLENGTH_STRING; quotient = quotient / 10) {
+				cArray[szLength++] = hdigit[quotient % 10];
+			}
+			this->Reverse(cArray, szLength);
+		}
 	}
 
 public:
@@ -86,20 +101,25 @@ public:
 		unsigned uLength = this->computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
+	String(const size_t nValue) : BaseObject(_String_Id, _String_Name)
+	{
+		IToA(nValue);
+	}
 	String(const int nValue) : BaseObject(_String_Id, _String_Name)
 	{
 		IToA(nValue);
 	}
-
 	String(const unsigned int uValue) : BaseObject(_String_Id, _String_Name)
 	{
 		IToA(static_cast<size_t>(uValue));
 	}
 
-	String(const size_t nValue) : BaseObject(_String_Id, _String_Name)
+	/*
+	String(const void* pValue) : BaseObject(_String_Id, _String_Name)
 	{
-		IToA(nValue);
+		IToA((size_t)pValue);
 	}
+	*/
 	/*
 	String(const float fValue) : Collection(_String_Id, _String_Name)
 	{
@@ -108,7 +128,6 @@ public:
 		unsigned uLength = computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
-	*/
 	String(time_t tValue) : BaseObject(_String_Id, _String_Name)
 	{
 		char rCharArray[MAXLENGTH_STRING + 1];
@@ -116,6 +135,8 @@ public:
 		unsigned uLength = computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
+	*/
+
 	~String() {}
 	virtual void Initialize() { BaseObject::Initialize(); }
 	virtual void Finalize() { BaseObject::Finalize(); }

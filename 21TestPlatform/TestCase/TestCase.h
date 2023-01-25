@@ -29,16 +29,14 @@ public:
 	}
 	virtual ~TestCase() {}
 
-	virtual void Initialize() {
-		TestObject::Initialize();
+	virtual void InitializeCase() {
+		this->Initialize();
 	}
-
-	virtual void Finalize() {
-		TestObject::Finalize();
+	virtual void FinalizeCase() {
+		this->Finalize();
 	}
-
-	virtual void Run() {
-		TestObject::Run();
+	virtual void RunCase() {
+		this->Run();
 	}
 
 protected:

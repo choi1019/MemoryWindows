@@ -53,14 +53,5 @@
     <ClCompile Include="TestAspect\TestLog.cpp">
       <Filter>소스 파일\TestAspect</Filter>
     </ClCompile>
-    <ClCompile Include="TestCase\TestCase.cpp">
-      <Filter>소스 파일\TestCase</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCase\TestMain.cpp">
-      <Filter>소스 파일\TestCase</Filter>
-    </ClCompile>
-    <ClCompile Include="TestCase\TestSuite.cpp">
-      <Filter>소스 파일\TestCase</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

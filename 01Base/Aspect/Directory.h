@@ -8,7 +8,7 @@
 #include "../../01Base/Aspect/Log.h"
 #undef GetClassName
 
-typedef Map<long long, String> DirectoryMap;
+typedef Map<size_t, String> DirectoryMap;
 class Directory : public DirectoryMap
 {
 public:
@@ -48,7 +48,7 @@ public:
 	void Show(const char* pcTitle) {
 		LOG_HEADER("Directory", (int)m_eType);
 		for (auto itr : *this) {
-			LOG(itr.first, itr.second);
+			LOG_NEWLINE(itr.first, itr.second);
 		}
 		LOG_FOOTER("Directory", (int)m_eType);
 	}

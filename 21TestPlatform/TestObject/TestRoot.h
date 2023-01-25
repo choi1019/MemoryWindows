@@ -7,6 +7,18 @@
 #define MAX_TESTCASES 20
 
 class TestRoot {
+public:
+	// static members
+	void* operator new(size_t szThis) {
+		printf("\n#new TestRoot(%zu)", szThis);
+		return malloc(szThis);
+	}
+	void operator delete(void* pObject) {
+		printf("\n#delete (%zu)", (size_t)pObject);
+		free(pObject);
+	}
+	void operator delete(void* pObject, const size_t szSystemMemory, void* pSystemMemory) {
+	}
 private:
 	// class variable
 	static unsigned s_uCounter;
@@ -16,9 +28,6 @@ private:
 	int m_nClassId;
 	const char* m_pcClassName;
 	size_t m_szThis;
-
-protected:
-	static size_t s_szThis;
 
 public:
 	TestRoot(
@@ -34,6 +43,7 @@ public:
 
 	virtual void Initialize() {}
 	virtual void Finalize() {}
+	virtual void Run() {}
 
 	// getters and setters
 	inline int GetObjectId() { return this->m_uObjectId; }

@@ -6,7 +6,6 @@
 
 #include "../TestObject/TestRoot.h"
 
-
 class TestLog : public TestRoot
 {
 private:
@@ -49,7 +48,7 @@ public:
 
 	void Println() {
 		printf(
-			"%sTestLog%d %s::%s %s\n"
+			"\n%sTestLog%d %s::%s %s"
 			, this->GetTab()
 			, this->GetLogId()
 			, m_sObject.c_str()
@@ -59,7 +58,7 @@ public:
 		);
 	}
 	void PrintSeparator() {
-		printf("%s-------------------------------------------------\n", this->GetTab());
+		printf("\n%s-------------------------------------------------", this->GetTab());
 	}
 
 public:
@@ -82,4 +81,19 @@ public:
 	static void AddTab() { s_uCountTab++; }
 	static void RemoveTab() { s_uCountTab--; }
 };
+
+
+#if _DEBUG
+#define TESTLOG_HEADER(CLASSNAME, ...) TestLog(CLASSNAME, __VA_ARGS__).PrintHeader()
+#define TESTLOG_FOOTER(...) TestLog(__VA_ARGS__).PrintFooter()
+#define TESTLOG_NEWLINE(CLASSNAME, ...) TestLog(CLASSNAME, __VA_ARGS__).Println()
+#define TESTLOG(CLASSNAME, ...) TestLog(CLASSNAME, __VA_ARGS__).Print()
+//	#define LOG_TIME(...) Log(__VA_ARGS__).PrintTime()
+#else
+#define TESTLOG_HEADER(CLASSNAME, ...)
+#define TESTLOG_FOOTER(...)
+#define TESTLOG_NEWLINE(CLASSNAME, ...)
+#define TESTLOG(CLASSNAME, ...)
+//	#define LOG_TIME(...) Log(__VA_ARGS__).PrintTime()
+#endif
 

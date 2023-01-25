@@ -5,45 +5,44 @@
 #define _PTC12_NAME "PTC12"
 
 #include "../../../21TestPlatform/TestCase/TestCase.h"
-#include "TMemoryManager12.h"
+#include "../../../13PTechnical/PMemoryManager/PMemory.h"
+#include "../../../01Base/Aspect/Exception.h"
+
+#include "DomainObject12.h"
 
 class PTC12 : public TestCase {
 private:
-	char* m_pMemeoryAllocated;
+	DomainObject12* m_pDomainObject1;
+	DomainObject12* m_pDomainObject2;
 public:
 	PTC12(
 		int nClassId = _PTC12_ID,
 		const char* pcClassName = _PTC12_NAME)
 		: TestCase(nClassId, pcClassName)
-		, m_pMemeoryAllocated(nullptr)
+		, m_pDomainObject1(nullptr)
+		, m_pDomainObject2(nullptr)
 	{
 	}
 	virtual ~PTC12() {
 	}
 	void Initialize() {
-		TestCase::Initialize();
-
+		LOG_NEWLINE("new PTC12::PTC12");
+		m_pDomainObject1 = new("PTC12::DomainObject1") DomainObject12();
+		BaseObject::s_pMemory->Show("");
+		m_pDomainObject2 = new("PTC12::DomainObject2") DomainObject12();
+		BaseObject::s_pMemory->Show("");
 	}
-
 	void Finalize() {
-		TestCase::Finalize();
+		delete m_pDomainObject1;
+		BaseObject::s_pMemory->Show("delete PTC12::m_pDomainObject1");
+		delete m_pDomainObject2;
+		BaseObject::s_pMemory->Show("delete PTC12::m_pDomainObject2");
 	}
-
 	void Run() {
-		try {
-			size_t szTotalMemory = TMemoryManager12::getMemorySize();
-			this->m_pMemeoryAllocated = new char[szTotalMemory];
-				Memory::s_pMemoryManager = new(m_pMemeoryAllocated) TMemoryManager12(szTotalMemory);
-					Memory::s_pMemoryManager->Initialize();
-					Memory::s_pMemoryManager->Show("PTC12::TMemoryManager12");
-					Memory::s_pMemoryManager->Finalize();
-				delete Memory::s_pMemoryManager;
-			delete this->m_pMemeoryAllocated;
-		}
-		catch (Exception& exception) {
-			exception.Println();
-		}
-			
+		// test case
+		m_pDomainObject1->Run();
+		m_pDomainObject2->Run();
+		BaseObject::s_pMemory->Show("");
 	}
 };
 

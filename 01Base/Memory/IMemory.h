@@ -10,22 +10,27 @@ public:
 	enum class EException
 	{
 		_eBegin = _Memory_Id,
+		_eMemoryAllocatedIsSmallerThanAPage,
+		_eNoMorePage,
 		_eOutOfMemory,
 		_eNoMoreSlot,
 		_eSlotCountZero,
 		_eSlotSizeSmall,
 		_eNullPtr,
 		_eNotSupported,
+		_eFree,
 		_eEnd
 	};
 
+
 	virtual ~IMemory() {};
-	virtual void Initialize() = 0;
-	virtual void Finalize() = 0;
+	virtual void Initialize() {}
+	virtual void Finalize() {}
 
 	// methods
-	virtual void* SafeMalloc(size_t szAllocate, const char* pcName) = 0;
-	virtual void SafeFree(void* pPtr) = 0;
+	virtual void* SafeMalloc(size_t szAllocate, const char* pcName) { return nullptr;  }
+	virtual void SafeFree(void* pPtr) {}
 
-	virtual size_t Show(const char* pTitle) = 0;
+	virtual void Show(const char* pTitle) { }
 };
+

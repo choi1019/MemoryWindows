@@ -5,6 +5,7 @@
 enum class _ELayer_PTechnical {
 	_eBegin = _GET_LAYER_UID(_ELayer::_ePTechnical),
 
+	_ePMemory,
 	_ePMemoryManager,
 	_ePMemoryVariable,
 	_ePMemoryEven,

@@ -10,9 +10,6 @@
 
 class Aspect : public RootObject
 {
-protected:
-
-
 public:
 	Aspect(unsigned classId = _Aspect_Id,
 		const char* pClassName = _Aspect_Name)
@@ -31,7 +28,7 @@ public:
 		printf("%s\n", this->GetTab());
 	}
 	void PrintSeparator() {
-		printf("%s-------------------------------------------------\n", this->GetTab());
+		printf("\n%s-------------------------------------------------", this->GetTab());
 	}
 
 

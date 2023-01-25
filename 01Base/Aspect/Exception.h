@@ -49,7 +49,7 @@ public:
 
 	virtual void Println() {
 		printf(
-			">> Execption(%d) << %s::%s => %s\n"
+			"\n>> Execption(%d) << %s::%s => %s\n"
 			, m_nType
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
