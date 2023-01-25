@@ -250,7 +250,7 @@ public:
 			LOG_NEWLINE("Slot-", (size_t)pSlot);
 			pSlot = pSlot->pNext;
 		}
-		LOG_FOOTER("SlotList::Show", pTitle);
+		LOG_FOOTER("SlotList::Show(m_numMaxSlots, m_numSlots)", pTitle, m_numMaxSlots, m_numSlots);
 	};
 };
 
