@@ -15,8 +15,8 @@ public:
 		const char* pClassName = _PTS2_NAME)
 		: TestSuite(typeId, pClassName)
 	{
-		this->add(new PTC21());
-		this->add(new PTC22());
+		this->add(new("PTC21") PTC21());
+		this->add(new("PTC22") PTC22());
 	}
 };
 

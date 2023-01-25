@@ -4,8 +4,11 @@
 #define _TestSuite_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestSuite)
 #define _TestSuite_Name "TestSuite"
 
+#include "../../01Base/Aspect/Exception.h"
+
 #include "TestObject.h"
 #include "TestCase.h"
+#include <vector>
 
 class TestSuite : public TestObject
 {
@@ -14,61 +17,49 @@ private:
 	unsigned m_uLength;
 
 protected:
-	TestObject* m_aTestObjects[MAX_TESTCASES];
+	std::vector<TestCase*> m_vPTestCasess;
 
-	void add(TestObject* pTestCase) {
-		this->m_aTestObjects[m_uCurrentIndex++] = pTestCase;
-		this->m_uLength++;
+	void add(TestCase* pTestCase) {
+		this->m_vPTestCasess.push_back(pTestCase);
 	}
-
+	void DeleteTestCases() {
+		for (TestCase* pTestCase : m_vPTestCasess) {
+			delete pTestCase;
+		}
+	}
 public:
 	TestSuite(int nClassId = _TestSuite_Id, const char* pClassName = _TestSuite_Name)
 		: TestObject(nClassId, pClassName)
 		, m_uLength(0)
 		, m_uCurrentIndex(0)
-		, m_aTestObjects()
+		, m_vPTestCasess()
 	{
 	}
 	virtual ~TestSuite() {
-		for (unsigned i = 0; i < this->m_uLength; i++) {
-			try {
-				delete m_aTestObjects[i];
+
+	}
+	void InitializeSuite() {
+		this->Initialize();
+	}
+	void FinalizeSuite() {
+		this->DeleteTestCases();
+		this->Finalize();
+	}
+	void RunSuite() {
+		try {
+			for (TestCase* pTestCase: m_vPTestCasess) {
+				pTestCase->BeforeInitialize();
+				pTestCase->InitializeCase();
+				pTestCase->BeforeRun();
+				pTestCase->RunCase();
+				pTestCase->AfterRun();
+				pTestCase->FinalizeCase();
+				pTestCase->AfterFinalize();
 			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
+			this->Run();
 		}
-
-	}
-	virtual void Initialize() {
-		TestObject::Initialize();
-	}
-	virtual void Finalize() {
-		TestObject::Finalize();
-	}
-	void Run() {
-		for (unsigned i = 0; i < this->m_uLength; i++) {
-			TestObject* pTestCase = m_aTestObjects[i];
-			try {
-				pTestCase->Initialize();
-			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
-
-			try {
-				pTestCase->Run();
-			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
-
-			try {
-				pTestCase->Finalize();
-			}
-			catch (TestException& exception) {
-				exception.Println();
-			}
+		catch (TestException& exception) {
+			exception.Println();
 		}
 	}
 };

@@ -12,29 +12,23 @@
     <Filter Include="소스 파일\PMemoryManager">
       <UniqueIdentifier>{5e57ead8-7deb-4726-b1ce-114a8e915677}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\PTimer">
+      <UniqueIdentifier>{e6df0cdc-7bdf-4d19-ac6b-5f53beffbb47}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="typedef.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PMemoryManager\PMemoryEven.h">
+    <ClInclude Include="PMemoryManager\PMemory.h">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClInclude>
-    <ClInclude Include="PMemoryManager\PMemoryManager.h">
-      <Filter>소스 파일\PMemoryManager</Filter>
-    </ClInclude>
-    <ClInclude Include="PMemoryManager\PMemoryVariable.h">
-      <Filter>소스 파일\PMemoryManager</Filter>
+    <ClInclude Include="PTimer\PTimer.h">
+      <Filter>소스 파일\PTimer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PMemoryManager\PMemoryEven.cpp">
-      <Filter>소스 파일\PMemoryManager</Filter>
-    </ClCompile>
-    <ClCompile Include="PMemoryManager\PMemoryManager.cpp">
-      <Filter>소스 파일\PMemoryManager</Filter>
-    </ClCompile>
-    <ClCompile Include="PMemoryManager\PMemoryVariable.cpp">
+    <ClCompile Include="PMemoryManager\PMemory.cpp">
       <Filter>소스 파일\PMemoryManager</Filter>
     </ClCompile>
   </ItemGroup>

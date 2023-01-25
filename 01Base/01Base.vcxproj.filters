@@ -23,9 +23,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="typedef.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Aspect\Exception.h">
       <Filter>소스 파일\Aspect</Filter>
     </ClInclude>
@@ -59,11 +56,9 @@
     <ClInclude Include="Memory\IMemory.h">
       <Filter>소스 파일\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="typedef.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Aspect\Exception.cpp">
-      <Filter>소스 파일\Aspect</Filter>
-    </ClCompile>
     <ClCompile Include="Aspect\Log.cpp">
       <Filter>소스 파일\Aspect</Filter>
     </ClCompile>
