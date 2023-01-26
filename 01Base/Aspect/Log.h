@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../typedef.h"
+#include <01Base/typedef.h>
 #define _Log_Id _GET_CLASS_UID(_ELayer_Base::_eLog)
 #define _Log_Name "Log"
 
-#include "../../01Base/Aspect/Aspect.h"
-#include "../../01Base/Memory/IMemory.h"
-#include "../StdLib/String.h"
+#include <01Base/Aspect/Aspect.h>
+#include <01Base/Memory/IMemory.h>
+#include <01Base/StdLib/String.h>
 
 class Log : public Aspect
 {

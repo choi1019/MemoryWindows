@@ -1,33 +1,40 @@
 #pragma once
 
-#include "../typedef.h"
-#include "SystemMemoryObject.h"
+#include <03Technical/typedef.h>
+#define _PageIndex_Id _GET_CLASS_UID(_ELayer_Technical::_ePageIndex)
+#define _PageIndex_Name "PageIndex"
+
+#include <03Technical/MemoryManager/MemoryObject.h>
 #include <math.h>
 
 class Page {
 public:
 };
 
-class PageIndex : public SystemMemoryObject {
+class PageIndex : public MemoryObject {
 private:
 	Page* m_pPage;
-	size_t m_numPagesAllocated;
 	size_t m_szPage;
 	size_t m_index;
+	size_t m_numPagesAllocated;
 
 	bool m_bAllocated;
-
 public:
-	PageIndex(size_t pMemoryAllocated,  size_t szPage, size_t index)
-		: m_pPage((Page*)pMemoryAllocated)
-		, m_numPagesAllocated(1)
+	PageIndex(
+		size_t pMemoryAllocated,  
+		size_t szPage, 
+		size_t index,
+	 	int nClassId = _PageIndex_Id,
+		const char* pClassName = _PageIndex_Name)
+		: MemoryObject(nClassId, pClassName)
+		
+		, m_pPage((Page*)pMemoryAllocated)
 		, m_szPage(szPage)
 		, m_index(index)
+
+		, m_numPagesAllocated(1)
 		, m_bAllocated(false)
 	{
-//		LOG_HEADER("PageIndex::PageINdex(pMemoryAllocated, numPages, szPage)", pMemoryAllocated, numPages, szPage);
-
-//		LOG_FOOTER("PageIndex::PageINdex");
 	}
 	virtual ~PageIndex() {}
 

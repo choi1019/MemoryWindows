@@ -1,6 +1,8 @@
-#pragma once
 
-#include "../01Base/typedef.h"
+#ifndef _ELAYER_PTECHNICAL
+#define _ELAYER_PTECHNICAL
+
+#include <typedef.h>
 
 enum class _ELayer_PTechnical {
 	_eBegin = _GET_LAYER_UID(_ELayer::_ePTechnical),
@@ -20,6 +22,5 @@ enum class _ELayer_PTechnical {
 	_eEnd
 };
 
-#include <Windows.h>
-
+#endif
 

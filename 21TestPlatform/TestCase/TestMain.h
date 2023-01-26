@@ -4,7 +4,7 @@
 #define _TestMain_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestMain)
 #define _TestMain_Name "TestMain"
 
-#include "TestSuite.h"
+#include <TestSuite.h>
 class TestMain: public TestObject {
 private:
 	unsigned m_uCurrentIndex;

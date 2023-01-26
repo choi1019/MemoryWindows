@@ -1,9 +1,12 @@
 #pragma once
-#include "../../01Base/Object/BaseObject.h"
-#include "../../01Base/Aspect/Log.h"
-#include "../../01Base/Aspect/Exception.h"
 
-class SystemMemoryObject : public BaseObject {
+#include <03Technical/typedef.h>
+#define _MemoryObject_Id _GET_CLASS_UID(_ELayer_Technical::_eMemoryObject)
+#define _MemoryObject_Name "MemoryObject"
+
+#include <01Base/Object/BaseObject.h>
+
+class MemoryObject : public BaseObject {
 public:
 	// system memory allocated
 	static size_t s_szSystemMemoryAllocated;
@@ -21,7 +24,7 @@ public:
 		return pCurrentSystemMemoryAllocated;
 	}
 	void* operator new[](size_t szThis, const char* sMessage) {
-		return SystemMemoryObject::operator new(szThis, sMessage);
+		return MemoryObject::operator new(szThis, sMessage);
 	}
 	void operator delete(void* pObject) {
 		LOG_NEWLINE("@delete SystemMemoryObject(pObject)", (size_t)pObject);
@@ -36,9 +39,13 @@ public:
 	}
 
 public:
-	SystemMemoryObject() {
+	MemoryObject(
+		int nClassId = _MemoryObject_Id,
+		const char* pClassName = _MemoryObject_Name)
+		: BaseObject(nClassId, pClassName)
+	{
 	}
-	virtual ~SystemMemoryObject() {
+	virtual ~MemoryObject() {
 	}
 	virtual void Initialize() {
 	}

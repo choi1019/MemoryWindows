@@ -1,12 +1,11 @@
 #pragma once
 
-#include "../typedef.h"
+#include <01Base/typedef.h>
 #define _Directory_Id _GET_CLASS_UID(_ELayer_Base::_eDirectory)
 #define _Directory_Name "Exception"
 
-#include "../../01Base/StdLib/Map.h"
-#include "../../01Base/Aspect/Log.h"
-#undef GetClassName
+#include <01Base/StdLib/Map.h>
+#include <01Base/Aspect/Log.h>
 
 typedef Map<size_t, String> DirectoryMap;
 class Directory : public DirectoryMap

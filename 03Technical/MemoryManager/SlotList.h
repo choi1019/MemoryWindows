@@ -1,7 +1,10 @@
 #pragma once
 
-#include "../typedef.h"
-#include "SystemMemoryObject.h"
+#include <03Technical/typedef.h>
+#define _SlotList_Id _GET_CLASS_UID(_ELayer_Technical::_eSlotList)
+#define _SlotList_Name "SlotList"
+
+#include <03Technical/MemoryManager/MemoryObject.h>
 
 #include "PageList.h"
 
@@ -10,7 +13,7 @@ public:
 	Slot* pNext;
 };
 
-class SlotList : public SystemMemoryObject {
+class SlotList : public MemoryObject {
 private:
 	size_t m_szSlot;
 
@@ -73,8 +76,14 @@ public:
 	}
 
 public:
-	SlotList(size_t szSlot, PageList* pPageList)
-		: m_szSlot(szSlot)
+	SlotList(
+		size_t szSlot, 
+		PageList* pPageList,
+		int nClassId = _SlotList_Id,
+		const char* pClassName = _SlotList_Name)
+		: MemoryObject(nClassId, pClassName)
+		
+		, m_szSlot(szSlot)
 		, m_pPageList(pPageList)
 
 		, m_index(0)

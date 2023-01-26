@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _ETESTLAYER_PLATFORM
+#define _ETESTLAYER_PLATFORM
 
 #define UNDEFINED -1
 
@@ -8,14 +9,14 @@
 enum class _ETestLayer {
 	_eBegin = 20,
 
-	_eTestPlatform = 21,
+	_eTestLayer_Platform = 21,
 	_eTestApplication = 22,
 
 	_eEnd,
 };
 
 enum class _ELayer_TestPlatform {
-	_eBegin = _GET_LAYER_UID(_ETestLayer::_eTestPlatform),
+	_eBegin = _GET_LAYER_UID(_ETestLayer::_eTestLayer_Platform),
 
 	_eTestRoot,
 	_eTestMemoryManager,
@@ -35,3 +36,4 @@ enum class _ELayer_TestPlatform {
 using namespace std;
 
 
+#endif

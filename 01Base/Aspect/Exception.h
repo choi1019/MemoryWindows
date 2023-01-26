@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../typedef.h"
+#include <01Base/typedef.h>
 #define _Exception_Id _GET_CLASS_UID(_ELayer_Base::_eException)
 #define _Exception_Name "Exception"
 
-#include "../../01Base/Aspect/Aspect.h"
-#include "../StdLib/String.h"
+#include <01Base/Aspect/Aspect.h>
+#include <01Base/StdLib/String.h>
 
 class Exception : public Aspect
 {

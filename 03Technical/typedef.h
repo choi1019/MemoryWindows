@@ -1,15 +1,16 @@
-#pragma once
+#ifndef _ELAYER_TECHNICAL
+#define _ELAYER_TECHNICAL
 
-#include "../01Base/typedef.h"
+#include <typedef.h>
 
 enum class _ELayer_Technical {
 	_eBegin = _GET_LAYER_UID(_ELayer::_eTechnical),
 
-	_eMemoryStatic,
-	_eMemoryManager,
-	_eMemoryDynamic,
-	_eMemoryVariable,
-	_eMemoryEven,
+	_eMemoryObject,
+	_eMemory,
+	_ePageIndex,
+	_ePageList,
+	_eSlotList,
 
 	_eTimer,
 	_eSocketServer,
@@ -19,6 +20,7 @@ enum class _ELayer_Technical {
 	_eEnd
 };
 
-#include "../01Base/Aspect/Exception.h"
-#include "../01Base/Aspect/Log.h"
+#include <01Base/Aspect/Exception.h>
+#include <01Base/Aspect/Log.h>
 
+#endif

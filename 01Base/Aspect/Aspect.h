@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../typedef.h"
+#include <01Base/typedef.h>
 #define _Aspect_Id _GET_CLASS_UID(_ELayer_Base::_eAspect)
 #define _Aspect_Name "Aspect"
 
-#include "../Object/RootObject.h"
+#include <01Base/Object/RootObject.h>
 #include <stdio.h>
 
 class Aspect : public RootObject

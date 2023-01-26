@@ -1,8 +1,10 @@
-#pragma once
+#ifndef MAP
+#define MAP
 
-#include "../TypeDef.h"
-#define _Map_Id _GET_CLASS_UID(_ELayer_Base::_eMap)
-#define _Map_Name "Map" 
+#include <01Base/typedef.h>
+
+#define _MAP_Id _GET_CLASS_UID(_ELayer_Base::_eMap)
+#define _MAP_Name "Map" 
 
 #include "Collection.h"
 
@@ -50,7 +52,7 @@ public:
 	typedef MapIterator<KEYTYPE, VALUETYPE> Iterator;
 	typedef MapPair<KEYTYPE, VALUETYPE> MapPair;
 
-	Map(int nClassId = _Map_Id, const char *pcClassName = _Map_Name) 
+	Map(int nClassId = _MAP_Id, const char *pcClassName = _MAP_Name) 
 		: Collection(nClassId, pcClassName)
 		, elements()
 		, length(0) {}
@@ -136,3 +138,4 @@ public:
 		return itr->second;
 	}
 };
+#endif

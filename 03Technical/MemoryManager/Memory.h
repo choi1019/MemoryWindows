@@ -1,14 +1,18 @@
 #pragma once
 
-#include <stdlib.h>
-#include "../typedef.h"
-#include "../../01Base/Memory/IMemory.h"
-#include "SystemMemoryObject.h"
+#include <03Technical/typedef.h>
+#define _Memory_Id _GET_CLASS_UID(_ELayer_Technical::_eMemory)
+#define _Memory_Name "Memory"
 
-#include "PageList.h"
-#include "SlotList.h"
+//#include <stdlib.h>
 
-class Memory :public SystemMemoryObject, public IMemory
+#include <01Base/Memory/IMemory.h>
+#include <03Technical/MemoryManager/MemoryObject.h>
+
+#include <03Technical/MemoryManager/PageList.h>
+#include <03Technical/MemoryManager/SlotList.h>
+
+class Memory :public MemoryObject, public IMemory
 {
 public:
 	// static members
@@ -117,11 +121,11 @@ public:
 	Memory(void* pMemeoryAllocated
 		, size_t szMemoryAllocated
 		, size_t szPage
-		, size_t szSlotUnit
+		, size_t szSlotUnit		
 		, int nClassId = _Memory_Id
 		, const char* pClassName = _Memory_Name)
-
 		: m_pMemeoryAllocated(pMemeoryAllocated)
+		
 		, m_szPage(szPage)
 		, m_szUnit(szSlotUnit)
 	{
@@ -146,7 +150,7 @@ public:
 	virtual void Initialize() {
 		LOG_HEADER("Memory::Initialize");
 
-		SystemMemoryObject::Initialize();
+		MemoryObject::Initialize();
 		this->m_pPageList->Initialize();
 
 		LOG_FOOTER("Memory::Initialize");
@@ -154,7 +158,7 @@ public:
 	virtual void Finalize() {
 		LOG_HEADER("Memory::Finalize");
 
-		SystemMemoryObject::Finalize();
+		MemoryObject::Finalize();
 		this->m_pPageList->Finalize();
 
 		LOG_FOOTER("Memory::Finalize");

@@ -1,10 +1,13 @@
 #pragma once
 
-#include "../typedef.h"
-#include "SystemMemoryObject.h"
-#include "PageIndex.h"
+#include <03Technical/typedef.h>
+#define _PageList_Id _GET_CLASS_UID(_ELayer_Technical::_ePageList)
+#define _PageList_Name "PageList"
 
-class PageList : public SystemMemoryObject {
+#include <03Technical/MemoryManager/MemoryObject.h>
+#include <03Technical/MemoryManager/PageIndex.h>
+
+class PageList : public MemoryObject {
 private:
 //	void* m_pMemoryAllocated;
 	size_t m_szMemoryAllocated;
@@ -17,9 +20,15 @@ private:
 	PageIndex** m_apPageIndices;
 
 public:
-	PageList(size_t pMemeoryAllocated, size_t szMemoryAllocated, size_t szPage) :
-		m_szMemoryAllocated(szMemoryAllocated),
-		m_szPage(szPage)
+	PageList(
+		size_t pMemeoryAllocated, 
+		size_t szMemoryAllocated, 
+		size_t szPage,
+		int nClassId = _PageList_Id,
+		const char* pClassName = _PageList_Name)
+		: MemoryObject(nClassId, pClassName)
+		, m_szMemoryAllocated(szMemoryAllocated)
+		, m_szPage(szPage)
 	{
 		LOG_HEADER("PageList::PageList(pMemeoryAllocated,m_szMemoryAllocated,m_szPage)"
 			, pMemeoryAllocated, m_szMemoryAllocated, m_szPage);
@@ -32,7 +41,7 @@ public:
 
 		// operator new[] for pointer array
 //		this->m_apPageIndices = new("") PageIndex*[m_numPagesMax];
-		this->m_apPageIndices = (PageIndex**)(SystemMemoryObject::operator new(sizeof(PageIndex*)*m_numPagesMax, "m_apPageIndices**"));
+		this->m_apPageIndices = (PageIndex**)(MemoryObject::operator new(sizeof(PageIndex*)*m_numPagesMax, "m_apPageIndices**"));
 		for (int index = 0; index < this->m_numPagesMax; index++) {
 			m_apPageIndices[index] = new((String("m_apPageIndices[]")+String()).c_str()) PageIndex(pMemeoryAllocated, m_szPage, index);
 			pMemeoryAllocated += m_szPage;
