@@ -1,11 +1,10 @@
 #pragma once
 
-#include "../typedef.h"
+#include <21TestPlatform/typedef.h>
 #define _TestException_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestException)
 #define _TestException_Name "TestException"
 
-#include "../TestObject/TestRoot.h"
-
+#include <21TestPlatform/TestObject/TestRoot.h>
 
 class TestException : public TestRoot
 {

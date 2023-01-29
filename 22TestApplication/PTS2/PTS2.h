@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Config.h"
+#include <22TestApplication/PTS2/Config.h>
 #define _PTS2_ID _GET_TESTSUIT_UID(_ELayer_PTestSuit::_ePTS2)
 #define _PTS2_NAME "PTS2"
 
-#include "../../21TestPlatform/TestCase/TestSuite.h"
-#include "PTC21/PTC21.h"
-#include "PTC22/PTC22.h"
+#include <21TestPlatform/TestCase/TestSuite.h>
+
+#include <22TestApplication/PTS2/PTC21/PTC21.h>
+#include <22TestApplication/PTS2/PTC22/PTC22.h>
 
 class PTS2: public TestSuite {
 public:

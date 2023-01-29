@@ -1,4 +1,4 @@
-#include "TestLog.h"
+#include <21TestPlatform/TestAspect/TestLog.h>
 
 unsigned TestLog::s_uCount = 0;
 unsigned TestLog::s_uCountTab = 0;

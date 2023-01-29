@@ -1,16 +1,15 @@
 #pragma once
 
-#include "Config.h"
+#include <22TestApplication/PTS1/Config.h>
 #define _PTS1_ID _GET_TESTSUIT_UID(_ELayer_PTestSuit::_ePTS1)
 #define _PTS1_NAME "PTS1"
 
-#include "../../21TestPlatform/TestCase/TestSuite.h"
+#include <21TestPlatform/TestCase/TestSuite.h>
 
-#include "Config.h"
-#include "PTC11/PTC11.h"
-#include "PTC12/PTC12.h"
-#include "PTC13/PTC13.h"
-#include "PTC14/PTC14.h"
+#include <22TestApplication/PTS1/PTC11/PTC11.h>
+#include <22TestApplication/PTS1/PTC12/PTC12.h>
+#include <22TestApplication/PTS1/PTC13/PTC13.h>
+#include <22TestApplication/PTS1/PTC14/PTC14.h>
 
 template <int SIZE_SYSTEM_MEMORY, int SIZE_USER_MEMORY, int SIZE_PAGE, int SIZE_SLOT_UNIT>
 class PTS1: public TestSuite {

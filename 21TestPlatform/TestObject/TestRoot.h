@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../typedef.h"
+#include <21TestPlatform/typedef.h>
 #define _TestRoot_id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestRoot)
 #define _TestRoot_Name "TestRoot"
 

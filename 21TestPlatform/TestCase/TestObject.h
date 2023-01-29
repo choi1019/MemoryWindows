@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../typedef.h"
+#include <21TestPlatform/typedef.h>
 #define _TestObject_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestObject)
 #define _TestObject_Name "TestObject"
 
-#include "../TestObject/TestRoot.h"
-#include "../TestAspect/TestException.h"
-#include "../TestAspect/TestLog.h"
+#include <21TestPlatform/TestObject/TestRoot.h>
+#include <21TestPlatform/TestAspect/TestException.h>
+#include <21TestPlatform/TestAspect/TestLog.h>
 
 class TestObject: public TestRoot
 {
@@ -21,7 +21,7 @@ public:
 
 	void BeforeInitialize() {
 		TestLog().PrintSeparator();
-		TestLog(this->GetClassName(), "Initialize", "½ÃÀÛ ÇÕ´Ï´Ù").Println();
+		TestLog(this->GetClassName(), "Initialize", "ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½").Println();
 		TestLog().PrintSeparator();
 		TestLog::AddTab();
 	}
@@ -29,7 +29,7 @@ public:
 	}
 	void BeforeRun() {
 		TestLog().PrintSeparator();
-		TestLog(this->GetClassName(), "Run", "½ÃÀÛ ÇÕ´Ï´Ù").Println();
+		TestLog(this->GetClassName(), "Run", "ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½").Println();
 		TestLog().PrintSeparator();
 		TestLog::AddTab();
 	}
@@ -38,7 +38,7 @@ public:
 	void AfterRun() {
 		TestLog::RemoveTab();
 		TestLog().PrintSeparator();
-		TestLog(this->GetClassName(), "Run", "Á¾·á µÇ¾ú½À´Ï´Ù").Println();
+		TestLog(this->GetClassName(), "Run", "ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½").Println();
 		TestLog().PrintSeparator();
 	}
 	virtual void Finalize() {
@@ -46,7 +46,7 @@ public:
 	void AfterFinalize() {
 		TestLog::RemoveTab();
 		TestLog().PrintSeparator();
-		TestLog(this->GetClassName(), "Finalize", "Á¾·á µÇ¾ú½À´Ï´Ù").Println();
+		TestLog(this->GetClassName(), "Finalize", "ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½").Println();
 		TestLog().PrintSeparator();
 	}
 };

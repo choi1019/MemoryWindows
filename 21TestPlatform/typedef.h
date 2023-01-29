@@ -35,5 +35,4 @@ enum class _ELayer_TestPlatform {
 #include <string>
 using namespace std;
 
-
 #endif

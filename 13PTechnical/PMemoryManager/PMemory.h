@@ -1,21 +1,21 @@
 #pragma once
 
-#include "../typedef.h"
+#include <13PTechnical/typedef.h>
 #define _PMemory_Id _GET_CLASS_UID(_ELayer_PTechnical::_ePMemory)
 #define _PMemory_Name "PMemory"
 
-#include "../../03Technical/MemoryManager/Memory.h"
+#include <03Technical/MemoryManager/Memory.h>
 
 class PMemory : public Memory {
 private:
-	CRITICAL_SECTION CriticalSection;
+//	CRITICAL_SECTION CriticalSection;
 
 protected:
 	virtual void Lock() {
-		EnterCriticalSection(&CriticalSection);
+//		EnterCriticalSection(&CriticalSection);
 	}
 	virtual void UnLock() {
-		LeaveCriticalSection(&CriticalSection);
+//		LeaveCriticalSection(&CriticalSection);
 	}
 
 public:
@@ -29,10 +29,10 @@ public:
 		const char* pcClassName = _PMemory_Name)
 		: Memory(pMemeoryAllocated, szMemoryAllocated, szPage, szSlotUnit, nClassId, pcClassName)
 	{
-		InitializeCriticalSection(&CriticalSection);
+//		InitializeCriticalSection(&CriticalSection);
 	}
 	virtual ~PMemory() {
-		DeleteCriticalSection(&CriticalSection);
+//		DeleteCriticalSection(&CriticalSection);
 	}
 
 	virtual void Initialize() {

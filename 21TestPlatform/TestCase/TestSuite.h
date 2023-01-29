@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../typedef.h"
+#include <21TestPlatform/typedef.h>
 #define _TestSuite_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestSuite)
 #define _TestSuite_Name "TestSuite"
 
 #include "../../01Base/Aspect/Exception.h"
 
-#include "TestObject.h"
-#include "TestCase.h"
+#include <21TestPlatform/TestCase/TestObject.h>
+#include <21TestPlatform/TestCase/TestCase.h>
 #include <vector>
 
 class TestSuite : public TestObject

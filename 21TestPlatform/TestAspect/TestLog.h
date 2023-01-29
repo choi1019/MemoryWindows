@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../typedef.h"
+#include <21TestPlatform/typedef.h>
 #define _TestLog_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestLog)
 #define _TestLog_Name "TestLog"
 
-#include "../TestObject/TestRoot.h"
+#include <21TestPlatform/TestObject/TestRoot.h>
 
 class TestLog : public TestRoot
 {

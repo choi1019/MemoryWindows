@@ -1,14 +1,13 @@
 #pragma once
 
-#include "Config.h"
+#include <22TestApplication/PTS1/PTC12/Config.h>
 #define _PTC12_ID _GET_TESTCASE_UID(_ELayer_PTS1::_ePTC12)
 #define _PTC12_NAME "PTC12"
 
-#include "../../../21TestPlatform/TestCase/TestCase.h"
-#include "../../../13PTechnical/PMemoryManager/PMemory.h"
-#include "../../../01Base/Aspect/Exception.h"
-
-#include "DomainObject12.h"
+#include <21TestPlatform/TestCase/TestCase.h>
+#include <13PTechnical/PMemoryManager/PMemory.h>
+#include <01Base/Aspect/Exception.h>
+#include <22TestApplication/PTS1/PTC12/DomainObject12.h>
 
 class PTC12 : public TestCase {
 private:

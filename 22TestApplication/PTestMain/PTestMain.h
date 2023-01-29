@@ -1,19 +1,18 @@
 #pragma once
 
-#include "Config.h"
-#define _PTESTMAIN_ID _GET_CLASS_UID(_ELayer_PTestSuit::_ePTestMain)
-#define _PTESTMAIN_NAME "PTestMain"
+#include <22TestApplication/PTestMain/Config.h>>
+#define _PTestMain_ID _GET_CLASS_UID(_ELayer_PTestSuit::_ePTestMain)
+#define _PTestMain_NAME "PTestMain"
 
-#include "../../21TestPlatform/TestCase/TestMain.h"
-#include "Config.h"
-#include "../PTS1/PTS1.h"
-#include "../PTS2/PTS2.h"
+#include <21TestPlatform/TestCase/TestMain.h>
+#include <22TestApplication/PTS1/PTS1.h>
+#include <22TestApplication/PTS2/PTS2.h>
 
 class PTestMain : public TestMain {
 public:
 	PTestMain(
-		int nClassId = _PTESTMAIN_ID,
-		const char* pcClassName = _PTESTMAIN_NAME)
+		int nClassId = _PTestMain_ID,
+		const char* pcClassName = _PTestMain_NAME)
 		: TestMain(nClassId, pcClassName)
 	{
 	}

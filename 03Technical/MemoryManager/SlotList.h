@@ -5,8 +5,7 @@
 #define _SlotList_Name "SlotList"
 
 #include <03Technical/MemoryManager/MemoryObject.h>
-
-#include "PageList.h"
+#include <03Technical/MemoryManager/PageList.h>
 
 class Slot {
 public:

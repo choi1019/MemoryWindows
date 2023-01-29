@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Config.h"
+#include <22TestApplication/PTS2/PTC21/Config.h>
 #define _PTC21_ID _GET_TESTCASE_UID(_ELayer_PTS2::_ePTC21)
 #define _PTC21_NAME "PTC21"
 
-#include "../../../21TestPlatform/TestCase/TestCase.h"
+#include <21TestPlatform/TestCase/TestCase.h>
 
 class TestPage {
 private:

@@ -1,3 +1,3 @@
 #pragma once
-#include "../Config.h"
+#include <22TestApplication/PTS1/Config.h>
 
