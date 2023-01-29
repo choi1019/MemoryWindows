@@ -1,7 +1,7 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestCase_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestCase)
+#define _TestCase_Id _GET_TCLASS_UID(_ELayer_TestPlatform::_eTestCase)
 #define _TestCase_Name "TestCase"
 
 #include <21TestPlatform/TestCase/TestObject.h>

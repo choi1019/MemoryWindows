@@ -15,8 +15,11 @@ template <int SIZE_SYSTEM_MEMORY, int SIZE_USER_MEMORY, int SIZE_PAGE, int SIZE_
 class PTS1: public TestSuite {
 private:
 	Memory* m_pMemory;
-	void* m_pSystemMemeoryAllocated;
-	void* m_pUserMemeoryAllocated;
+
+	size_t m_szSystemMemory;
+	char* m_pSystemMemeoryAllocated;
+	size_t m_szUserMemory;
+	char* m_pUserMemeoryAllocated;
 
 public:
 	PTS1(
@@ -34,15 +37,15 @@ public:
 	void Initialize() {
 		try {
 			// system memory allocation
-			size_t szSystemMemory = SIZE_SYSTEM_MEMORY;
-			m_pSystemMemeoryAllocated = new char[szSystemMemory];
+			m_szSystemMemory = SIZE_SYSTEM_MEMORY;
+			m_pSystemMemeoryAllocated = new char[m_szSystemMemory];
 
 			// aplication memorty allocation
-			size_t szUserMemory = SIZE_USER_MEMORY;
-			m_pUserMemeoryAllocated = new char[szUserMemory];
+			m_szUserMemory = SIZE_USER_MEMORY;
+			m_pUserMemeoryAllocated = new char[m_szUserMemory];
 
-			m_pMemory = new(m_pSystemMemeoryAllocated, szSystemMemory)
-				PMemory(m_pUserMemeoryAllocated, szUserMemory, SIZE_PAGE, SIZE_SLOT_UNIT);
+			m_pMemory = new(m_pSystemMemeoryAllocated, m_szSystemMemory)
+				PMemory(m_pUserMemeoryAllocated, m_szUserMemory, SIZE_PAGE, SIZE_SLOT_UNIT);
 
 			m_pMemory->Initialize();
 			m_pMemory->Show("m_pMemory::Initialize()");
@@ -66,7 +69,7 @@ public:
 			m_pMemory->Show("");
 
 			delete m_pMemory;
-			delete m_pUserMemeoryAllocated;
+			delete[] m_pUserMemeoryAllocated;
 			delete[] m_pSystemMemeoryAllocated;
 		}
 		catch (Exception& exception) {

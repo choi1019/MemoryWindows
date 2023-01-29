@@ -29,6 +29,8 @@ enum class _ELayer_Base {
 	_eEnd
 };
 
+#include <cstddef>
+
 #endif
 
 

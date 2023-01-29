@@ -61,7 +61,7 @@ public:
 	void Print() {
 		printf(
 			"%s%s %s %s %s %s"
-			, this->GetTab()
+			, Aspect::GetTab()
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
 			, m_sMessage1.c_str()
@@ -73,7 +73,7 @@ public:
 	void Println() {
 		printf(
 			"\n%s%s %s %s %s %s"
-			, this->GetTab()
+			, Aspect::GetTab()
 			,m_sObject.c_str()
 			,m_sFunction.c_str()
 			, m_sMessage1.c_str()
@@ -85,7 +85,7 @@ public:
 	void PrintHeader() {
 		printf(
 			"\n%s<<%s %s %s %s %s"
-			, this->GetTab()
+			, Aspect::GetTab()
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
 			, m_sMessage1.c_str()
@@ -99,7 +99,7 @@ public:
 		this->RemoveTab();
 		printf(
 			"\n%s>>%s %s %s %s %s"
-			, this->GetTab()
+			, Aspect::GetTab()
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
 			, m_sMessage1.c_str()

@@ -29,9 +29,6 @@ public:
 	};
 
 private:
-	// class variable
-	static unsigned s_uCounter;
-
 	// attributes
 	unsigned 	m_uObjectId;
 	unsigned 	m_nClassId;
@@ -51,32 +48,18 @@ public:
 	inline void SetEState(EState eState) { this->m_eState = eState; }
 
 public:
-	// static members
+	// class variable
+	static unsigned s_uCounter;
 	static IMemory* s_pMemory;
 
-	void* operator new (size_t szThis, const char* sMessage) {
-		printf("\n\n@BaseObject::new %s (%zu)", sMessage, szThis);
-		void* pAllocated = s_pMemory->SafeMalloc(szThis, sMessage);
-		return pAllocated;
-	}
-	void* operator new[] (size_t szThis, const char* sMessage) {
-			return BaseObject::operator new(szThis, sMessage);
-	}
-	void operator delete(void* pObject) {
-		printf("\n@BaseObject::delete %zu", (size_t)pObject);
-		s_pMemory->SafeFree(pObject);
-	}
-	void operator delete[](void* pObject) {
-		BaseObject::operator delete(pObject);
-	}
+	void* operator new (size_t szThis, const char* sMessage);
+	void* operator new[] (size_t szThis, const char* sMessage);
+	void operator delete(void* pObject);
+	void operator delete[](void* pObject);
 
 	// dummy
-	void operator delete(void* pObject, const char* sMessage) {
-		printf("\n@DUMMY BaseObject::delete %zu", (size_t)pObject);
-	}
-	void operator delete[](void* pObject, const char* sMessage) {
-		printf("\n@DUMMY BaseObject::delete[] %zu", (size_t)pObject);
-	}
+	void operator delete(void* pObject, const char* sMessage);
+	void operator delete[](void* pObject, const char* sMessage);
 
 public:
 	// constructors & destructors
@@ -84,7 +67,6 @@ public:
 		int nClassId = _BASEOBJECT_Id,
 		const char* pcClassName = _BASEOBJECT_Name)
 		: RootObject(nClassId, pcClassName)
-		, m_uObjectId(s_uCounter++)
 		, m_nClassId(nClassId)
 		, m_pcClassName(pcClassName)
 		, m_eState(EState::eCreated)

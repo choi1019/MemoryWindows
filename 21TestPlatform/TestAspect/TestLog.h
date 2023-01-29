@@ -1,7 +1,7 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestLog_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestLog)
+#define _TestLog_Id _GET_TCLASS_UID(_ELayer_TestPlatform::_eTestLog)
 #define _TestLog_Name "TestLog"
 
 #include <21TestPlatform/TestObject/TestRoot.h>
@@ -9,7 +9,6 @@
 class TestLog : public TestRoot
 {
 private:
-	static unsigned s_uCount;
 	int m_nLogId;
 
 	string m_sObject;
@@ -17,13 +16,14 @@ private:
 	string m_sMessage;
 
 public:
+	static unsigned s_uCount;
 	TestLog(
 		string sObject,
 		string sFunction,
 		string sMessage,
 		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name)
 		: TestRoot(nClassId, pcClassName)
-		, m_nLogId(s_uCount++)
+		, m_nLogId(TestLog::s_uCount++)
 		, m_sObject(sObject)
 		, m_sFunction(sFunction)
 		, m_sMessage(sMessage)
@@ -32,7 +32,7 @@ public:
 	TestLog(
 		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name)
 		: TestRoot(nClassId, pcClassName)
-		, m_nLogId(s_uCount++)
+		, m_nLogId(TestLog::s_uCount++)
 	{
 	}
 	virtual ~TestLog() {
@@ -49,7 +49,7 @@ public:
 	void Println() {
 		printf(
 			"\n%sTestLog%d %s::%s %s"
-			, this->GetTab()
+			, TestLog::GetTab()
 			, this->GetLogId()
 			, m_sObject.c_str()
 			, m_sFunction.c_str()
@@ -72,14 +72,14 @@ public:
 	static unsigned s_uCountTab;
 	static char s_pcTab[];
 	static char* GetTab() {
-		for (unsigned i = 0; i < s_uCountTab * SIZE_TAB; i++) {
-			s_pcTab[i] = SPACE;
+		for (unsigned i = 0; i < TestLog::s_uCountTab * SIZE_TAB; i++) {
+			TestLog::s_pcTab[i] = SPACE;
 		}
-		s_pcTab[s_uCountTab * SIZE_TAB] = '\0';
+		TestLog::s_pcTab[TestLog::s_uCountTab * SIZE_TAB] = '\0';
 		return s_pcTab;
 	}
-	static void AddTab() { s_uCountTab++; }
-	static void RemoveTab() { s_uCountTab--; }
+	static void AddTab() { TestLog::s_uCountTab++; }
+	static void RemoveTab() { TestLog::s_uCountTab--; }
 };
 
 

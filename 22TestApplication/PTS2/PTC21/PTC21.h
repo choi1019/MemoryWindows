@@ -1,7 +1,7 @@
 #pragma once
 
 #include <22TestApplication/PTS2/PTC21/Config.h>
-#define _PTC21_ID _GET_TESTCASE_UID(_ELayer_PTS2::_ePTC21)
+#define _PTC21_ID 1
 #define _PTC21_NAME "PTC21"
 
 #include <21TestPlatform/TestCase/TestCase.h>
@@ -43,6 +43,7 @@ public:
 	~TestMemory() {
 	}
 	void* Malloc(size_t szObject) {
+		return nullptr;
 	}
 	void Free(void* pObject) {
 	}
@@ -51,6 +52,7 @@ public:
 		if ((index * m_szPage + (size_t)m_pMemoryAllocated) < (size_t)pObject) {
 			index++;
 		}
+		return nullptr;
 	}
 };
 
@@ -62,7 +64,7 @@ private:
 public:
 	void* operator new(size_t szThis) {
 		//		printf("\n\n@BaseObject::new %s (%zu)", sMessage, szThis);
-		s_pMemory->Malloc(szThis);
+		return s_pMemory->Malloc(szThis);
 	}
 	void operator delete(void* pObject) {
 		//		printf("\n@BaseObject::delete %zu\n", (size_t)pObject);
@@ -77,8 +79,6 @@ public:
 	{
 		m_index = 0;
 	}
-
-
 };
 
 class PTC21 : public TestCase {

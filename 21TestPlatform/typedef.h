@@ -3,8 +3,8 @@
 
 #define UNDEFINED -1
 
-#define _GET_LAYER_UID(ID)		(int)ID*1000
-#define _GET_CLASS_UID(ID)		(int)ID*1000
+#define _GET_TLAYER_UID(ID)		(int)ID*1000
+#define _GET_TCLASS_UID(ID)		(int)ID*1000
 
 enum class _ETestLayer {
 	_eBegin = 20,
@@ -16,7 +16,7 @@ enum class _ETestLayer {
 };
 
 enum class _ELayer_TestPlatform {
-	_eBegin = _GET_LAYER_UID(_ETestLayer::_eTestLayer_Platform),
+	_eBegin = _GET_TLAYER_UID(_ETestLayer::_eTestLayer_Platform),
 
 	_eTestRoot,
 	_eTestMemoryManager,

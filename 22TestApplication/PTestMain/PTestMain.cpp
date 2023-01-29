@@ -11,5 +11,5 @@ int main() {
 	catch (TestException& exception) {
 		exception.Println();
 	}
-
+	return 0;
  }

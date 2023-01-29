@@ -24,7 +24,7 @@ public:
 		RootObject::Finalize();
 	}
 	void PrintNextLine() {
-		printf("%s\n", this->GetTab());
+		printf("%s\n", Aspect::GetTab());
 	}
 	void PrintSeparator() {
 		printf("\n%s-------------------------------------------------", this->GetTab());
@@ -42,13 +42,13 @@ public:
 	static unsigned s_uCountTab;
 	static char s_pcTab[];
 	static char* GetTab() {
-		for (unsigned i = 0; i < s_uCountTab * SIZE_TAB; i++) {
-			s_pcTab[i] = SPACE;
+		for (unsigned i = 0; i < Aspect::s_uCountTab * SIZE_TAB; i++) {
+			Aspect::s_pcTab[i] = SPACE;
 		}
-		s_pcTab[s_uCountTab * SIZE_TAB] = '\0';
-		return s_pcTab;
+		Aspect::s_pcTab[s_uCountTab * SIZE_TAB] = '\0';
+		return Aspect::s_pcTab;
 	}
-	static void AddTab() { s_uCountTab++; }
-	static void RemoveTab() { s_uCountTab--; }
+	static void AddTab() { Aspect::s_uCountTab++; }
+	static void RemoveTab() { Aspect::s_uCountTab--; }
 };
 

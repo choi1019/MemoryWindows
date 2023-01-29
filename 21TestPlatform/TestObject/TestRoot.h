@@ -1,7 +1,7 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestRoot_id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestRoot)
+#define _TestRoot_id _GET_TCLASS_UID(_ELayer_TestPlatform::_eTestRoot)
 #define _TestRoot_Name "TestRoot"
 
 #define MAX_TESTCASES 20
