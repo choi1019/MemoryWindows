@@ -1,10 +1,8 @@
-#ifndef MAP
-#define MAP
+#pragma once
 
 #include <01Base/typedef.h>
-
-#define _MAP_Id _GET_CLASS_UID(_ELayer_Base::_eMap)
-#define _MAP_Name "Map" 
+#define _Map_Id _GET_CLASS_UID(_ELayer_Base::_eMap)
+#define _Map_Name "Map" 
 
 #include "Collection.h"
 
@@ -43,16 +41,18 @@ public:
 	inline bool operator!=(const MapIterator& rhs) { return pElement != rhs.pElement; }
 };
 
+
 template <class KEYTYPE, class VALUETYPE, int MAXLENGTH = 100>
 class Map: public Collection {
+
+typedef MapIterator<KEYTYPE, VALUETYPE> Iterator;
+
 private:
 	int length;
 	MapPair<KEYTYPE, VALUETYPE> elements[MAXLENGTH];
-public:
-	typedef MapIterator<KEYTYPE, VALUETYPE> Iterator;
-	typedef MapPair<KEYTYPE, VALUETYPE> MapPair;
 
-	Map(int nClassId = _MAP_Id, const char *pcClassName = _MAP_Name) 
+public:
+	Map(int nClassId = _Map_Id, const char *pcClassName = _Map_Name) 
 		: Collection(nClassId, pcClassName)
 		, elements()
 		, length(0) {}
@@ -105,26 +105,26 @@ public:
 		}
 	}
 
-	inline bool Add(MapPair MapPair) {
+	inline bool Add(MapPair<KEYTYPE, VALUETYPE>  mapPair) {
 		if (this->length == MAXLENGTH) {
 //			throw Exception((int)EError::_eIndexOverflow, "Map", "Add", "eOverFlow");
 			return false;
 		}
-		Iterator itr = this->Find(MapPair.first);
+		Iterator itr = this->Find(mapPair.first);
 
 		// found, do not add
 		if (itr != this->end()) {
 			return false;
 		}
-		this->elements[this->length] = MapPair;
+		this->elements[this->length] = mapPair;
 		this->length++;
 		return true;
 	}
 
 	inline bool Add(const KEYTYPE& key, VALUETYPE& element)
 	{
-		MapPair MapPair(key, element);
-		return Add(MapPair);
+		MapPair<KEYTYPE, VALUETYPE>  mapPair(key, element);
+		return Add(mapPair);
 	}
 
 	VALUETYPE& operator[](const KEYTYPE& key)
@@ -138,4 +138,3 @@ public:
 		return itr->second;
 	}
 };
-#endif

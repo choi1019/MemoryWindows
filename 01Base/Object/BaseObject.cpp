@@ -13,11 +13,11 @@ void* BaseObject::operator new[] (size_t szThis, const char* sMessage) {
 }
 void BaseObject::operator delete(void* pObject) {
     printf("\n@BaseObject::delete %zu", (size_t)pObject);
-    s_pMemory->SafeFree(pObject);
+    BaseObject::s_pMemory->SafeFree(pObject);
 }
 void BaseObject::operator delete[](void* pObject) {
     printf("\n@BaseObject::delete[] %zu", (size_t)pObject);
-    s_pMemory->SafeFree(pObject);
+    BaseObject::s_pMemory->SafeFree(pObject);
 }
 
 // dummy
@@ -30,8 +30,12 @@ void BaseObject::operator delete[](void* pObject, const char* sMessage) {
 
 BaseObject::BaseObject(int nClassId, const char* pcClassName)
     : RootObject(nClassId, pcClassName)
+    , m_uObjectId(BaseObject::s_uCounter++)
+    , m_nClassId(nClassId)
+	, m_pcClassName(pcClassName)
+	, m_eState(EState::eCreated)
+	, m_szThis(0)
 {
-    m_uObjectId = BaseObject::s_uCounter++;
 }
 BaseObject::~BaseObject() {
     this->m_eState = EState::eDeleted;

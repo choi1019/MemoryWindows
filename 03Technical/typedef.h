@@ -1,5 +1,4 @@
-#ifndef _ELAYER_TECHNICAL
-#define _ELAYER_TECHNICAL
+#pragma once
 
 #include <typedef.h>
 
@@ -22,5 +21,4 @@ enum class _ELayer_Technical {
 
 #include <01Base/Aspect/Exception.h>
 #include <01Base/Aspect/Log.h>
-
-#endif
+#include <01Base/Aspect/Directory.h>

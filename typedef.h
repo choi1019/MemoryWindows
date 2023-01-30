@@ -1,5 +1,4 @@
-#ifndef _ELAYER
-#define _ELAYER
+#pragma once
 
 #define UNDEFINED -1
 
@@ -34,4 +33,11 @@ enum class _ELayer {
 	_eEnd
 };
 
-#endif
+// for size_t
+#include <cstddef>
+// for memcpy
+#include <string.h>
+// printf
+#include <stdio.h>
+// duplication
+#undef GetClassName

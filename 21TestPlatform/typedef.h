@@ -1,29 +1,29 @@
-#ifndef _ETESTLAYER_PLATFORM
-#define _ETESTLAYER_PLATFORM
+#pragma once
 
 #define UNDEFINED -1
 
-#define _GET_TLAYER_UID(ID)		(int)ID*1000
-#define _GET_TCLASS_UID(ID)		(int)ID*1000
+#define _GET_TESTLAYER_UID(ID)	(unsigned)ID*100
+#define _GET_TESTCASE_UID(ID)	(unsigned)ID*100
 
 enum class _ETestLayer {
 	_eBegin = 20,
 
-	_eTestLayer_Platform = 21,
+	_eTestPlatform = 21,
 	_eTestApplication = 22,
 
 	_eEnd,
 };
 
 enum class _ELayer_TestPlatform {
-	_eBegin = _GET_TLAYER_UID(_ETestLayer::_eTestLayer_Platform),
+	_eBegin = _GET_TESTLAYER_UID(_ETestLayer::_eTestPlatform),
 
 	_eTestRoot,
+	_eTestObject,
+
 	_eTestMemoryManager,
 	_eTestException,
 	_eTestLog,
 
-	_eTestObject,
 	_eTestCase,
 	_eTestSuite,
 	_eTestMain,
@@ -31,8 +31,11 @@ enum class _ELayer_TestPlatform {
 
 };
 
+// for printf
+#include <stdio.h>
+// for malloc
 #include <stdlib.h>
+// for string
 #include <string>
 using namespace std;
 
-#endif

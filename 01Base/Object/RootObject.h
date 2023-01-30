@@ -1,22 +1,14 @@
-/////////////////////////////////////////////////////////////////
-/// <summary>
-/// Sungwoon Choi 2023-01-26
-/// </summary>
-/////////////////////////////////////////////////////////////////
-
-#ifndef ROOTOBJECT
-#define ROOTOBJECT
+#pragma once
 
 #include <01Base/typedef.h>
 
-#define _ROOTOBJECT_Id _GET_CLASS_UID(_ELayer_Base::_eRootObject)
-#define _ROOTOBJECT_Name "RootObject"
-#undef GetClassName
+#define _RootObject_Id _GET_CLASS_UID(_ELayer_Base::_eRootObject)
+#define _RootObject_Name "RootObject"
 
 class RootObject {
 public:
 	// constructors and destructors
-	RootObject(unsigned nClassId = _ROOTOBJECT_Id, const char* pcClassName = _ROOTOBJECT_Name)
+	RootObject(unsigned nClassId = _RootObject_Id, const char* pcClassName = _RootObject_Name)
 	{
 	}
 	virtual ~RootObject() 
@@ -29,5 +21,4 @@ public:
 	{
 	}
 };
-#endif
 

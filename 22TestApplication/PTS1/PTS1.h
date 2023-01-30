@@ -1,8 +1,8 @@
 #pragma once
 
 #include <22TestApplication/PTS1/Config.h>
-#define _PTS1_ID _GET_TESTSUIT_UID(_ELayer_PTestSuit::_ePTS1)
-#define _PTS1_NAME "PTS1"
+#define _PTS1_Id _GET_TESTLAYER_UID(_ELayer_PTestSuit::_ePTS1)
+#define _PTS1_Name "PTS1"
 
 #include <21TestPlatform/TestCase/TestSuite.h>
 
@@ -23,8 +23,8 @@ private:
 
 public:
 	PTS1(
-		unsigned typeId = _PTS1_ID,
-		const char* pClassName = _PTS1_NAME)
+		unsigned typeId = _PTS1_Id,
+		const char* pClassName = _PTS1_Name)
 		: TestSuite(typeId, pClassName)
 		, m_pMemory(nullptr)
 		, m_pSystemMemeoryAllocated(nullptr)

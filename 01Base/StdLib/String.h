@@ -1,9 +1,8 @@
-#ifndef STRING
-#define STRING
+#pragma once
 
 #include <01Base/typedef.h>
-#define _STRING_Id _GET_CLASS_UID(_ELayer_Base::_eString)
-#define _STRING_Name "String"
+#define _String_Id _GET_CLASS_UID(_ELayer_Base::_eString)
+#define _String_Name "String"
 
 #include <01Base/Object/BaseObject.h>
 #include <string.h>
@@ -135,49 +134,49 @@ private:
 	}
 
 public:
-	String() : BaseObject(_STRING_Id, _STRING_Name)
+	String() : BaseObject(_String_Id, _String_Name)
 	{
 		this->m_uLength = 0;
 	}
-	String(const String& rString) : BaseObject(_STRING_Id, _STRING_Name)
+	String(const String& rString) : BaseObject(_String_Id, _String_Name)
 	{
 		unsigned uLength = rString.length();
 		this->copy(rString.c_str(), uLength);
 	}
-	String(const char* rCharArray) : BaseObject(_STRING_Id, _STRING_Name)
+	String(const char* rCharArray) : BaseObject(_String_Id, _String_Name)
 	{
 		unsigned uLength = this->computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
-	String(const size_t nValue) : BaseObject(_STRING_Id, _STRING_Name)
+	String(const size_t nValue) : BaseObject(_String_Id, _String_Name)
 	{
 		sToa(nValue);
 	}
-	String(const int nValue) : BaseObject(_STRING_Id, _STRING_Name)
+	String(const int nValue) : BaseObject(_String_Id, _String_Name)
 	{
 		iToa(nValue);
 	}
-	String(const unsigned int uValue) : BaseObject(_STRING_Id, _STRING_Name)
+	String(const unsigned int uValue) : BaseObject(_String_Id, _String_Name)
 	{
 		sToa(static_cast<size_t>(uValue));
 	}
-	String(const bool bValue) : BaseObject(_STRING_Id, _STRING_Name)
+	String(const bool bValue) : BaseObject(_String_Id, _String_Name)
 	{
 		bToa(bValue);
 	}
-	String(const void* pValue) : BaseObject(_STRING_Id, _STRING_Name)
+	String(const void* pValue) : BaseObject(_String_Id, _String_Name)
 	{
 		sToa((size_t)pValue);
 	}
 	/*
-	String(const float fValue) : Collection(_STRING_Id, _STRING_Name)
+	String(const float fValue) : Collection(_String_Id, _String_Name)
 	{
 		char rCharArray[MAXLENGTH_STRING + 1];
 		_gcvt_s(rCharArray, MAXLENGTH_STRING, fValue, 5);
 		unsigned uLength = computeLength(rCharArray);
 		this->copy(rCharArray, uLength);
 	}
-	String(time_t tValue) : BaseObject(_STRING_Id, _STRING_Name)
+	String(time_t tValue) : BaseObject(_String_Id, _String_Name)
 	{
 		char rCharArray[MAXLENGTH_STRING + 1];
 		ctime_s(rCharArray, MAXLENGTH_STRING, &tValue);
@@ -226,4 +225,3 @@ public:
 		this->clearArray();
 	}
 };
-#endif

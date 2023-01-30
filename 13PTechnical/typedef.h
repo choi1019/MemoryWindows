@@ -1,6 +1,5 @@
 
-#ifndef _ELAYER_PTECHNICAL
-#define _ELAYER_PTECHNICAL
+#pragma once
 
 #include <typedef.h>
 
@@ -22,5 +21,4 @@ enum class _ELayer_PTechnical {
 	_eEnd
 };
 
-#endif
 

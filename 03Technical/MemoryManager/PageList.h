@@ -9,7 +9,6 @@
 
 class PageList : public MemoryObject {
 private:
-//	void* m_pMemoryAllocated;
 	size_t m_szMemoryAllocated;
 	size_t m_szPage;
 
@@ -18,6 +17,11 @@ private:
 
 	// pageIndex
 	PageIndex** m_apPageIndices;
+	
+public:
+	size_t GetSzPage() { return this->m_szPage; }
+	size_t GetNumPagesAvailable() { return this->m_numPagesAvaiable; }
+	size_t GetNumPagesMax() { return this->m_numPagesMax; }
 
 public:
 	PageList(
@@ -56,10 +60,6 @@ public:
 	}
 	virtual void Finalize() {
 	}
-
-	size_t GetSzPage() { return this->m_szPage; }
-	size_t GetNumPagesAvailable() { return this->m_numPagesAvaiable; }
-	size_t GetNumPagesMax() { return this->m_numPagesMax; }
 
 	PageIndex* Malloc(size_t numPagesRequired) {
 		LOG_HEADER("PageList::Malloc(numPagesRequired, m_numPages)", numPagesRequired, m_numPagesAvaiable);

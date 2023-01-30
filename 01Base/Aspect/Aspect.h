@@ -5,7 +5,6 @@
 #define _Aspect_Name "Aspect"
 
 #include <01Base/Object/RootObject.h>
-#include <stdio.h>
 
 class Aspect : public RootObject
 {
@@ -32,23 +31,10 @@ public:
 
 
 public:
-	/////////////////////////////////////////////////
-	// pretty formatting
-	/////////////////////////////////////////////////
-#define COUNT_TAB 20
-#define SIZE_TAB 4
-#define SPACE ' '
-
 	static unsigned s_uCountTab;
 	static char s_pcTab[];
-	static char* GetTab() {
-		for (unsigned i = 0; i < Aspect::s_uCountTab * SIZE_TAB; i++) {
-			Aspect::s_pcTab[i] = SPACE;
-		}
-		Aspect::s_pcTab[s_uCountTab * SIZE_TAB] = '\0';
-		return Aspect::s_pcTab;
-	}
-	static void AddTab() { Aspect::s_uCountTab++; }
-	static void RemoveTab() { Aspect::s_uCountTab--; }
+	static char* GetTab();
+	static void AddTab();
+	static void RemoveTab();
 };
 

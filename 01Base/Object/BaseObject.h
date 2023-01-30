@@ -1,20 +1,12 @@
-/////////////////////////////////////////////////////////////////
-/// <summary>
-/// Sungwoon Choi 2023-01-26
-/// </summary>
-/////////////////////////////////////////////////////////////////
-
-#ifndef BASEOBJECT
-#define BASEOBJECT
+#pragma once
 
 #include <01Base/typedef.h>
-#define _BASEOBJECT_Id _GET_CLASS_UID(_ELayer_Base::_eBaseObject)
-#define _BASEOBJECT_Name "BaseObject"
+#define _BaseObject_Id _GET_CLASS_UID(_ELayer_Base::_eBaseObject)
+#define _BaseObject_Name "BaseObject"
 
 //#include "../../01Base/Aspect/Log.h"
 #include <01Base/Object/RootObject.h>
 #include <01Base/Memory/IMemory.h>
-#include <stdio.h>
 
 class BaseObject : public RootObject {
 public:
@@ -27,6 +19,20 @@ public:
 		eDeleted,
 		eEnd
 	};
+
+public:
+	// class variable
+	static unsigned s_uCounter;
+	static IMemory* s_pMemory;
+
+	void* operator new (size_t szThis, const char* sMessage);
+	void* operator new[] (size_t szThis, const char* sMessage);
+	void operator delete(void* pObject);
+	void operator delete[](void* pObject);
+
+	// dummy
+	void operator delete(void* pObject, const char* sMessage);
+	void operator delete[](void* pObject, const char* sMessage);
 
 private:
 	// attributes
@@ -48,29 +54,11 @@ public:
 	inline void SetEState(EState eState) { this->m_eState = eState; }
 
 public:
-	// class variable
-	static unsigned s_uCounter;
-	static IMemory* s_pMemory;
-
-	void* operator new (size_t szThis, const char* sMessage);
-	void* operator new[] (size_t szThis, const char* sMessage);
-	void operator delete(void* pObject);
-	void operator delete[](void* pObject);
-
-	// dummy
-	void operator delete(void* pObject, const char* sMessage);
-	void operator delete[](void* pObject, const char* sMessage);
-
-public:
 	// constructors & destructors
 	BaseObject(
-		int nClassId = _BASEOBJECT_Id,
-		const char* pcClassName = _BASEOBJECT_Name)
+		int nClassId = _BaseObject_Id,
+		const char* pcClassName = _BaseObject_Name)
 		: RootObject(nClassId, pcClassName)
-		, m_nClassId(nClassId)
-		, m_pcClassName(pcClassName)
-		, m_eState(EState::eCreated)
-		, m_szThis(0)
 	{
 	}
 	virtual ~BaseObject() {
@@ -98,4 +86,3 @@ public:
 	virtual void DeSerialize(char* pBuffer) {
 	}
 };
-#endif

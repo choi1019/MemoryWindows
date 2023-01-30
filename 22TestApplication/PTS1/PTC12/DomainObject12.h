@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../../01Base/Object/BaseObject.h"
-#include "../../../01Base/Aspect/Log.h"
-#include "../../../01Base/StdLib/Vector.h"
+#include <01Base/Object/BaseObject.h>
+#include <01Base/Aspect/Log.h>
+#include <01Base/StdLib/Vector.h>
 
 class DomainObject12 : public BaseObject {
 private:

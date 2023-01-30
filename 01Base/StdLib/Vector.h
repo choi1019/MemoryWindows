@@ -1,9 +1,8 @@
-#ifndef VECTOR
-#define VECTOR
+#pragma once
 
 #include <01Base/typedef.h>
-#define _VECTOR_Id _GET_CLASS_UID(_ELayer_Base::_eVector)
-#define _VECTOR_Name "Vector"
+#define _Vector_Id _GET_CLASS_UID(_ELayer_Base::_eVector)
+#define _Vector_Name "Vector"
 
 #include <01Base/StdLib/Collection.h>
 
@@ -28,8 +27,8 @@ protected:
 public:
 	typedef VectorIterator<ELEMENTTYPE> iterator;
 	Vector(
-		int nClassId = _VECTOR_Id,
-		const char* pClassName = _VECTOR_Name)
+		int nClassId = _Vector_Id,
+		const char* pClassName = _Vector_Name)
 		: Collection(nClassId, pClassName)
 		, elements()
 		, length(0) 
@@ -57,5 +56,3 @@ public:
 		return true;
 	}
 };
-
-#endif

@@ -1,14 +1,13 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestSuite_Id _GET_TCLASS_UID(_ELayer_TestPlatform::_eTestSuite)
+#define _TestSuite_Id _GET_TESTCASE_UID(_ELayer_TestPlatform::_eTestSuite)
 #define _TestSuite_Name "TestSuite"
 
-#include "../../01Base/Aspect/Exception.h"
-
-#include <21TestPlatform/TestCase/TestObject.h>
-#include <21TestPlatform/TestCase/TestCase.h>
 #include <vector>
+#include <21TestPlatform/TestObject/TestObject.h>
+#include <21TestPlatform/TestCase/TestCase.h>
+#include <21TestPlatform/TestAspect/TestException.h>
 
 class TestSuite : public TestObject
 {
@@ -17,7 +16,7 @@ private:
 	unsigned m_uLength;
 
 protected:
-	std::vector<TestCase*> m_vPTestCasess;
+	vector<TestCase*> m_vPTestCasess;
 
 	void add(TestCase* pTestCase) {
 		this->m_vPTestCasess.push_back(pTestCase);

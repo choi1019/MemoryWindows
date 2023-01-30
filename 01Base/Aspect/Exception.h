@@ -15,7 +15,12 @@ protected:
 	String m_sFunction;
 	String m_sMessage;
 //	time_t m_tTime;
-
+public:
+	int GetType() { return this->m_nType; }
+	String GetSource() { return this->m_sObject; }
+	String GetFunction() { return this->m_sFunction; }
+	String& GetMessage() { return this->m_sMessage; }
+	
 public:
 	Exception(
 		int nType = UNDEFINED,
@@ -49,9 +54,5 @@ public:
 			//			,String(m_tTime).c_str()
 		);
 	}
-	int GetType() { return this->m_nType; }
-	String GetSource() { return this->m_sObject; }
-	String GetFunction() { return this->m_sFunction; }
-	String& GetMessage() { return this->m_sMessage; }
 };
 

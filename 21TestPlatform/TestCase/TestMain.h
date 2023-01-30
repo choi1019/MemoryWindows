@@ -1,10 +1,11 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestMain_Id _GET_TCLASS_UID(_ELayer_TestPlatform::_eTestMain)
+#define _TestMain_Id _GET_TESTCASE_UID(_ELayer_TestPlatform::_eTestMain)
 #define _TestMain_Name "TestMain"
 
 #include <21TestPlatform/TestCase/TestSuite.h>
+#include <21TestPlatform/TestAspect/TestException.h>
 
 class TestMain: public TestObject {
 private:

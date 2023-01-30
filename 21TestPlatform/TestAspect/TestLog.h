@@ -1,13 +1,15 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestLog_Id _GET_TCLASS_UID(_ELayer_TestPlatform::_eTestLog)
+#define _TestLog_Id _GET_TESTCASE_UID(_ELayer_TestPlatform::_eTestLog)
 #define _TestLog_Name "TestLog"
 
-#include <21TestPlatform/TestObject/TestRoot.h>
+#include <21TestPlatform/TestObject/TestObject.h>
 
-class TestLog : public TestRoot
+class TestLog : public TestObject
 {
+public:
+	static unsigned s_uCount;
 private:
 	int m_nLogId;
 
@@ -16,35 +18,23 @@ private:
 	string m_sMessage;
 
 public:
-	static unsigned s_uCount;
+	int GetLogId() { return this->m_nLogId; }
+
+public:
 	TestLog(
 		string sObject,
 		string sFunction,
 		string sMessage,
-		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name)
-		: TestRoot(nClassId, pcClassName)
-		, m_nLogId(TestLog::s_uCount++)
-		, m_sObject(sObject)
-		, m_sFunction(sFunction)
-		, m_sMessage(sMessage)
-	{
-	}
+		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name);
 	TestLog(
-		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name)
-		: TestRoot(nClassId, pcClassName)
-		, m_nLogId(TestLog::s_uCount++)
-	{
-	}
+		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name);
+
 	virtual ~TestLog() {
 	}
 	virtual void Initialize() {
-		TestRoot::Initialize();
 	}
 	virtual void Finalize() {
-		TestRoot::Finalize();
 	}
-
-	int GetLogId() { return this->m_nLogId; }
 
 	void Println() {
 		printf(
@@ -62,24 +52,12 @@ public:
 	}
 
 public:
-	/////////////////////////////////////////////////
-	// pretty formatting
-	/////////////////////////////////////////////////
-#define COUNT_TAB 20
-#define SIZE_TAB 4
-#define SPACE ' '
-
 	static unsigned s_uCountTab;
 	static char s_pcTab[];
-	static char* GetTab() {
-		for (unsigned i = 0; i < TestLog::s_uCountTab * SIZE_TAB; i++) {
-			TestLog::s_pcTab[i] = SPACE;
-		}
-		TestLog::s_pcTab[TestLog::s_uCountTab * SIZE_TAB] = '\0';
-		return s_pcTab;
-	}
-	static void AddTab() { TestLog::s_uCountTab++; }
-	static void RemoveTab() { TestLog::s_uCountTab--; }
+
+	static char* GetTab();
+	static void AddTab();
+	static void RemoveTab();
 };
 
 

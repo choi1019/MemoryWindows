@@ -19,6 +19,16 @@ private:
 	size_t m_numPagesAllocated;
 
 	bool m_bAllocated;
+
+public:
+	Page* GetPPage() { return this->m_pPage; }
+	//	void SetPPage(Page* pPage) { this->m_pPage = pPage; }
+	size_t GetIndex() { return this->m_index; }
+	size_t GetNumPages() { return this->m_numPagesAllocated; }
+	void SetNumPages(size_t numPagesAllocated) { this->m_numPagesAllocated = numPagesAllocated; }
+	bool IsAllocated() { return this->m_bAllocated; }
+	void SetIsAllocated(bool bAllocated) { this->m_bAllocated = bAllocated; }
+
 public:
 	PageIndex(
 		size_t pMemoryAllocated,  
@@ -42,17 +52,6 @@ public:
 	}
 	virtual void Finalize() {
 	}
-
-	Page* GetPPage() { return this->m_pPage; }
-	//	void SetPPage(Page* pPage) { this->m_pPage = pPage; }
-
-	size_t GetNumPages() { return this->m_numPagesAllocated; }
-	void SetNumPages(size_t numPagesAllocated) { this->m_numPagesAllocated = numPagesAllocated; }
-
-	size_t GetIndex() { return this->m_index; }
-
-	bool IsAllocated() { return this->m_bAllocated; }
-	void SetIsAllocated(bool bAllocated) { this->m_bAllocated = bAllocated; }
 
 	void MAlloc(size_t numPagesAllocated) {
 		m_numPagesAllocated = numPagesAllocated;

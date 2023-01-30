@@ -53,11 +53,6 @@ public:
 	}
 };
 
-static void ClearDirectories() {
-	Directory::s_dirObjects.Clear();
-	Directory::s_dirComponents.Clear();
-	Directory::s_dirEvents.Clear();
-	Directory::s_dirExceptions.Clear();
-};
+static void ClearDirectories();
 
 

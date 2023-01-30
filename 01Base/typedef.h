@@ -1,5 +1,4 @@
-#ifndef _ELAYER_BASE
-#define _ELAYER_BASE
+#pragma once
 
 #include <typedef.h>
 
@@ -28,11 +27,6 @@ enum class _ELayer_Base {
 
 	_eEnd
 };
-
-#include <cstddef>
-
-#endif
-
 
 
 

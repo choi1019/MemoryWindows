@@ -1,12 +1,11 @@
 #pragma once
 
 #include <22TestApplication/PTS1/PTC13/Config.h>
-#define _PTC13_ID _GET_TESTCASE_UID(_ELayer_PTS1::_ePTC13)
-#define _PTC13_NAME "PTC13"
+#define _PTC13_Id _GET_TESTCASE_UID(_ELayer_PTS1::_ePTC13)
+#define _PTC13_Name "PTC13"
 
 #include <21TestPlatform/TestCase/TestCase.h>
 #include <13PTechnical/PMemoryManager/PMemory.h>
-#include <01Base/Aspect/Exception.h>
 #include <22TestApplication/PTS1/PTC13/DomainObject13.h>
 
 class PTC13 : public TestCase {
@@ -15,8 +14,8 @@ private:
 	DomainObject13* m_pDomainObject2;
 public:
 	PTC13(
-		int nClassId = _PTC13_ID,
-		const char* pcClassName = _PTC13_NAME)
+		int nClassId = _PTC13_Id,
+		const char* pcClassName = _PTC13_Name)
 		: TestCase(nClassId, pcClassName)
 		, m_pDomainObject1(nullptr)
 		, m_pDomainObject2(nullptr)

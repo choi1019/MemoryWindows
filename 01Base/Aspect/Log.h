@@ -5,7 +5,6 @@
 #define _Log_Name "Log"
 
 #include <01Base/Aspect/Aspect.h>
-#include <01Base/Memory/IMemory.h>
 #include <01Base/StdLib/String.h>
 
 class Log : public Aspect
@@ -17,6 +16,14 @@ protected:
 	String m_sMessage2;
 	String m_sMessage3;
 //	time_t m_tTime;
+
+public:
+	String GetSource() { return this->m_sObject; }
+	String GetFunction() { return this->m_sFunction; }
+	String GetMessage1() { return this->m_sMessage1; }
+	String GetMessage2() { return this->m_sMessage2; }
+	String GetMessage3() { return this->m_sMessage3; }
+	//	String GetTime() { return String(m_tTime); }
 
 public:
 	Log(String sObject = "",
@@ -108,13 +115,6 @@ public:
 			//			,String(m_tTime).c_str()
 		);
 	}
-
-	String GetSource() { return this->m_sObject; }
-	String GetFunction() { return this->m_sFunction; }
-	String GetMessage1() { return this->m_sMessage1; }
-	String GetMessage2() { return this->m_sMessage2; }
-	String GetMessage3() { return this->m_sMessage3; }
-	//	String GetTime() { return String(m_tTime); }
 };
 
 
