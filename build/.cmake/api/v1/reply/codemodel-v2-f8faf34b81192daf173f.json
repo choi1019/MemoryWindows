@@ -12,11 +12,7 @@
 						"string" : "3.0.0"
 					},
 					"projectIndex" : 0,
-					"source" : ".",
-					"targetIndexes" : 
-					[
-						0
-					]
+					"source" : "."
 				}
 			],
 			"name" : "Debug",
@@ -27,23 +23,10 @@
 					[
 						0
 					],
-					"name" : "PLatformLinux",
-					"targetIndexes" : 
-					[
-						0
-					]
+					"name" : "PLatformLinux"
 				}
 			],
-			"targets" : 
-			[
-				{
-					"directoryIndex" : 0,
-					"id" : "PLatformLinux::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-PLatformLinux-Debug-9fff12bb71a43053937c.json",
-					"name" : "PLatformLinux",
-					"projectIndex" : 0
-				}
-			]
+			"targets" : []
 		}
 	],
 	"kind" : "codemodel",
