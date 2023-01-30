@@ -6,7 +6,7 @@ TestLog::TestLog(
     string sObject,
     string sFunction,
     string sMessage,
-    int nClassId, 
+    unsigned nClassId, 
     const char* pcClassName)
     : TestObject(nClassId, pcClassName)
     , m_nLogId(TestLog::s_uCount++)
@@ -16,7 +16,7 @@ TestLog::TestLog(
 {
 }
 
-TestLog::TestLog (int nClassId , const char* pcClassName)
+TestLog::TestLog (unsigned nClassId , const char* pcClassName)
     : TestObject(nClassId, pcClassName)
     , m_nLogId(TestLog::s_uCount++)
 {

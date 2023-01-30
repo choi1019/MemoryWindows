@@ -1,16 +1,15 @@
-#include <22TestApplication/PTestMain>
 
+#include <22TestApplication/PTestMain/PTestMain.h>
+
+#include <21TestPlatform/TestAspect/TestException.h>
 #include <22TestApplication/PTS1/PTS1.h>
 
-PTestMain::PTestMain(
-	int nClassId = _PTestMain_ID,
-	const char* pcClassName = _PTestMain_NAME)
+PTestMain::PTestMain(unsigned nClassId, const char* pcClassName)
 	: TestMain(nClassId, pcClassName)
 {
 }
 PTestMain::~PTestMain() {
 }
-
 
 void PTestMain::Initialize() {
 	// <int SIZE_SYSTEM_MEMORY, int SIZE_USER_MEMORY, int SIZE_PAGE, int SIZE_SLOT_UNIT>
@@ -22,20 +21,3 @@ void PTestMain::Initialize() {
 
 void PTestMain::Finalize() {
 }
-
-
-int main() {
-	try {
-		PTestMain* pPTestMain = new("PTestMain") PTestMain();
-		pPTestMain->InitializeMain();
-		pPTestMain->RunMain();
-		pPTestMain->FinalizeMain();
-		delete pPTestMain;
-	}
-	catch (TestException& exception) {
-		exception.Println();
-	}
-	return 0;
- }
-
- 

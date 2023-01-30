@@ -1,24 +1,14 @@
 #include "21TestPlatform/TestCase/TestCase.h"
+#include <21TestPlatform/TestAspect/TestException.h>
 
 TestCase::TestCase(
-    int nClassId,
+    unsigned nClassId,
     const char *pClassName)
     : TestObject(nClassId, pClassName)
 {
 }
 
-TestCase::~TestCase() {}
-
-void TestCase::InitializeCase() {
-    this->Initialize();
-}
-
-void TestCase::FinalizeCase() {
-    this->Finalize();
-}
-
-void TestCase::RunCase() {
-    this->Run();
+TestCase::~TestCase() {
 }
 
 void TestCase::AssertNotNull(void* pObject) {

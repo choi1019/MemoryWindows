@@ -3,7 +3,7 @@
 
 unsigned TestObject::s_uCounter = 0;
 
-TestObject::TestObject(int nClassId, const char *pcClassName)
+TestObject::TestObject(unsigned nClassId, const char *pcClassName)
     : m_uObjectId(TestObject::s_uCounter++)
 	, m_nClassId(nClassId)
 	, m_pcClassName(pcClassName)

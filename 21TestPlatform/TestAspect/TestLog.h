@@ -11,7 +11,7 @@ class TestLog : public TestObject
 public:
 	static unsigned s_uCount;
 private:
-	int m_nLogId;
+	unsigned m_nLogId;
 
 	string m_sObject;
 	string m_sFunction;
@@ -25,9 +25,9 @@ public:
 		string sObject,
 		string sFunction,
 		string sMessage,
-		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name);
+		unsigned nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name);
 	TestLog(
-		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name);
+		unsigned nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name);
 
 	virtual ~TestLog();
 	virtual void Initialize();

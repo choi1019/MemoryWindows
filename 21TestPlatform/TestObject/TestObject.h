@@ -26,15 +26,15 @@ public:
 	}
 
 private:
-	int m_uObjectId;
-	int m_nClassId;
+	unsigned m_uObjectId;
+	unsigned m_nClassId;
 	const char* m_pcClassName;
 	size_t m_szThis;
 
 public:
 	// getters and setters
-	inline int GetObjectId() { return this->m_uObjectId; }
-	inline int GetClassId() { return this->m_nClassId; }
+	inline unsigned GetObjectId() { return this->m_uObjectId; }
+	inline unsigned GetClassId() { return this->m_nClassId; }
 	inline const char* GetClassName() { return this->m_pcClassName; }
 
 	inline size_t GetSize() { return this->m_szThis; }
@@ -42,7 +42,7 @@ public:
 
 public:
 	TestObject(
-		int nClassId = _TestObject_Id,
+		unsigned nClassId = _TestObject_Id,
 		const char *pcClassName = _TestObject_Name);
 	virtual ~TestObject() {}
 

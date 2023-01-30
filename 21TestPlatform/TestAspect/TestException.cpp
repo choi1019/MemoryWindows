@@ -3,11 +3,11 @@
 unsigned TestException::s_uCount = 0;
 
 TestException::TestException(
-    int nType,
+    unsigned nType,
     string sObject,
     string sFunction,
     string sMessage,
-    int nClassId,
+    unsigned nClassId,
     const char* pcClassName)
 
     : TestObject(nClassId, pcClassName)

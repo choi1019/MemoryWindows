@@ -5,7 +5,6 @@
 #define _TestCase_Name "TestCase"
 
 #include <21TestPlatform/TestObject/TestObject.h>
-#include <21TestPlatform/TestAspect/TestException.h>
 
 class TestCase: public TestObject
 {
@@ -21,13 +20,9 @@ public:
 
 public:
 	TestCase(
-		int nClassId = _TestCase_Id,
+		unsigned nClassId = _TestCase_Id,
 		const char *pClassName = _TestCase_Name);
 	virtual ~TestCase();
-
-	virtual void InitializeCase();
-	virtual void FinalizeCase();
-	virtual void RunCase();
 
 protected:
 	void AssertNotNull(void* pObject);

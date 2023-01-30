@@ -2,7 +2,8 @@
 
 #define UNDEFINED -1
 
-#define _GET_TESTLAYER_UID(ID)	(unsigned)ID*100
+#define _GET_TESTLAYER_UID(ID)	(unsigned)ID*10
+#define _GET_TESTCOMPONENT_UID(ID)	(unsigned)ID*100
 #define _GET_TESTCLASS_UID(ID)	(unsigned)ID*100
 
 enum class _ETestLayer {

@@ -12,8 +12,8 @@ public:
 	static unsigned s_uCount;
 
 private:
-	int m_nExceptionId;
-	int m_nType;
+	unsigned m_nExceptionId;
+	unsigned m_nType;
 	string m_sObject;
 	string m_sFunction;
 	string m_sMessage;
@@ -22,11 +22,11 @@ public:
 
 public:
 	TestException(
-		int nType,
+		unsigned nType,
 		string sObject,
 		string sFunction,
 		string sMessage,
-		int nClassId = _TestException_Id, const char* pcClassName = _TestException_Name
+		unsigned nClassId = _TestException_Id, const char* pcClassName = _TestException_Name
 	);
 
 	~TestException();
