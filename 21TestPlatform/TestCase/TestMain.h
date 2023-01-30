@@ -13,7 +13,7 @@ private:
 	unsigned m_uLength;
 
 protected:
-	std::vector<TestSuite*> m_vPTestSuites;
+	vector<TestSuite*> m_vPTestSuites;
 
 	void add(TestSuite* pTestSuite) {
 		this->m_vPTestSuites.push_back(pTestSuite);

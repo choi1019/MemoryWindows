@@ -21,6 +21,8 @@ public:
 		eEnd
 	};
 
+	static void ClearDirectories();
+	
 private:
 	EType m_eType;
 
@@ -53,6 +55,6 @@ public:
 	}
 };
 
-static void ClearDirectories();
+
 
 

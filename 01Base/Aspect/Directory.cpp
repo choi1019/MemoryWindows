@@ -5,7 +5,7 @@ Directory Directory::s_dirComponents(Directory::EType::eComponent);
 Directory Directory::s_dirEvents(Directory::EType::eEvent);
 Directory Directory::s_dirExceptions(Directory::EType::eException);
 
-void ClearDirectories() {
+void Directory::ClearDirectories() {
 	Directory::s_dirObjects.Clear();
 	Directory::s_dirComponents.Clear();
 	Directory::s_dirEvents.Clear();
