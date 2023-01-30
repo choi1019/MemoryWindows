@@ -5,6 +5,8 @@
 #define _PTS1_Name "PTS1"
 
 #include <21TestPlatform/TestCase/TestSuite.h>
+#include <22TestApplication/PTS1/Config.h>
+
 #include <22TestApplication/PTS1/PTC11/PTC11.h>
 // #include <22TestApplication/PTS1/PTC12/PTC12.h>
 // #include <22TestApplication/PTS1/PTC13/PTC13.h>
@@ -19,60 +21,57 @@ private:
 	char* m_pUserMemeoryAllocated;
 
 public:
-	PTS1(
-		unsigned classId = _PTS1_Id,
-		const char* pClassName = _PTS1_Name)
-		: TestSuite(typeId, pClassName)
-	//	, m_pMemory(nullptr)
-		, m_pSystemMemeoryAllocated(nullptr)
-		, m_pUserMemeoryAllocated(nullptr)
-	{
-	}
-	virtual ~PTS1() {
-	}
+	PTS1(unsigned classId = _PTS1_Id, const char* pClassName = _PTS1_Name)
+	    : TestSuite(classId, pClassName)
+//	, m_pMemory(nullptr)
+    , m_pSystemMemeoryAllocated(nullptr)
+    , m_pUserMemeoryAllocated(nullptr)
+	{}
 
-	void Initialize() {
-		// try {
-			// system memory allocation
-			m_szSystemMemory = SIZE_SYSTEM_MEMORY;
-			m_pSystemMemeoryAllocated = new char[m_szSystemMemory];
+	virtual ~PTS1() {}
 
-			// aplication memorty allocation
-			m_szUserMemory = SIZE_USER_MEMORY;
-			m_pUserMemeoryAllocated = new char[m_szUserMemory];
+	void Initialize()  {
+    // try {
+        // system memory allocation
+        m_szSystemMemory = SIZE_SYSTEM_MEMORY;
+        m_pSystemMemeoryAllocated = new char[m_szSystemMemory];
 
-			// m_pMemory = new(m_pSystemMemeoryAllocated, m_szSystemMemory)
-			// 	PMemory(m_pUserMemeoryAllocated, m_szUserMemory, SIZE_PAGE, SIZE_SLOT_UNIT);
+        // aplication memorty allocation
+        m_szUserMemory = SIZE_USER_MEMORY;
+        m_pUserMemeoryAllocated = new char[m_szUserMemory];
 
-			// m_pMemory->Initialize();
-			// m_pMemory->Show("m_pMemory::Initialize()");
+        // m_pMemory = new(m_pSystemMemeoryAllocated, m_szSystemMemory)
+        // 	PMemory(m_pUserMemeoryAllocated, m_szUserMemory, SIZE_PAGE, SIZE_SLOT_UNIT);
 
-			// this->add(new("PTC11") PTC11());
-			// this->add(new("PTC12") PTC12());
-			// this->add(new("PTC13") PTC13());
-			// this->add(new("PTC14") PTC14());
-			// this->add(new("PTC11") PTC11());
-			// this->add(new("PTC12") PTC12());
-		// }
-		// catch (Exception& exception) {
-		// 	exception.Println();
-		// 	exit(1);
-		// }
+        // m_pMemory->Initialize();
+        // m_pMemory->Show("m_pMemory::Initialize()");
+
+        this->add(new("PTC11") PTC11());
+        // this->add(new("PTC12") PTC12());
+        // this->add(new("PTC13") PTC13());
+        // this->add(new("PTC14") PTC14());
+        // this->add(new("PTC11") PTC11());
+        // this->add(new("PTC12") PTC12());
+    // }
+    // catch (Exception& exception) {
+    // 	exception.Println();
+    // 	exit(1);
+    // }
 	}
 	void Finalize() {
-		// try {
-			// m_pMemory->Finalize();
-			// m_pMemory->GetPPageList()->Show("");
-			// m_pMemory->Show("");
+    // try {
+        // m_pMemory->Finalize();
+        // m_pMemory->GetPPageList()->Show("");
+        // m_pMemory->Show("");
 
-			// delete m_pMemory;
-			delete[] m_pUserMemeoryAllocated;
-			delete[] m_pSystemMemeoryAllocated;
-		// }
-		// catch (Exception& exception) {
-		// 	exception.Println();
-		// 	exit(2);
-		// }
+        // delete m_pMemory;
+        delete[] m_pUserMemeoryAllocated;
+        delete[] m_pSystemMemeoryAllocated;
+    // }
+    // catch (Exception& exception) {
+    // 	exception.Println();
+    // 	exit(2);
+    // }
 	}
 };
 

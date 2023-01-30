@@ -5,6 +5,7 @@
 #define _PTC11_Name "PTC11"
 
 #include <21TestPlatform/TestCase/TestCase.h>
+#include <22TestApplication/PTS1/PTC11/Config.h>
 
 class PTC11 : public TestCase {
 private:

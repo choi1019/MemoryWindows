@@ -10,7 +10,7 @@ class TestMain: public TestSuite {
 public:
 	TestMain(unsigned nClassId = _TestMain_Id, const char* pClassName = _TestMain_Name);
 	virtual ~TestMain();
-	void InitializeMain();
-	void FinalizeMain();
-	void RunMain();
+	virtual void InitializeMain();
+	virtual void FinalizeMain();
+	virtual void RunMain();
 };

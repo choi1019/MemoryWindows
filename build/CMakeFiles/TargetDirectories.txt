@@ -1,0 +1,3 @@
+/home/choisw1019/ProjectsCPP/PlatformLinux/build/CMakeFiles/PLatformLinux.dir
+/home/choisw1019/ProjectsCPP/PlatformLinux/build/CMakeFiles/edit_cache.dir
+/home/choisw1019/ProjectsCPP/PlatformLinux/build/CMakeFiles/rebuild_cache.dir

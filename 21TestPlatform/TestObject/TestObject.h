@@ -44,7 +44,7 @@ public:
 	TestObject(
 		unsigned nClassId = _TestObject_Id,
 		const char *pcClassName = _TestObject_Name);
-	virtual ~TestObject() {}
+	virtual ~TestObject();
 
 	void BeforeInitialize();
 	virtual void Initialize();

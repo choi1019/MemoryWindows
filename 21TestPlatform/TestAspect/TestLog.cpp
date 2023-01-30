@@ -50,10 +50,8 @@ void TestLog::PrintSeparator() {
 #define SPACE ' '
 
 unsigned TestLog::s_uCountTab = 0;
-char TestLog::s_pcTab[COUNT_TAB * SIZE_TAB];
+char TestLog::s_pcTab[COUNT_TAB * SIZE_TAB] = {};
 
-unsigned TestLog::s_uCountTab;
-char TestLog::s_pcTab[];
 char* TestLog::GetTab() {
     for (unsigned i = 0; i < TestLog::s_uCountTab * SIZE_TAB; i++) {
         TestLog::s_pcTab[i] = SPACE;

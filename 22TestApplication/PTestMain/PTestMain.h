@@ -7,9 +7,13 @@
 #include <21TestPlatform/TestCase/TestMain.h>
 
 class PTestMain : public TestMain {
-public:
-	PTestMain(unsigned nClassId = _PTestMain_ID,	const char* pcClassName = _PTestMain_NAME);
-	~PTestMain();
+protected:
 	void Initialize() override;
 	void Finalize() override;
+public:
+	PTestMain(unsigned nClassId = _PTestMain_ID, const char* pcClassName = _PTestMain_NAME);
+	~PTestMain();
+	void InitializeMain() override;
+	void RunMain() override;
+	void FinalizeMain() override;
 };
