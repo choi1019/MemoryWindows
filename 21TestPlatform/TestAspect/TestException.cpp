@@ -18,3 +18,21 @@ TestException::TestException(
     , m_sMessage(sMessage)
 {
 }
+
+TestException::~TestException() {}
+
+void TestException::Initialize() {
+}
+void TestException::Finalize() {
+}
+
+void TestException::Println() {
+    printf(
+        ">> TestException(%d) %s::%s %s\n"
+        , m_nType
+        , m_sObject.c_str()
+        , m_sFunction.c_str()
+        , m_sMessage.c_str()
+        //			,String(m_tTime).c_str()
+    );
+}

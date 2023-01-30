@@ -1,4 +1,5 @@
-#include <21TestPlatform/typedef.h>
+
+#include <typedefTest.h>
 
 enum class _ELayer_Testpplication {
 	_eBegin = _GET_TESTLAYER_UID(_ETestLayer::_eTestApplication),

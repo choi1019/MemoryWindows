@@ -22,42 +22,17 @@ public:
 public:
 	TestCase(
 		int nClassId = _TestCase_Id,
-		const char *pClassName = _TestCase_Name)
-		: TestObject(nClassId, pClassName)
-	{
-	}
-	virtual ~TestCase() {}
+		const char *pClassName = _TestCase_Name);
+	virtual ~TestCase();
 
-	virtual void InitializeCase() {
-		this->Initialize();
-	}
-	virtual void FinalizeCase() {
-		this->Finalize();
-	}
-	virtual void RunCase() {
-		this->Run();
-	}
+	virtual void InitializeCase();
+	virtual void FinalizeCase();
+	virtual void RunCase();
 
 protected:
-	void AssertNotNull(void* pObject) {
-		if (pObject == nullptr) {
-			throw TestException((unsigned)EAssertion::_eNotNull, this->GetClassName(), __func__, "Test Failed");
-		}
-	}
-	void AssertEqual(unsigned x, unsigned y) {
-		if (x != y) {
-			throw TestException((unsigned)EAssertion::_eEqual, this->GetClassName(), __func__, "Test Failed");
-		}
-	}
-	void AssertEqual(int x, int y) {
-		if (x != y) {
-			throw TestException((unsigned)EAssertion::_eEqual, this->GetClassName(), __func__, "Test Failed");
-		}
-	}
-	void AssertEqual(long long x, long long y) {
-		if (x != y) {
-			throw TestException((unsigned)EAssertion::_eEqual, this->GetClassName(), __func__, "Test Failed");
-		}
-	}
+	void AssertNotNull(void* pObject);
+	void AssertEqual(unsigned x, unsigned y);
+	void AssertEqual(int x, int y);
+	void AssertEqual(long long x, long long y);
 };
 

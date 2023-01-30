@@ -29,21 +29,9 @@ public:
 		int nClassId = _TestException_Id, const char* pcClassName = _TestException_Name
 	);
 
-	virtual ~TestException() {}
+	~TestException();
 
-	virtual void Initialize() {
-	}
-	virtual void Finalize() {
-	}
-
-	void Println() {
-		printf(
-			">> TestException(%d) %s::%s %s\n"
-			, m_nType
-			, m_sObject.c_str()
-			, m_sFunction.c_str()
-			, m_sMessage.c_str()
-			//			,String(m_tTime).c_str()
-		);
-	}
+	void Initialize();
+	void Finalize();
+	void Println();
 };

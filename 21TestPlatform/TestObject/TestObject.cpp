@@ -13,6 +13,7 @@ TestObject::TestObject(int nClassId, const char *pcClassName)
 
 TestObject::~TestObject() {}
 
+
 void TestObject::BeforeInitialize() {
     TestLog().PrintSeparator();
     TestLog(this->GetClassName(), "Initialize", "���� �մϴ�").Println();

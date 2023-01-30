@@ -29,27 +29,12 @@ public:
 	TestLog(
 		int nClassId = _TestLog_Id, const char* pcClassName = _TestLog_Name);
 
-	virtual ~TestLog() {
-	}
-	virtual void Initialize() {
-	}
-	virtual void Finalize() {
-	}
+	virtual ~TestLog();
+	virtual void Initialize();
+	virtual void Finalize();
 
-	void Println() {
-		printf(
-			"\n%sTestLog%d %s::%s %s"
-			, TestLog::GetTab()
-			, this->GetLogId()
-			, m_sObject.c_str()
-			, m_sFunction.c_str()
-			, m_sMessage.c_str()
-			//			,String(m_tTime).c_str()
-		);
-	}
-	void PrintSeparator() {
-		printf("\n%s-------------------------------------------------", this->GetTab());
-	}
+	void Println();
+	void PrintSeparator();
 
 public:
 	static unsigned s_uCountTab;

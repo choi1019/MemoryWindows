@@ -1,17 +1,16 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "PlatformLinux",
             "includePath": [
-                "/home/choisw1019/ProjectsCPP/PlatformWindows/**",
+                "/home/choisw1019/ProjectsCPP/PlatformLinux/**",
                 "${default}"
             ],
             "defines": [
                 "${default}"
             ],
             "forcedInclude": [
-                "${default}",
- 
+                "${default}" 
            ],
             "compileCommands": "${default}",
             "browse": {
@@ -19,7 +18,7 @@
                 "databaseFilename": "${default}",
                 "path": [
                     "${default}",
-                    "/home/choisw1019/ProjectsCPP/PlatformWindows/"
+                    "/home/choisw1019/ProjectsCPP/PlatformLinux"
                 ]
             },
             "intelliSenseMode": "${default}",

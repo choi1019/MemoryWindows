@@ -22,6 +22,29 @@ TestLog::TestLog (int nClassId , const char* pcClassName)
 {
 }
 
+TestLog::~TestLog() {
+}
+void TestLog::Initialize() {
+}
+void TestLog::Finalize() {
+}
+
+void TestLog::Println() {
+    printf(
+        "\n%sTestLog%d %s::%s %s"
+        , TestLog::GetTab()
+        , this->GetLogId()
+        , m_sObject.c_str()
+        , m_sFunction.c_str()
+        , m_sMessage.c_str()
+        //			,String(m_tTime).c_str()
+    );
+}
+void TestLog::PrintSeparator() {
+    printf("\n%s-------------------------------------------------", this->GetTab());
+}
+
+
 #define COUNT_TAB 20
 #define SIZE_TAB 4
 #define SPACE ' '
