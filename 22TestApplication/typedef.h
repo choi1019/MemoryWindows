@@ -1,7 +1,4 @@
-#pragma once
-
-#include <22TestApplication/PTestMain/Config.h>
-#include <22TestApplication/typedef.h>
+#include <21TestPlatform/typedef.h>
 
 enum class _ELayer_Testpplication {
 	_eBegin = _GET_TESTLAYER_UID(_ETestLayer::_eTestApplication),
@@ -11,5 +8,3 @@ enum class _ELayer_Testpplication {
     _ePTS4,
 	_eEnd
 };
-
-

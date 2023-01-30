@@ -11,7 +11,7 @@ TestException::TestException(
     const char* pcClassName)
 
     : TestObject(nClassId, pcClassName)
-    , m_nExceptionId(s_uCount++)
+    , m_nExceptionId(TestException::s_uCount++)
     , m_nType(nType)
     , m_sObject(sObject)
     , m_sFunction(sFunction)

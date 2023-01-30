@@ -1,7 +1,7 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestException_Id _GET_TESTCASE_UID(_ELayer_TestPlatform::_eTestException)
+#define _TestException_Id _GET_TESTCLASS_UID(_ELayer_TestPlatform::_eTestException)
 #define _TestException_Name "TestException"
 
 #include <21TestPlatform/TestObject/TestObject.h>

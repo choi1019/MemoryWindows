@@ -2,26 +2,9 @@
 #include <21TestPlatform/TestAspect/TestLog.h>
 
 unsigned TestObject::s_uCounter = 0;
-//size_t TestRoot::s_szThis = 0;
-
-// static members
-void* TestObject::operator new(size_t szThis, const char* sMessage) {
-    void* pObject = malloc(szThis);
-    printf("\n#TestRoot::malloc %s(%zu) = %zu", sMessage, szThis, (size_t)pObject);
-    return pObject;
-}
-void TestObject::operator delete(void* pObject) {
-    printf("\n#TestRoot::free (%zu)", (size_t)pObject);
-    free(pObject);
-}
-void TestObject::operator delete(void* pObject, const char* sMessage) {
-    printf("\n#DUMMY TestRoot::free %s(%zu)", sMessage,(size_t)pObject);
-    free(pObject);
-}
 
 TestObject::TestObject(int nClassId, const char *pcClassName)
-    : TestRoot(nClassId, pcClassName)
-    , m_uObjectId(TestObject::s_uCounter++)
+    : m_uObjectId(TestObject::s_uCounter++)
 	, m_nClassId(nClassId)
 	, m_pcClassName(pcClassName)
 	, m_szThis(0)

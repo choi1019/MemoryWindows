@@ -1,7 +1,7 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestLog_Id _GET_TESTCASE_UID(_ELayer_TestPlatform::_eTestLog)
+#define _TestLog_Id _GET_TESTCLASS_UID(_ELayer_TestPlatform::_eTestLog)
 #define _TestLog_Name "TestLog"
 
 #include <21TestPlatform/TestObject/TestObject.h>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <21TestPlatform/typedef.h>
-#define _TestMain_Id _GET_TESTCASE_UID(_ELayer_TestPlatform::_eTestMain)
+#define _TestMain_Id _GET_TESTCLASS_UID(_ELayer_TestPlatform::_eTestMain)
 #define _TestMain_Name "TestMain"
 
 #include <21TestPlatform/TestCase/TestSuite.h>
