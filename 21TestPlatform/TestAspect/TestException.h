@@ -1,57 +1,37 @@
 #pragma once
 
-#include "../typedef.h"
-#define _TestException_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestException)
+#include <21TestPlatform/typedef.h>
+#define _TestException_Id _GET_TESTCLASS_UID(_ELayer_TestPlatform::_eTestException)
 #define _TestException_Name "TestException"
 
-#include "../TestObject/TestRoot.h"
+#include <21TestPlatform/TestObject/TestObject.h>
 
-
-class TestException : public TestRoot
+class TestException : public TestObject 
 {
-private:
+public:
 	static unsigned s_uCount;
-	int m_nExceptionId;
 
-	int m_nType;
+private:
+	unsigned m_nExceptionId;
+	unsigned m_nType;
 	string m_sObject;
 	string m_sFunction;
 	string m_sMessage;
 public:
+	int GetExceptionId() { return this->m_nExceptionId; }
 
+public:
 	TestException(
-		int nType,
+		unsigned nType,
 		string sObject,
 		string sFunction,
 		string sMessage,
-		int nClassId = _TestException_Id, const char* pcClassName = _TestException_Name)
-		: TestRoot(nClassId, pcClassName)
-		, m_nExceptionId(s_uCount++)
-		, m_nType(nType)
-		, m_sObject(sObject)
-		, m_sFunction(sFunction)
-		, m_sMessage(sMessage)
-	{
-	}
-	virtual ~TestException() {}
+		unsigned nClassId = _TestException_Id, const char* pcClassName = _TestException_Name
+	);
 
-	virtual void Initialize() {
-		TestRoot::Initialize();
-	}
-	virtual void Finalize() {
-		TestRoot::Finalize();
-	}
+	~TestException();
 
-	int GetExceptionId() { return this->m_nExceptionId; }
-
-	void Println() {
-		printf(
-			">> TestException(%d) %s::%s %s\n"
-			, m_nType
-			, m_sObject.c_str()
-			, m_sFunction.c_str()
-			, m_sMessage.c_str()
-			//			,String(m_tTime).c_str()
-		);
-	}
+	void Initialize();
+	void Finalize();
+	void Println();
 };

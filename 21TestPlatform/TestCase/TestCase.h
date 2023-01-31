@@ -1,19 +1,17 @@
 #pragma once
 
-#include "../typedef.h"
-#define _TestCase_Id _GET_CLASS_UID(_ELayer_TestPlatform::_eTestCase)
+#include <21TestPlatform/typedef.h>
+#define _TestCase_Id _GET_TESTCLASS_UID(_ELayer_TestPlatform::_eTestCase)
 #define _TestCase_Name "TestCase"
 
-#include "TestObject.h"
-#include "../TestAspect/TestException.h"
-#include "../TestAspect/TestLog.h"
-//#undef GetClassName
+#include <21TestPlatform/TestObject/TestObject.h>
 
 class TestCase: public TestObject
 {
 public:
 	enum class EAssertion {
 		_eBegin = _TestCase_Id,
+		_eNotNull,
 		_eEqual,
 		_eNotEqual,
 		_eGT,
@@ -22,40 +20,14 @@ public:
 
 public:
 	TestCase(
-		int nClassId = _TestCase_Id,
-		const char *pClassName = _TestCase_Name)
-		: TestObject(nClassId, pClassName)
-	{
-	}
-	virtual ~TestCase() {}
-
-	virtual void Initialize() {
-		TestObject::Initialize();
-	}
-
-	virtual void Finalize() {
-		TestObject::Finalize();
-	}
-
-	virtual void Run() {
-		TestObject::Run();
-	}
+		unsigned nClassId = _TestCase_Id,
+		const char *pClassName = _TestCase_Name);
+	virtual ~TestCase();
 
 protected:
-	void AssertEqual(unsigned x, unsigned y) {
-		if (x != y) {
-			throw TestException((unsigned)EAssertion::_eEqual, this->GetClassName(), __func__, "Test Failed");
-		}
-	}
-	void AssertEqual(int x, int y) {
-		if (x != y) {
-			throw TestException((unsigned)EAssertion::_eEqual, this->GetClassName(), __func__, "Test Failed");
-		}
-	}
-	void AssertEqual(long long x, long long y) {
-		if (x != y) {
-			throw TestException((unsigned)EAssertion::_eEqual, this->GetClassName(), __func__, "Test Failed");
-		}
-	}
+	void AssertNotNull(void* pObject);
+	void AssertEqual(unsigned x, unsigned y);
+	void AssertEqual(int x, int y);
+	void AssertEqual(long long x, long long y);
 };
 

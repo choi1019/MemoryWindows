@@ -1,14 +1,5 @@
 #pragma once
-#include "../PTestMain/Config.h"
 
-enum class _ELayer_PTS1 {
-	_eBegin = _GET_TESTCASE_UID(_ELayer_PTestSuit::_ePTS2),
-	_ePTC11, 
-	_eTMemroyManager11,
-	_ePTC12,
-	_eTMemroyManager12,
-	_eEnd
+#include <22TestApplication/PTestMain/Config.h>
 
-};
-
-
+// PTS1 Conficuation
